@@ -49,5 +49,5 @@ def post():
 api.add_resource(Upload, '/api/v1/upload')
 
 if __name__ == '__main__':
-    # flaskrun(application)
-    application.run(debug=True)
+    flaskrun(application)
+    #application.run(debug=True)
