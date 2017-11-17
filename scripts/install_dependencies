@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/ec2-user/node-website
+cd /home/ec2-user/python-flask-service
 curl -sL https://rpm.nodesource.com/setup | bash -
 yum install -y nodejs
 
