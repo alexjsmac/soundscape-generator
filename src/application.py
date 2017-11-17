@@ -6,7 +6,7 @@ from flask import Flask, make_response
 from flaskrun import flaskrun
 from flask_restful import Resource, Api, reqparse
 
-application = Flask(__name__,  static_folder='build/static')
+application = Flask(__name__,  static_folder='frontend/build/static')
 api = Api(application)
 
 DIR = os.path.dirname(os.path.abspath(__file__))
@@ -45,7 +45,7 @@ class Scan(Resource):
 
 @application.route('/')
 def show_index():
-    return make_response(open(os.path.join(DIR, 'build/index.html')).read())
+    return make_response(open(os.path.join(DIR, 'frontend/build/index.html')).read())
 
 
 api.add_resource(Upload, '/api/v1/upload')

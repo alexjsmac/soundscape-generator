@@ -1,0 +1,26 @@
+.image-uploader {
+    background: #eee;
+}
+
+.image-uploader form div{
+    padding: 16px 8px;
+}
+
+.up-file-input {
+
+}
+
+.up-submit {
+    padding: 8px 16px;
+    background: #fff;
+    border: 2px solid black;
+}
+
+
+.up-preview img {
+    width: 400px;
+}
+
+.up-preview-text {
+    width: 400px;
+}

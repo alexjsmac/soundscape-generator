@@ -1,4 +1,12 @@
 #!/bin/bash
+cd /home/ec2-user/node-website
+curl -sL https://rpm.nodesource.com/setup | bash -
+yum install -y nodejs
+
+cd /home/ec2-user/python-flask-service/src/frontend
+npm install
+npm run build
+
 easy_install pip
 pip install virtualenv
 cd /home/ec2-user/python-flask-service

@@ -1,0 +1,2 @@
+export const SOUNDS_GET_ALL = 'SOUNDS_GET_ALL';
+export const SOUNDS_GET_SUCCESS = 'SOUNDS_GET_SUCCESS';

@@ -1,0 +1,19 @@
+.result-list {
+    width: 100%;
+}
+
+.result {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 8px 0;
+    padding: 8px;
+    background: #eee;
+}
+
+.keyword-remove {
+    padding: 4px 8px;
+    background: red;
+    cursor: pointer;
+}
