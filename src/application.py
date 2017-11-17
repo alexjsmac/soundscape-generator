@@ -53,4 +53,4 @@ api.add_resource(Scan, '/api/v1/scan')
 
 if __name__ == '__main__':
     flaskrun(application)    # prod
-    application.run(debug=True, threaded=True)   # dev
+    # application.run(debug=True, threaded=True)   # dev
