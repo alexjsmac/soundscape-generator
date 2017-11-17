@@ -18,7 +18,8 @@ parser.add_argument('image')
 
 class Upload(Resource):
     def post(self):
-        return "image uploaded"
+        return "its working"
+
 
 
 class Scan(Resource):
@@ -52,4 +53,4 @@ api.add_resource(Scan, '/api/v1/scan')
 
 if __name__ == '__main__':
     flaskrun(application)    # prod
-    # application.run(debug=True)   # dev
+    application.run(debug=True, threaded=True)   # dev
