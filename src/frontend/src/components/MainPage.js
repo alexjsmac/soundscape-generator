@@ -21,7 +21,7 @@ class MainPage extends Component {
           
           <AudioPlayer />
           <div className="settings-container">
-            Settings Area
+            Settings Area Nov 19 - 1
           </div>
       </div>
     );

@@ -40,7 +40,7 @@ AWS CodeStar user guide.
 
 2. Activate the virtual environment:
 
-        $ activate ./venv/bin/activate
+        $ source .venv/bin/activate
 
 3. Install Python dependencies for this project:
 
