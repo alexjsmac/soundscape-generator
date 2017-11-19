@@ -23,6 +23,7 @@ class Results extends Component {
     addKeyword(e) {
         e.preventDefault();
         e.stopPropagation();
+        if (this.state.newKeyword === "") return;
         this.props.addKeyword(this.state.newKeyword);
         this.setState({newKeyword: ""})
     }

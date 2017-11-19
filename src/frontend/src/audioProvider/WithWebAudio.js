@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import start from '../media/Start.wav'
 
 export default function WithWebAudio(WrappedComponent, selectData) {
 
@@ -35,7 +34,7 @@ export default function WithWebAudio(WrappedComponent, selectData) {
         }
 
         componentWillMount() {
-            const {sourcePosition, roomDimensions, roomMaterials} = this.state;
+            const {roomDimensions, roomMaterials} = this.state;
             // problem with ResonanceAudio webpack build...so just adding script to index.html for now
             const ResonanceAudio = window.ResonanceAudio;
             const AudioContext = window.AudioContext || window.webkitAudioContext;

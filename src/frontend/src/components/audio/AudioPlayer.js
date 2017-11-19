@@ -1,79 +1,97 @@
 import React, { Component } from 'react';
 import WithWebAudio from '../../audioProvider/WithWebAudio'
-import start from '../../media/Start.wav'
 
 class AudioPlayer extends Component {
     constructor(props) {
         super(props);
-        this.handleControlChange = this.handleControlChange.bind(this);
+        this.state = {
+            isPlaying: false,
+            sourcePosition: {
+                x: 0.7,
+                y: 0.5,
+                z: 0.5
+            }
+        }
+        this.togglePlay = this.togglePlay.bind(this);
+        this.updateSourcePosition = this.updateSourcePosition.bind(this);
     }
 
     componentDidMount() {
-        const {audioContext, resonanceAudioScene} = this.props.appAudio
+        const { src, shouldPlay } = this.props;
+        const { audioContext, resonanceAudioScene } = this.props.appAudio
         // Create an AudioElement.
         let audioElement = document.createElement('audio');
-        audioElement.src = start;
+        audioElement.crossOrigin = "anonymous";
+        audioElement.src = src;
+        audioElement.addEventListener("ended", () => {
+            this.setState({isPlaying: false})
+        });
 
-        // Generate a MediaElementSource from the AudioElement.
+        // Generate a MediaElementSource from the AudioElement
         let audioElementSource = audioContext.createMediaElementSource(audioElement);
+        
         // connect as Resonance audio source
         let source = resonanceAudioScene.createSource();
         audioElementSource.connect(source.input);
 
         // Set the source position relative to the room center (source default position).
         source.setPosition();
-        this.source = source;
+        if (shouldPlay) {
+            audioElement.play();
+            this.setState({isPlaying: true})
+        }
 
-        audioElement.play();
+        this.source = source;
+        this.audioElement = audioElement;
     }
 
     componentWillUnMount() {
-        this.audioContext.close();
+        //TODO: dispose audio element + resonance audio source
     }
 
     componentDidUpdate() {
-        const {sourcePosition, roomDimensions, roomMaterials} = this.state;
-        this.resonanceAudioScene.setRoomProperties(roomDimensions, this.roomMaterials);
-        this.source.setPosition(sourcePosition.x, sourcePosition.y, sourcePosition.z)
+        // TODO: sourcePosition can be held in this components state
+        const {sourcePosition} = this.state;
+        this.source.setPosition(sourcePosition.x, sourcePosition.y, sourcePosition.z);
     }
-    
-    // handle control updates
-    handleControlChange(e) {
+
+    togglePlay() {
+        if (this.state.isPlaying) {
+            this.audioElement.pause();
+            this.audioElement.currentTime = 0;
+            this.setState({isPlaying: false})
+        } else {
+            this.audioElement.play();
+            this.setState({isPlaying: true})
+        }
+    }
+
+    updateSourcePosition(e) {
         e.preventDefault();
-        const { appAudio } = this.props
         const target = e.target;
-        const dataTarget = target.dataset.target;
-        console.log(dataTarget)
-        const inputValue = parseFloat(target.value)
+        const value = parseFloat(target.value)
         this.setState({
             ...this.state,
-            [dataTarget]: {
-                ...this.state[dataTarget],
-                [target.name]: inputValue
+            sourcePosition: {
+                ...this.state.sourcePosition,
+                [target.name]: value
             }
         })
     }
 
     render() {
-        console.log(this.props);
-        const { roomDimensions, sourcePosition } = this.props.appAudio.state;
+        const { isPlaying, sourcePosition} = this.state;
+        const { roomDimensions } = this.props.appAudio.state;
         return (
             <div>
-                <span>Audio Context</span>
-                <input type="number" 
-                    value={roomDimensions.width}
-                    data-target="roomDimensions"
-                    name="width"
-                    min={0.001}
-                    onChange={this.handleControlChange} />
+                <button onClick={this.togglePlay}>{(isPlaying) ?"Pause":"Play"}</button>
                 <input type="range" 
                     value={sourcePosition.x}
-                    data-target="sourcePosition"
                     name="x"
                     min={-1}
                     max={1}
                     step={0.001}
-                    onChange={this.handleControlChange} />
+                    onChange={this.updateSourcePosition} />
             </div>
         );
     }
