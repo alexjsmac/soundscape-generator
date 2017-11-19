@@ -1,18 +1,29 @@
 import {
     SOUNDS_GET_ALL,
-    SOUNDS_GET_SUCCESS
+    SOUND_GET_SUCCESS,
+    SOUND_DELETE
 } from './action-types';
+
+
 
 export function startGetAllSounds() {
     return {
-        action: SOUNDS_GET_ALL
+        type: SOUNDS_GET_ALL
     }
 }
 
-function getSoundsSuccess(sound) {
+function getSoundSuccess(keyword, sound) {
     return {
-        action: SOUNDS_GET_SUCCESS,
+        type: SOUND_GET_SUCCESS,
+        keyword,
         sound
+    }
+}
+
+export function deleteSound(keyword) {
+    return {
+        type: SOUND_DELETE,
+        keyword
     }
 }
 
@@ -21,20 +32,37 @@ export function getAllSounds(file) {
         const { keywords } = getState().general
 
         // for each keyword, perform a fetch, and then dispatch an action to update the sound
-        keywords.map(keyword => {
-            const url = `https://freesound.org/apiv2/search/text/?query=${keyword}&token=FTDBgkb5Q3NWqdrtVvNzXNqxIu9TFhj1qrWl2Ue9`
-            fetch(url)
-                .then((response) => response.json())
-                .then((json) => {
-                    const sound = json.results[0];
-                    console.log("SUCCESS", sound);
-                    dispatch(getSoundsSuccess(sound))
+        keywords.forEach(keyword => {
+            getSoundSearchResult(keyword)
+                .then(getSound)
+                .then((sound) => {
+                    dispatch(getSoundSuccess(keyword, sound))
                 })
-                .catch((err) => {
-                    console.error("ERROR", err);
-                });
         })
 
     }
 }
-  
+
+function getSoundSearchResult(keyword) {
+    const url = `https://freesound.org/apiv2/search/text/?query=${keyword}`
+    let headers = new Headers();
+    headers.append("Authorization", "Token FTDBgkb5Q3NWqdrtVvNzXNqxIu9TFhj1qrWl2Ue9");
+    return fetch(url, {headers})
+        .then((response) => response.json())
+        .then((json) => json.results[0])
+        .catch((err) => {
+            console.error("ERROR", err);
+            throw new Error(err);
+        });
+}
+
+function getSound(soundInfo) {
+    const url = `https://freesound.org/apiv2/sounds/${soundInfo.id}/`
+    let headers = new Headers();
+    headers.append("Authorization", "Token FTDBgkb5Q3NWqdrtVvNzXNqxIu9TFhj1qrWl2Ue9");
+    return fetch(url, {headers})
+        .then((response) => response.json())
+        .catch((err) => {
+            console.error("ERROR", err);
+        });
+}

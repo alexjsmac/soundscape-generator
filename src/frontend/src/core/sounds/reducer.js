@@ -1,19 +1,25 @@
 import {
     SOUNDS_GET_ALL,
-    SOUNDS_GET_SUCCESS
+    SOUND_GET_SUCCESS,
+    SOUND_DELETE
 } from './action-types';
 
-const defaultState = {
-    sounds: []
-}
+const defaultState = {}
 
-export function soundReducer(state = defaultState, action) {
+export function soundsReducer(state = defaultState, action) {
     switch (action.type) {
         case SOUNDS_GET_ALL:
-            console.log("reducer", action)
             return state;
-        case SOUNDS_GET_SUCCESS:
-            console.log()
+        case SOUND_GET_SUCCESS:
+            console.log("get sound success")
+            return {
+                ...state,
+                [action.keyword]: action.sound
+            };
+        case SOUND_DELETE:
+            const newState = {...state};
+            delete newState[action.keyword];
+            return newState;
         default:
             return state;
     }

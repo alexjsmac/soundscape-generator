@@ -3,6 +3,7 @@ import {
     KEYWORD_DELETE,
     KEYWORD_ADD
 } from './action-types';
+import { soundActions } from '../sounds';
   
 export function setKeywords(keywords) {
     return {
@@ -12,9 +13,9 @@ export function setKeywords(keywords) {
 }
 
 export function deleteKeyword(keyword) {
-    return {
-        type: KEYWORD_DELETE,
-        keyword
+    return function(dispatch) {
+        dispatch({type: KEYWORD_DELETE, keyword});
+        dispatch(soundActions.deleteSound(keyword));
     }
 }
   

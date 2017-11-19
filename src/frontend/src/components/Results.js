@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { generalActions } from '../core/general';
 import { soundActions } from '../core/sounds';
 
-import Keyword from './Keyword';
-import './keyword-styles.css';
+import Result from './Result';
+import './result-styles.css';
 
-class Keywords extends Component {
+class Results extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -28,7 +28,7 @@ class Keywords extends Component {
     }
 
     render() {
-        const { keywords, getAllSounds } = this.props;
+        const { keywords, sounds, getAllSounds } = this.props;
         const { newKeyword } = this.state;
 
         return (
@@ -41,7 +41,7 @@ class Keywords extends Component {
                 </form>
                 
                 {keywords.map((keyword, index) =>
-                    <Keyword keyword={keyword} key={index}/>
+                    <Result keyword={keyword} sound={sounds[keyword]} key={index}/>
                 )}
             </div>
         );
@@ -50,11 +50,12 @@ class Keywords extends Component {
 
 function mapStateToProps(state) {
     return {
-        keywords: state.general.keywords
+        keywords: state.general.keywords,
+        sounds: state.sounds
     }
 }
 
 export default connect(
     mapStateToProps, 
     {...generalActions, ...soundActions}
-)(Keywords);
+)(Results);
