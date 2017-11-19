@@ -1,61 +1,27 @@
 import React, { Component } from 'react';
+import WithWebAudio from '../../audioProvider/WithWebAudio'
 import start from '../../media/Start.wav'
 
 class AudioPlayer extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            roomDimensions: {
-                width: 3.1,
-                height: 2.5,
-                depth: 3.4
-            },
-            roomMaterials: {
-                left: 'brick-bare',
-                right: 'curtain-heavy',
-                front: 'marble',
-                back: 'glass-thin',
-                down: 'grass',
-                up: 'transparent',
-            },
-            sourcePosition: {
-                x: -0.707,
-                y: -0.707,
-                z: 0
-            },
-            listenerPosition: {
-                x: -0.707,
-                y: -0.707,
-                z: 0
-            }
-        }
         this.handleControlChange = this.handleControlChange.bind(this);
     }
-    componentWillMount() {
-        // problem with ResonanceAudio webpack build...so just adding script to index.html for now
-        const ResonanceAudio = window.ResonanceAudio;
-        const {sourcePosition, roomDimensions, roomMaterials} = this.state;
 
-        this.audioContext = new AudioContext();
-        this.resonanceAudioScene = new ResonanceAudio(this.audioContext);
-        this.resonanceAudioScene.output.connect(this.audioContext.destination);
-        this.resonanceAudioScene.setRoomProperties(roomDimensions, roomMaterials);
-        
+    componentDidMount() {
+        const {audioContext, resonanceAudioScene} = this.props.appAudio
         // Create an AudioElement.
         let audioElement = document.createElement('audio');
-
-        // Load an audio file into the AudioElement.
         audioElement.src = start;
 
         // Generate a MediaElementSource from the AudioElement.
-        let audioElementSource = this.audioContext.createMediaElementSource(audioElement);
-        
-        // Add the MediaElementSource to the scene as an audio input source.
-        let source = this.resonanceAudioScene.createSource();
+        let audioElementSource = audioContext.createMediaElementSource(audioElement);
+        // connect as Resonance audio source
+        let source = resonanceAudioScene.createSource();
         audioElementSource.connect(source.input);
 
         // Set the source position relative to the room center (source default position).
-        source.setPosition(sourcePosition);
+        source.setPosition();
         this.source = source;
 
         audioElement.play();
@@ -74,6 +40,7 @@ class AudioPlayer extends Component {
     // handle control updates
     handleControlChange(e) {
         e.preventDefault();
+        const { appAudio } = this.props
         const target = e.target;
         const dataTarget = target.dataset.target;
         console.log(dataTarget)
@@ -88,7 +55,8 @@ class AudioPlayer extends Component {
     }
 
     render() {
-        const { roomDimensions, sourcePosition } = this.state;
+        console.log(this.props);
+        const { roomDimensions, sourcePosition } = this.props.appAudio.state;
         return (
             <div>
                 <span>Audio Context</span>
@@ -111,4 +79,4 @@ class AudioPlayer extends Component {
     }
 }
 
-export default AudioPlayer;
+export default WithWebAudio(AudioPlayer);

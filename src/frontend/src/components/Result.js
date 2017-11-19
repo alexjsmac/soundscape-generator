@@ -10,7 +10,7 @@ class Keyword extends Component {
     }
 
     const renderSound = (sound) => (
-        <div className="result-topbar">
+        <div className="result-sound">
             <div>{sound.name}</div>
             <audio src={sound.previews["preview-hq-mp3"]} controls="controls"></audio>
         </div>
@@ -19,7 +19,7 @@ class Keyword extends Component {
     return (
         <div className="result">
             <div className="result-topbar">
-                <span>{keyword}</span>
+                <span className="result-keyword">{keyword}</span>
                 <button className="keyword-remove" onClick={remove}>X</button>
             </div>
             {(sound) ? renderSound(sound) : ""}

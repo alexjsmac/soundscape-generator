@@ -33,8 +33,11 @@ class Results extends Component {
 
         return (
             <div className="result-list">
-                <span>Keywords: </span>
-                <button onClick={getAllSounds}>Get Sounds</button>
+                <div>
+                    <h2>Results</h2>
+                    <button onClick={getAllSounds}>Get Sounds</button>
+                </div>
+                
                 <form onSubmit={this.addKeyword}>
                     <input type="text" value={newKeyword} onChange={this.onKeywordChange}/>
                     <input type="submit" value="Add"/>
