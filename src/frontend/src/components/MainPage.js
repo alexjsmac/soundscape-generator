@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Keywords from './Keywords';
+import Results from './Results';
 import ImageUploader from './common/ImageUploader';
 import AudioPlayer from './audio/AudioPlayer';
 import './main-page-styles.css';
@@ -15,7 +15,7 @@ class MainPage extends Component {
               
             </div>
             <div className="results-container">
-              <Keywords />
+              <Results />
             </div>
           </div>
           

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import waterfront from '../../media/Start.wav'
+import start from '../../media/Start.wav'
 
 class AudioPlayer extends Component {
     constructor(props) {
@@ -29,19 +29,23 @@ class AudioPlayer extends Component {
                 z: 0
             }
         }
-        this.handleChange = this.handleChange.bind(this);
+        this.handleControlChange = this.handleControlChange.bind(this);
     }
     componentWillMount() {
+        // problem with ResonanceAudio webpack build...so just adding script to index.html for now
         const ResonanceAudio = window.ResonanceAudio;
+        const {sourcePosition, roomDimensions, roomMaterials} = this.state;
+
         this.audioContext = new AudioContext();
         this.resonanceAudioScene = new ResonanceAudio(this.audioContext);
         this.resonanceAudioScene.output.connect(this.audioContext.destination);
-        this.resonanceAudioScene.setRoomProperties(this.state.roomDimensions, this.roomMaterials);
+        this.resonanceAudioScene.setRoomProperties(roomDimensions, roomMaterials);
+        
         // Create an AudioElement.
         let audioElement = document.createElement('audio');
 
         // Load an audio file into the AudioElement.
-        audioElement.src = waterfront;
+        audioElement.src = start;
 
         // Generate a MediaElementSource from the AudioElement.
         let audioElementSource = this.audioContext.createMediaElementSource(audioElement);
@@ -51,22 +55,24 @@ class AudioPlayer extends Component {
         audioElementSource.connect(source.input);
 
         // Set the source position relative to the room center (source default position).
-        source.setPosition(this.state.sourcePosition);
+        source.setPosition(sourcePosition);
         this.source = source;
 
         audioElement.play();
     }
+
     componentWillUnMount() {
         this.audioContext.close();
     }
 
     componentDidUpdate() {
-        const {sourcePosition} = this.state;
-        this.resonanceAudioScene.setRoomProperties(this.state.roomDimensions, this.roomMaterials);
+        const {sourcePosition, roomDimensions, roomMaterials} = this.state;
+        this.resonanceAudioScene.setRoomProperties(roomDimensions, this.roomMaterials);
         this.source.setPosition(sourcePosition.x, sourcePosition.y, sourcePosition.z)
     }
     
-    handleChange(e) {
+    // handle control updates
+    handleControlChange(e) {
         e.preventDefault();
         const target = e.target;
         const dataTarget = target.dataset.target;
@@ -91,7 +97,7 @@ class AudioPlayer extends Component {
                     data-target="roomDimensions"
                     name="width"
                     min={0.001}
-                    onChange={this.handleChange} />
+                    onChange={this.handleControlChange} />
                 <input type="range" 
                     value={sourcePosition.x}
                     data-target="sourcePosition"
@@ -99,7 +105,7 @@ class AudioPlayer extends Component {
                     min={-1}
                     max={1}
                     step={0.001}
-                    onChange={this.handleChange} />
+                    onChange={this.handleControlChange} />
             </div>
         );
     }

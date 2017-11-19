@@ -11,17 +11,14 @@ const defaultState = {
 export function generalReducer(state = defaultState, action) {
     switch (action.type) {
         case KEYWORDS_SET:
-            console.log("reducer", action)
             return {
                 keywords: action.keywords
             };
         case KEYWORD_DELETE:
-            console.log("delete keyword", action.keyword);
             return {
                 keywords: state.keywords.filter((keyword) => keyword !== action.keyword)
             }
         case KEYWORD_ADD:
-            console.log("add keyword", action.keyword);
             return {
                 keywords: [...state.keywords, action.keyword]
             }
