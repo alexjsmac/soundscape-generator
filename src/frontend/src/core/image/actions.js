@@ -10,7 +10,7 @@ export function uploadImage(file) {
     return function (dispatch) {
         console.log("starting upload");
         const formData = new FormData();
-        formData.append('file', file);
+        formData.append('image', file);
 
         const requestOptions = {
             method: 'POST',
