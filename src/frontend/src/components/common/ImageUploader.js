@@ -39,6 +39,7 @@ class ImageUploader extends Component {
                     <div>
                         <input className="up-file-input" 
                             type="file" 
+                            name="image"
                             onChange={(e)=>this._handleImageChange(e)} />
                     </div>
                 </form>

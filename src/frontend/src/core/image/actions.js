@@ -14,12 +14,7 @@ export function uploadImage(file) {
 
         const requestOptions = {
             method: 'POST',
-            body: formData,
-            credentials: 'same-origin',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'multipart/form-data'
-            }
+            body: formData
         };
 
         console.log("START POST");
