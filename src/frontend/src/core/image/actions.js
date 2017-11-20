@@ -24,14 +24,25 @@ export function uploadImage(file) {
 
         console.log("START POST");
         fetch("/api/v1/upload", requestOptions)
+            .then(function(response) {
+                if (response.status >= 200 && response.status < 300) {
+                    return Promise.resolve(response)
+                } else {
+                    var error = new Error(response.statusText || response.status)
+                    error.response = response
+                    return Promise.reject(error)
+                }
+            })
             .then((response) => {
                 console.log("POST RESPONSE", response)
                 return response.json()
             })
             .then((json) => {
                 console.log("POST SUCCESS", json);
-                const result = json || getFakeResponse();
-                dispatch(generalActions.setKeywords(result))
+                
+                // TODO: make another request here for image analysis
+                const keywords = getFakeResponse();
+                dispatch(generalActions.setKeywords(keywords))
             })
             .catch((err) => {
                 console.error("POST ERROR", err);
