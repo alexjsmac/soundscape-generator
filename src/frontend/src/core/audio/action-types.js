@@ -1,1 +1,1 @@
-export const AUDIO_PLAY = 'AUDIO_PLAY';
+export const SET_ROOM_SIZE = 'SET_ROOM_SIZE';

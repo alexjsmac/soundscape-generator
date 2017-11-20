@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import WithWebAudio from '../../audioProvider/WithWebAudio'
+import { connect } from 'react-redux';
+import { audioActions } from '../../core/audio';
 
-class AudioPlayer extends Component {
+class RoomSettings extends Component {
     constructor(props) {
         super(props);
         this.handleControlChange = this.handleControlChange.bind(this);
@@ -10,23 +11,12 @@ class AudioPlayer extends Component {
     // handle control updates
     handleControlChange(e) {
         e.preventDefault();
-        const target = e.target;
-        const dataTarget = target.dataset.target;
-        console.log(dataTarget)
-        const inputValue = parseFloat(target.value)
-        this.setState({
-            ...this.state,
-            [dataTarget]: {
-                ...this.state[dataTarget],
-                [target.name]: inputValue
-            }
-        })
     }
 
     render() {
         console.log(this.props);
-        const { isPlaying } = this.state;
-        const { roomDimensions, sourcePosition } = this.props.appAudio.state;
+        // TODO move resonance audio state into REDUX
+        // Then we can render the state of that here, and fire off actions to change it
         return (
             <div>
                 <input type="number" 
@@ -48,7 +38,13 @@ class AudioPlayer extends Component {
     }
 }
 
-export default WithWebAudio(AudioPlayer);
+function mapStateToProps(state) {
+    return{
+
+    }
+}
+
+export default connect(mapStateToProps, audioActions)(RoomSettings);
 
 
 

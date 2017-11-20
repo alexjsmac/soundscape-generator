@@ -1,14 +1,18 @@
 import {
-    AUDIO_PLAY
+    SET_ROOM_SIZE
 } from './action-types';
+import {getRoomSize} from './room-settings'
 
+const defaultState = {
+    roomSize: getRoomSize("small")
+}
 
 export function audioReducer(state = {}, action) {
     switch (action.type) {
-        case AUDIO_PLAY:
+        case SET_ROOM_SIZE:
             return {
-                completed: true,
-                success: true
+                ...state,
+                roomSize: getRoomSize(action.size)
             };
         default:
             return state;
