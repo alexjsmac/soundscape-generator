@@ -6,8 +6,7 @@
 }
 
 .main-container {
-    background: rgb(216, 108, 108);
-    flex: 5 1 auto;
+    flex: 5 1 500px;
     display: flex;
     align-items: stretch;
     justify-content: center;
@@ -19,7 +18,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgb(97, 121, 194);
+    background: rgb(86, 103, 180);
 }
 .results-container {
     flex: 1 1 100px;
@@ -28,11 +27,13 @@
     align-items: flex-start;
     justify-content: flex-start;
     padding: 24px;
+    background: rgb(222, 222, 223);
+    overflow: auto;
 }
 
 .settings-container {
     background: rgb(246, 246, 247);
-    flex: 1 1 auto;
+    flex: 1 0 70px;
     padding: 0 40px;
     display: flex;
     flex-direction: column;

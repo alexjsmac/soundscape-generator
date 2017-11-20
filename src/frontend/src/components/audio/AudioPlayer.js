@@ -1,114 +1,100 @@
 import React, { Component } from 'react';
-import start from '../../media/Start.wav'
+import WithWebAudio from '../../audioProvider/WithWebAudio'
 
 class AudioPlayer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            roomDimensions: {
-                width: 3.1,
-                height: 2.5,
-                depth: 3.4
-            },
-            roomMaterials: {
-                left: 'brick-bare',
-                right: 'curtain-heavy',
-                front: 'marble',
-                back: 'glass-thin',
-                down: 'grass',
-                up: 'transparent',
-            },
+            isPlaying: false,
             sourcePosition: {
-                x: -0.707,
-                y: -0.707,
-                z: 0
-            },
-            listenerPosition: {
-                x: -0.707,
-                y: -0.707,
-                z: 0
+                x: 0.7,
+                y: 0.5,
+                z: 0.5
             }
         }
-        this.handleControlChange = this.handleControlChange.bind(this);
+        this.togglePlay = this.togglePlay.bind(this);
+        this.updateSourcePosition = this.updateSourcePosition.bind(this);
     }
-    componentWillMount() {
-        // problem with ResonanceAudio webpack build...so just adding script to index.html for now
-        const ResonanceAudio = window.ResonanceAudio;
-        const {sourcePosition, roomDimensions, roomMaterials} = this.state;
 
-        this.audioContext = new AudioContext();
-        this.resonanceAudioScene = new ResonanceAudio(this.audioContext);
-        this.resonanceAudioScene.output.connect(this.audioContext.destination);
-        this.resonanceAudioScene.setRoomProperties(roomDimensions, roomMaterials);
-        
+    componentDidMount() {
+        const { src, shouldPlay } = this.props;
+        const { audioContext, resonanceAudioScene } = this.props.appAudio
         // Create an AudioElement.
         let audioElement = document.createElement('audio');
+        audioElement.crossOrigin = "anonymous";
+        audioElement.src = src;
+        audioElement.addEventListener("ended", () => {
+            this.setState({isPlaying: false})
+        });
 
-        // Load an audio file into the AudioElement.
-        audioElement.src = start;
-
-        // Generate a MediaElementSource from the AudioElement.
-        let audioElementSource = this.audioContext.createMediaElementSource(audioElement);
+        // Generate a MediaElementSource from the AudioElement
+        let audioElementSource = audioContext.createMediaElementSource(audioElement);
         
-        // Add the MediaElementSource to the scene as an audio input source.
-        let source = this.resonanceAudioScene.createSource();
+        // connect as Resonance audio source
+        let source = resonanceAudioScene.createSource();
         audioElementSource.connect(source.input);
 
         // Set the source position relative to the room center (source default position).
-        source.setPosition(sourcePosition);
-        this.source = source;
+        source.setPosition();
+        if (shouldPlay) {
+            audioElement.play();
+            this.setState({isPlaying: true})
+        }
 
-        audioElement.play();
+        this.source = source;
+        this.audioElement = audioElement;
     }
 
     componentWillUnMount() {
-        this.audioContext.close();
+        //TODO: dispose audio element + resonance audio source
     }
 
     componentDidUpdate() {
-        const {sourcePosition, roomDimensions, roomMaterials} = this.state;
-        this.resonanceAudioScene.setRoomProperties(roomDimensions, this.roomMaterials);
-        this.source.setPosition(sourcePosition.x, sourcePosition.y, sourcePosition.z)
+        // TODO: sourcePosition can be held in this components state
+        const {sourcePosition} = this.state;
+        this.source.setPosition(sourcePosition.x, sourcePosition.y, sourcePosition.z);
     }
-    
-    // handle control updates
-    handleControlChange(e) {
+
+    togglePlay() {
+        if (this.state.isPlaying) {
+            this.audioElement.pause();
+            this.audioElement.currentTime = 0;
+            this.setState({isPlaying: false})
+        } else {
+            this.audioElement.play();
+            this.setState({isPlaying: true})
+        }
+    }
+
+    updateSourcePosition(e) {
         e.preventDefault();
         const target = e.target;
-        const dataTarget = target.dataset.target;
-        console.log(dataTarget)
-        const inputValue = parseFloat(target.value)
+        const value = parseFloat(target.value)
         this.setState({
             ...this.state,
-            [dataTarget]: {
-                ...this.state[dataTarget],
-                [target.name]: inputValue
+            sourcePosition: {
+                ...this.state.sourcePosition,
+                [target.name]: value
             }
         })
     }
 
     render() {
-        const { roomDimensions, sourcePosition } = this.state;
+        const { isPlaying, sourcePosition} = this.state;
+        const { roomDimensions } = this.props.appAudio.state;
         return (
             <div>
-                <span>Audio Context</span>
-                <input type="number" 
-                    value={roomDimensions.width}
-                    data-target="roomDimensions"
-                    name="width"
-                    min={0.001}
-                    onChange={this.handleControlChange} />
+                <button onClick={this.togglePlay}>{(isPlaying) ?"Pause":"Play"}</button>
                 <input type="range" 
                     value={sourcePosition.x}
-                    data-target="sourcePosition"
                     name="x"
                     min={-1}
                     max={1}
                     step={0.001}
-                    onChange={this.handleControlChange} />
+                    onChange={this.updateSourcePosition} />
             </div>
         );
     }
 }
 
-export default AudioPlayer;
+export default WithWebAudio(AudioPlayer);

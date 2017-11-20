@@ -5,27 +5,43 @@
 .result {
     width: 100%;
     margin: 8px 0;
-    background: #eee;
+    background: white;
+    border-radius: 6px;
+    padding: 0 0;
+    overflow: hidden;
 }
 
 .result-topbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px;
-    background: #eee;
+    padding: 8px 12px;
 }
+.result-keyword {
+    font-weight: 700;
+}
+
 .result-sound {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px;
-    background: #eee;
+    padding: 6px 12px;
+    background: rgb(57, 56, 87);
+    color: white;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.result-sound audio {
+    max-width: 250px;
 }
 
 
 .keyword-remove {
     padding: 4px 8px;
-    background: red;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    background: rgb(247, 154, 154);
     cursor: pointer;
 }

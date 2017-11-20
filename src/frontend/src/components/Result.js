@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import AudioPlayer from './audio/AudioPlayer';
 import { connect } from 'react-redux';
 import { generalActions } from '../core/general';
 
@@ -10,16 +11,16 @@ class Keyword extends Component {
     }
 
     const renderSound = (sound) => (
-        <div className="result-topbar">
+        <div className="result-sound">
             <div>{sound.name}</div>
-            <audio src={sound.previews["preview-hq-mp3"]} controls="controls"></audio>
+            <AudioPlayer src={sound.previews["preview-hq-mp3"]} />
         </div>
     )
 
     return (
         <div className="result">
             <div className="result-topbar">
-                <span>{keyword}</span>
+                <span className="result-keyword">{keyword}</span>
                 <button className="keyword-remove" onClick={remove}>X</button>
             </div>
             {(sound) ? renderSound(sound) : ""}
