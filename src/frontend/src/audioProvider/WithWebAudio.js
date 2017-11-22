@@ -1,24 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 
 export default function WithWebAudio(WrappedComponent, selectData) {
 
-    return class extends Component {
+    class ResultComponent extends Component {
         constructor(props) {
             super(props);
             this.state = {
-                roomDimensions: {
-                    width: 3.1,
-                    height: 2.5,
-                    depth: 3.4
-                },
-                roomMaterials: {
-                    left: 'brick-bare',
-                    right: 'curtain-heavy',
-                    front: 'marble',
-                    back: 'glass-thin',
-                    down: 'grass',
-                    up: 'transparent',
-                },
                 sourcePosition: {
                     x: -0.707,
                     y: -0.707,
@@ -34,7 +22,7 @@ export default function WithWebAudio(WrappedComponent, selectData) {
         }
 
         componentWillMount() {
-            const {roomDimensions, roomMaterials} = this.state;
+            const {roomDimensions, roomMaterials} = this.props;
             // problem with ResonanceAudio webpack build...so just adding script to index.html for now
             const ResonanceAudio = window.ResonanceAudio;
             const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -49,16 +37,28 @@ export default function WithWebAudio(WrappedComponent, selectData) {
             this.appAudio.audioContext.close();
         }
 
-        // componentDidUpdate() {
-        //     const {sourcePosition, roomDimensions, roomMaterials} = this.state;
-        //     this.resonanceAudioScene.setRoomProperties(roomDimensions, this.roomMaterials);
-        //     this.source.setPosition(sourcePosition.x, sourcePosition.y, sourcePosition.z)
-        // }
+        componentDidUpdate() {
+            console.log("updating web audio provider")
+            const { roomDimensions, roomMaterials} = this.props;
+            this.appAudio.resonanceAudioScene.setRoomProperties(roomDimensions, roomMaterials);
+            console.log(this.appAudio.resonanceAudioScene)
+        }
 
         render() {
-            // TODO: move state into redux
-            const appAudio = {...this.appAudio, state: {...this.state}}
+            const appAudio = {
+                ...this.appAudio, 
+                state: {...this.state}
+            }
             return <WrappedComponent appAudio={appAudio} {...this.props} />
         }
     }
+
+    function mapStateToProps(state) {
+        return {
+            roomDimensions: state.audio.roomDimensions,
+            roomMaterials: state.audio.roomMaterials
+        }
+    };
+
+    return connect(mapStateToProps, null)(ResultComponent)
 }

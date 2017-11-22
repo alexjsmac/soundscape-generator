@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Results from './Results';
 import ImageUploader from './common/ImageUploader';
 import AudioPlayer from './audio/AudioPlayer';
-// import RoomSettings from './audio/RoomSettings';
+import RoomSettings from './audio/RoomSettings';
 import start from '../media/Start.wav'
 
 import './main-page-styles.css';
@@ -24,7 +24,7 @@ class MainPage extends Component {
           
           <AudioPlayer src={start} shouldPlay/>
           <div className="settings-container">
-            Room settings
+            <RoomSettings />
           </div>
       </div>
     );

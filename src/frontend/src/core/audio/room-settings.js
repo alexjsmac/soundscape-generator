@@ -1,4 +1,5 @@
-const RoomSizes = {
+// RoomSizes from Resonance audio demo
+const _ROOM_SIZES = {
     small: {
         width: 1.5, height: 2.4, depth: 1.3,
     },
@@ -13,7 +14,10 @@ const RoomSizes = {
     }
 };
 
-// RoomSizes from Resonance audio demo
-export function getRoomSize(size) {
-    return RoomSizes[size]
+export function getRoomDimensions(size) {
+    return _ROOM_SIZES[size]
 } 
+
+export const roomTypes = {
+    TRANSPARENT: "TRANSPARENT"
+}

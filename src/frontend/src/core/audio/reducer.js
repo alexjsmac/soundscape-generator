@@ -1,18 +1,29 @@
 import {
     SET_ROOM_SIZE
 } from './action-types';
-import {getRoomSize} from './room-settings'
+import {getRoomDimensions, roomTypes} from './room-settings'
 
 const defaultState = {
-    roomSize: getRoomSize("small")
+    roomSize: "small",
+    roomDimensions: getRoomDimensions("small"),
+    roomType: roomTypes.TRANSPARENT,
+    roomMaterials: {
+        left: 'brick-bare',
+        right: 'curtain-heavy',
+        front: 'marble',
+        back: 'glass-thin',
+        down: 'grass',
+        up: 'transparent',
+    },
 }
 
-export function audioReducer(state = {}, action) {
+export function audioReducer(state = defaultState, action) {
     switch (action.type) {
         case SET_ROOM_SIZE:
             return {
                 ...state,
-                roomSize: getRoomSize(action.size)
+                roomSize: action.roomSize,
+                roomDimensions: getRoomDimensions(action.roomSize)
             };
         default:
             return state;
