@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { audioActions } from '../../core/audio';
+import { roomSizes, roomTypes } from '../../core/audio/room-settings';
 
 class RoomSettings extends Component {
     constructor(props) {
         super(props);
         this.selectRoomSize = this.selectRoomSize.bind(this);
+        this.selectRoomType = this.selectRoomType.bind(this);
     }
     
     // handle control updates
@@ -14,22 +16,35 @@ class RoomSettings extends Component {
         this.props.setRoomSize(e.target.value);
     }
 
+    // handle control updates
+    selectRoomType(e) {
+        e.preventDefault();
+        this.props.setRoomType(e.target.value);
+    }
+
+
     render() {
-        console.log(this.props);
         const { roomSize, roomType } = this.props
-        console.log(roomSize, roomType);
-        // TODO move resonance audio state into REDUX
-        // Then we can render the state of that here, and fire off actions to change it
+        const capitalize = (a) => a.charAt(0) + a.slice(1).toLowerCase();
+
         return (
             <div>
                 <div>Room Size: {roomSize}</div>
                 <select value={roomSize} onChange={this.selectRoomSize}>
-                    <option value="small">small</option>
-                    <option value="medium">Medium</option>
-                    <option value="large">Large</option>
-                    <option value="huge">Huge</option>
+                    {Object.keys(roomSizes).map(RS => (
+                        <option value={RS} key={RS}>
+                            {capitalize(RS)}
+                        </option>
+                    ))}
                 </select>
                 <div>Room Type: {roomType}</div>
+                <select value={roomType} onChange={this.selectRoomType}>
+                    {Object.keys(roomTypes).map(RT => (
+                        <option value={RT} key={RT}>
+                            {capitalize(RT)}
+                        </option>
+                    ))}
+                </select>
             </div>
             
         );
