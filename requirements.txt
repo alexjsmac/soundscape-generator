@@ -2,3 +2,4 @@ Flask==0.12.1
 flask-restful
 boto3
 requests
+flask-login
