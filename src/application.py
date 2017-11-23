@@ -2,11 +2,13 @@
 import os
 import boto3
 
-from flask import Flask, make_response
+from flask import Flask, make_response, request, Response, redirect, render_template
 from flaskrun import flaskrun
 from flask_restful import Resource, Api, reqparse, abort
 from cStringIO import StringIO
 from werkzeug.datastructures import FileStorage
+from flask_login import LoginManager, UserMixin, \
+                                login_required, login_user, logout_user
 
 application = Flask(__name__,  static_folder='frontend/build/static')
 api = Api(application)
@@ -15,6 +17,12 @@ DIR = os.path.dirname(os.path.abspath(__file__))
 BUCKET = 'soundscape-generator-photos'
 ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png']
 s3 = boto3.resource('s3')
+
+# flask-login
+login_manager = LoginManager()
+login_manager.init_app(application)
+login_manager.login_view = "login"
+application.config.update(SECRET_KEY='secret_123')
 
 
 class Upload(Resource):
@@ -71,15 +79,67 @@ class Scan(Resource):
         return labels
 
 
+# silly user model
+class User(UserMixin):
+
+    def __init__(self, id):
+        self.id = id
+        self.name = "user" + str(id)
+        self.password = self.name + "_secret"
+
+    def __repr__(self):
+        return "%d/%s/%s" % (self.id, self.name, self.password)
+
+
+# create some users with ids 1 to 20
+users = [User(id) for id in range(1, 21)]
+
+
+@application.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if password == username + "_secret":
+            id = username.split('user')[1]
+            user = User(id)
+            login_user(user)
+            return redirect(request.args.get("next"))
+        else:
+            return abort(401)
+    else:
+        return render_template('login.html')
+
+
 @application.route('/')
+@login_required
 def show_index():
     return make_response(open(os.path.join(DIR,
                          'frontend/build/index.html')).read())
+
+
+# somewhere to logout
+@application.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return Response('<p>Logged out</p>')
+
+
+# handle login failed
+@application.errorhandler(401)
+def page_not_found(e):
+    return Response('<p>Login failed</p>')
+
+
+# callback to reload the user object
+@login_manager.user_loader
+def load_user(userid):
+    return User(userid)
 
 
 api.add_resource(Upload, '/api/v1/upload')
 api.add_resource(Scan, '/api/v1/scan/<image>')
 
 if __name__ == '__main__':
-    flaskrun(application)    # prod
-    # application.run(threaded=True, debug=True)   # dev
+    flaskrun(application)
