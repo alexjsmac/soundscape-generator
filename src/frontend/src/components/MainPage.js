@@ -13,9 +13,7 @@ class MainPage extends Component {
       <div className="main-page">
           <div className="main-container">
             <div className="upload-container">
-              Upload Photo Here
               <ImageUploader />
-              
             </div>
             <div className="results-container">
               <Results />

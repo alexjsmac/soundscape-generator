@@ -27,6 +27,7 @@ export default function WithWebAudio(WrappedComponent, selectData) {
             const ResonanceAudio = window.ResonanceAudio;
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             
+            // TODO: this needs to be moved as it's creating a new audio context for each wrapped component
             this.appAudio.audioContext = new AudioContext();
             this.appAudio.resonanceAudioScene = new ResonanceAudio(this.appAudio.audioContext);
             this.appAudio.resonanceAudioScene.output.connect(this.appAudio.audioContext.destination);
@@ -38,16 +39,14 @@ export default function WithWebAudio(WrappedComponent, selectData) {
         }
 
         componentDidUpdate() {
-            console.log("updating web audio provider")
             const { roomDimensions, roomMaterials} = this.props;
             this.appAudio.resonanceAudioScene.setRoomProperties(roomDimensions, roomMaterials);
-            console.log(this.appAudio.resonanceAudioScene)
         }
 
         render() {
             const appAudio = {
                 ...this.appAudio, 
-                state: {...this.state}
+                state: {...this.state}  // TODO move this to redux
             }
             return <WrappedComponent appAudio={appAudio} {...this.props} />
         }

@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { generalActions } from '../core/general';
 import { soundActions } from '../core/sounds';
-
+import { Button, Input } from 'antd'
 import Result from './Result';
 import './result-styles.css';
+const InputGroup = Input.Group;
 
 class Results extends Component {
     constructor(props) {
@@ -34,14 +35,18 @@ class Results extends Component {
 
         return (
             <div className="result-list">
-                <div>
+                <div className="results-header">
                     <h2>Results</h2>
-                    <button onClick={getAllSounds}>Get Sounds</button>
+                    <Button type="primary" size="large" onClick={getAllSounds}>Get Sounds</Button>
                 </div>
                 
-                <form onSubmit={this.addKeyword}>
-                    <input type="text" value={newKeyword} onChange={this.onKeywordChange}/>
-                    <input type="submit" value="Add"/>
+                <form onSubmit={this.addKeyword} className="result-add">
+                    <InputGroup compact>
+                        <Input type="text" size="large" style={{ width: '70%' }}
+                            value={newKeyword} 
+                            onChange={this.onKeywordChange} />
+                        <Button type="primary" size="large" style={{ width: '30%' }} onClick={this.addKeyword}>Add</Button>
+                    </InputGroup>
                 </form>
                 
                 {keywords.map((keyword, index) =>

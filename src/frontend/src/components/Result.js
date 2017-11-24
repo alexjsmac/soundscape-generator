@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import AudioPlayer from './audio/AudioPlayer';
 import { connect } from 'react-redux';
 import { generalActions } from '../core/general';
+import { Button } from 'antd'
 
 class Keyword extends Component {
   render() {
@@ -18,10 +19,10 @@ class Keyword extends Component {
     )
 
     return (
-        <div className="result">
+        <div className="result-container">
             <div className="result-topbar">
                 <span className="result-keyword">{keyword}</span>
-                <button className="keyword-remove" onClick={remove}>X</button>
+                <Button type="danger" shape="circle" icon="close" onClick={remove}/>
             </div>
             {(sound) ? renderSound(sound) : ""}
         </div>

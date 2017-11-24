@@ -1,24 +1,26 @@
 .image-uploader {
-    background: #eee;
+    
 }
 
-.image-uploader form div{
-    padding: 16px 8px;
+.upload-area {
+    width: 80%;
+    background: white;
+    margin: 8px auto;
+    padding: 12px;
+    border-radius: 4px;
 }
 
-.up-file-input {
-
+.upload-button {
+    width: 80%;
+    text-align: center;
+    margin: 8px auto;
+    align-self: center;
 }
-
-.up-submit {
-    padding: 8px 16px;
-    background: #fff;
-    border: 2px solid black;
-}
-
 
 .up-preview img {
-    width: 400px;
+    width: 80%;
+    display: block;
+    margin: 0 auto;
 }
 
 .up-preview-text {
