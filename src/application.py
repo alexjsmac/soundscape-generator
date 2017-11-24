@@ -51,8 +51,10 @@ class Upload(Resource):
         image.save(image_file)
         result = self.upload_s3(image_file, image.filename, BUCKET)
 
-        return {"HTTPStatusCode": str(result['ResponseMetadata']
-                                            ['HTTPStatusCode'])}
+        return {
+            "HTTPStatusCode": str(result['ResponseMetadata']['HTTPStatusCode']),
+            "fileName": image.filename
+        }
 
 
 class Scan(Resource):
