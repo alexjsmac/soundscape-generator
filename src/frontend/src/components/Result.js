@@ -13,8 +13,7 @@ class Keyword extends Component {
 
     const renderSound = (sound) => (
         <div className="result-sound">
-            <div>{sound.name}</div>
-            <AudioPlayer src={sound.previews["preview-hq-mp3"]} />
+            <AudioPlayer src={sound.previews["preview-hq-mp3"]} name={sound.name} />
         </div>
     )
 

@@ -2,12 +2,13 @@
     width: 100%;
 }
 
-.result-container, .results-header {
+.result-container, 
+.results-header {
     width: 100%;
     margin: 1px 0;
     background: white;
     /* border-radius: 6px; */
-    padding: 6px 12px;
+    /* padding: 6px 12px; */
     overflow: hidden;
 }
 
@@ -28,7 +29,7 @@ form.result-add {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 0;
+    padding: 8px 12px;
 }
 .result-keyword {
     font-weight: 700;
@@ -38,23 +39,8 @@ form.result-add {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 6px 0;
-    background: rgb(57, 56, 87);
-    color: white;
-    font-weight: 700;
-    font-size: 12px;
-}
-
-.result-sound audio {
-    max-width: 250px;
-}
-
-
-.keyword-remove {
-    padding: 4px 8px;
-    font-size: 12px;
-    border: none;
-    border-radius: 4px;
-    background: rgb(247, 154, 154);
-    cursor: pointer;
+    padding: 6px 12px;
+    background: rgb(228, 231, 236);
+    /* color: white; */
+    font-size: 10px;
 }

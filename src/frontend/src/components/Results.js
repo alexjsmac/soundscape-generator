@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import { generalActions } from '../core/general';
 import { soundActions } from '../core/sounds';
 import { Button, Input } from 'antd'
+import AudioPlayer from './audio/AudioPlayer';
 import Result from './Result';
 import './result-styles.css';
+import start from '../media/Start.wav'
 const InputGroup = Input.Group;
 
 class Results extends Component {
@@ -35,6 +37,7 @@ class Results extends Component {
 
         return (
             <div className="result-list">
+                <AudioPlayer src={start} name="Start" shouldPlay/>
                 <div className="results-header">
                     <h2>Results</h2>
                     <Button type="primary" size="large" onClick={getAllSounds}>Get Sounds</Button>

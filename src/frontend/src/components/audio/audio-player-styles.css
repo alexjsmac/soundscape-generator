@@ -1,0 +1,34 @@
+.audio-player {
+    display: flex;
+}
+
+.audio-player > * {
+    padding: 0 18px;
+}
+
+.audio-name {
+    padding-left: 0;
+    flex: 0 1 120px;
+    align-self: center;
+    font-size: 12px;
+}
+
+.play-button {
+    display: inline-block;
+    padding-left: 0px;
+    padding-right: 10px;
+    border: 0px solid white;
+    border-radius: 6px;
+    background: none;
+    cursor: pointer;
+}
+
+.play-button i {
+    font-size: 20px;
+    background: transparent;
+    color: rgb(72, 127, 190);
+}
+
+.audio-player label {
+    flex: 1 1 100px;
+}

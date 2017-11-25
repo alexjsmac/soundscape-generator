@@ -10,7 +10,8 @@
     "react-scripts": "1.0.17",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "resonance-audio": "^1.0.0"
+    "resonance-audio": "^1.0.0",
+    "smart-outline": "0.0.5"
   },
   "scripts": {
     "start": "react-scripts start",

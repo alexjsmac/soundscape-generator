@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import webAudioUtil from '../../audio/webAudioUtil';
+import { Icon } from 'antd';
+import './audio-player-styles.css';
 
 class AudioPlayer extends Component {
     constructor(props) {
@@ -7,7 +9,7 @@ class AudioPlayer extends Component {
         this.state = {
             isPlaying: false,
             sourcePosition: {
-                x: 0.7,
+                x: 0,
                 y: 0.5,
                 z: 0.5
             }
@@ -17,8 +19,8 @@ class AudioPlayer extends Component {
     }
 
     componentDidMount() {
-        const { src, shouldPlay } = this.props;
-
+        const { src, shouldPlay } = this.props; 
+        
         // Create an AudioElement.
         let audioElement = document.createElement('audio');
         audioElement.crossOrigin = "anonymous";
@@ -70,16 +72,33 @@ class AudioPlayer extends Component {
 
     render() {
         const { isPlaying, sourcePosition} = this.state;
+        const { name } = this.props;
         return (
-            <div>
-                <button onClick={this.togglePlay}>{(isPlaying) ?"Pause":"Play"}</button>
-                <input type="range" 
-                    value={sourcePosition.x}
-                    name="x"
-                    min={-1}
-                    max={1}
-                    step={0.001}
-                    onChange={this.updateSourcePosition} />
+            <div className="audio-player">
+                <button onClick={this.togglePlay} className="play-button">
+                    {(isPlaying) ? <Icon type="pause-circle" /> : <Icon type="play-circle" />}
+                </button>
+                <div className="audio-name">{name}</div>
+                <label htmlFor="x">
+                    Pan
+                    <input type="range" 
+                        value={sourcePosition.x}
+                        name="x"
+                        min={-1}
+                        max={1}
+                        step={0.001}
+                        onChange={this.updateSourcePosition} />
+                </label>
+                <label htmlFor="x">
+                    Volume
+                    <input type="range" 
+                        value={sourcePosition.x}
+                        name="x"
+                        min={-1}
+                        max={1}
+                        step={0.001}
+                        onChange={this.updateSourcePosition} />
+                </label>
             </div>
         );
     }
