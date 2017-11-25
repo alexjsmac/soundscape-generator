@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { soundActions } from '../../core/sounds';
 import webAudioUtil from '../../audio/webAudioUtil';
-import { Icon } from 'antd';
+import { Button } from 'antd';
 import './audio-player-styles.css';
 import { stopAllSounds, playAllSounds } from '../../core/sounds/actions';
 
@@ -42,9 +42,9 @@ class GlobalAudio extends Component {
     render() {
         const { globalPlaying, sourcePosition} = this.state;
         return (
-            <button onClick={this.togglePlay} className="play-button">
-                {(globalPlaying) ? <Icon type="pause-circle" /> : <Icon type="play-circle" />}
-            </button>
+            <Button onClick={this.togglePlay} type="primary" size="large">
+                {(globalPlaying) ? "Stop All" : "Play All"}
+            </Button>
         );
     }
 }
