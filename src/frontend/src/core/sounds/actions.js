@@ -1,7 +1,11 @@
 import {
     SOUNDS_GET_ALL,
     SOUND_GET_SUCCESS,
-    SOUND_DELETE
+    SOUND_DELETE,
+    SOUND_PLAY,
+    SOUND_STOP,
+    SOUNDS_PLAY_ALL,
+    SOUNDS_STOP_ALL
 } from './action-types';
 
 export function startGetAllSounds() {
@@ -22,6 +26,31 @@ export function deleteSound(keyword) {
     return {
         type: SOUND_DELETE,
         keyword
+    }
+}
+
+export function playSound(keyword) {
+    return {
+        type: SOUND_PLAY,
+        keyword
+    }
+}
+
+export function stopSound(keyword) {
+    return {
+        type: SOUND_STOP,
+        keyword
+    }
+}
+
+export function playAllSounds() {
+    return {
+        type: SOUNDS_PLAY_ALL
+    }
+}
+export function stopAllSounds() {
+    return {
+        type: SOUNDS_STOP_ALL
     }
 }
 

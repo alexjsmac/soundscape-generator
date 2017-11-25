@@ -11,9 +11,9 @@ class Keyword extends Component {
         deleteKeyword(keyword);
     }
 
-    const renderSound = (sound) => (
+    const renderSound = (sound, keyword) => (
         <div className="result-sound">
-            <AudioPlayer src={sound.previews["preview-hq-mp3"]} name={sound.name} />
+            <AudioPlayer src={sound.previews["preview-hq-mp3"]} name={sound.name} keyword={keyword} />
         </div>
     )
 
@@ -23,7 +23,7 @@ class Keyword extends Component {
                 <span className="result-keyword">{keyword}</span>
                 <Button type="danger" shape="circle" icon="close" onClick={remove}/>
             </div>
-            {(sound) ? renderSound(sound) : ""}
+            {(sound) ? renderSound(sound, keyword) : ""}
         </div>
     );
   }

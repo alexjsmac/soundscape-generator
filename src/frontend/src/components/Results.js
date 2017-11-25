@@ -38,7 +38,6 @@ class Results extends Component {
 
         return (
             <div className="result-list">
-                <AudioPlayer src={start} name="Start" shouldPlay/>
                 <GlobalAudio />
                 <div className="results-header">
                     <h2>Results</h2>

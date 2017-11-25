@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { soundActions } from '../../core/sounds';
 import webAudioUtil from '../../audio/webAudioUtil';
 import { Icon } from 'antd';
 import './audio-player-styles.css';
@@ -7,32 +9,31 @@ class AudioPlayer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isPlaying: false,
             sourcePosition: {
                 x: 0,
                 y: 0.5,
                 z: 0.5
-            }
+            },
+            keyword: props.keyword
         }
         this.togglePlay = this.togglePlay.bind(this);
         this.updateSourcePosition = this.updateSourcePosition.bind(this);
     }
 
     componentDidMount() {
-        const { src, shouldPlay } = this.props; 
-        
+        const { src, shouldPlay, keyword, stopSound, playSound} = this.props; 
         // Create an AudioElement.
         let audioElement = document.createElement('audio');
         audioElement.crossOrigin = "anonymous";
         audioElement.src = src;
         audioElement.addEventListener("ended", () => {
-            this.setState({isPlaying: false})
+            stopSound(keyword);
         });
 
         this.source = webAudioUtil.createAudioSource(audioElement);
         if (shouldPlay) {
             audioElement.play();
-            this.setState({isPlaying: true})
+            playSound(keyword);
         }
         this.audioElement = audioElement;
     }
@@ -42,18 +43,24 @@ class AudioPlayer extends Component {
     }
 
     componentDidUpdate() {
-        const {sourcePosition} = this.state;
+        const {sourcePosition, keyword} = this.state;
+        const {isPlaying} = this.props.sounds[keyword];
+        if (isPlaying) {
+            this.audioElement.play();
+        } else {
+            this.audioElement.pause();
+            this.audioElement.currentTime = 0;
+        }
         this.source.setPosition(sourcePosition.x, sourcePosition.y, sourcePosition.z);
     }
 
     togglePlay() {
-        if (this.state.isPlaying) {
-            this.audioElement.pause();
-            this.audioElement.currentTime = 0;
-            this.setState({isPlaying: false})
+        const {playSound, stopSound, keyword} = this.props;
+        const {isPlaying} = this.props.sounds[keyword];
+        if (isPlaying) {
+            stopSound(keyword);
         } else {
-            this.audioElement.play();
-            this.setState({isPlaying: true})
+            playSound(keyword);
         }
     }
 
@@ -71,7 +78,8 @@ class AudioPlayer extends Component {
     }
 
     render() {
-        const { isPlaying, sourcePosition} = this.state;
+        const { sourcePosition, keyword} = this.state;
+        const { isPlaying } = this.props.sounds[keyword];
         const { name } = this.props;
         return (
             <div className="audio-player">
@@ -103,5 +111,10 @@ class AudioPlayer extends Component {
         );
     }
 }
+function mapStateToProps(state) {
+    return {
+        sounds: state.sounds
+    }
+}
 
-export default AudioPlayer;
+export default connect(mapStateToProps, soundActions)(AudioPlayer);
