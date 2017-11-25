@@ -42,11 +42,9 @@ class GlobalAudio extends Component {
     render() {
         const { globalPlaying, sourcePosition} = this.state;
         return (
-            <div className="audio-player">
-                <button onClick={this.togglePlay} className="play-button">
-                    {(globalPlaying) ? <Icon type="pause-circle" /> : <Icon type="play-circle" />}
-                </button>
-            </div>
+            <button onClick={this.togglePlay} className="play-button">
+                {(globalPlaying) ? <Icon type="pause-circle" /> : <Icon type="play-circle" />}
+            </button>
         );
     }
 }
