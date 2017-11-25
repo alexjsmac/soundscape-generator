@@ -44,16 +44,17 @@ class Results extends Component {
                     <h2>Results</h2>
                     <Button type="primary" size="large" onClick={getAllSounds}>Get Sounds</Button>
                 </div>
-                
+
                 <form onSubmit={this.addKeyword} className="result-add">
                     <InputGroup compact>
                         <Input type="text" size="large" style={{ width: '70%' }}
-                            value={newKeyword} 
-                            onChange={this.onKeywordChange} />
+                            value={newKeyword}
+                            onChange={this.onKeywordChange}
+                            placeholder="New label" />
                         <Button type="primary" size="large" style={{ width: '30%' }} onClick={this.addKeyword}>Add</Button>
                     </InputGroup>
                 </form>
-                
+
                 {keywords.map((keyword, index) =>
                     <Result keyword={keyword} sound={sounds[keyword]} key={index}/>
                 )}
@@ -70,6 +71,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(
-    mapStateToProps, 
+    mapStateToProps,
     {...generalActions, ...soundActions}
 )(Results);
