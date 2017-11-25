@@ -1,0 +1,16 @@
+.env-settings-container {
+    display: flex;
+    align-items: center;
+}
+
+.env-settings-container h2 {
+    padding-right: 20px;
+}
+
+.env-settings-container div {
+    padding: 4px 12px 0;
+}
+
+.env-settings-container div label {
+    font-weight: 700;
+}

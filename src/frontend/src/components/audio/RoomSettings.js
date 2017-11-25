@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { audioActions } from '../../core/audio';
 import { roomSizes, roomTypes } from '../../core/audio/room-settings';
-import './env-settings-styles.css';
+import './room-settings-styles.css';
 
 class RoomSettings extends Component {
     constructor(props) {

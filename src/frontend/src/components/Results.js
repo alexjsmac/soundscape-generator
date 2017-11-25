@@ -5,6 +5,7 @@ import { soundActions } from '../core/sounds';
 import { Button, Input } from 'antd'
 import AudioPlayer from './audio/AudioPlayer';
 import Result from './Result';
+import GlobalAudio from './audio/GlobalAudio';
 import './result-styles.css';
 import start from '../media/Start.wav'
 const InputGroup = Input.Group;
@@ -38,6 +39,7 @@ class Results extends Component {
         return (
             <div className="result-list">
                 <AudioPlayer src={start} name="Start" shouldPlay/>
+                <GlobalAudio />
                 <div className="results-header">
                     <h2>Results</h2>
                     <Button type="primary" size="large" onClick={getAllSounds}>Get Sounds</Button>
