@@ -16,7 +16,7 @@ class ImageUploader extends Component {
 
     handleImageChange(file) {
         const reader = new FileReader();
-        
+
         reader.onloadend = () => {
             this.setState({
                 file: file,
@@ -37,17 +37,17 @@ class ImageUploader extends Component {
                 return false;
             }
         };
-          
+
         return (
             <div className="image-uploader">
-                {(!imagePreviewUrl) ? 
+                {(!imagePreviewUrl) ?
                     <div className="upload-area">
                         <Dragger {...props} >
                             <p className="ant-upload-drag-icon">
                                 <Icon type="inbox" />
                             </p>
                             <p className="ant-upload-text">Upload Image Here</p>
-                            <p className="ant-upload-hint">A list of keywords and sounds will then be shown under Results</p>
+                            <p className="ant-upload-hint">A list of labels will then be shown under Results</p>
                         </Dragger>
                     </div> :
                     <div className="upload-button">
@@ -59,7 +59,7 @@ class ImageUploader extends Component {
                     </div>
                 }
                 <div className="up-preview">
-                    {(imagePreviewUrl) ? 
+                    {(imagePreviewUrl) ?
                         <img src={imagePreviewUrl} alt="uploaded preview"/> :
                         <div className="up-preview-text"></div>
                     }
