@@ -33,21 +33,11 @@ export function uploadImage(file) {
                     })
                     .catch((err) => {
                         console.error("SCAN ERROR", err);
-                        const result = getFakeResponse();
-                        dispatch(generalActions.setKeywords(result))
                     });
             })
             .catch((err) => {
                 console.error("IMAGE ERROR", err);
-                const result = getFakeResponse();
-                dispatch(generalActions.setKeywords(result))
             });
-
-        function getFakeResponse() {
-            return [
-                "default", "keywords", "sea coast", "wind", "whales"
-            ];
-        }
     }
 }
 

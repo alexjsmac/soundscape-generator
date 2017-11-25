@@ -5,7 +5,7 @@ import {
 } from './action-types';
 
 const defaultState = {
-    keywords: ["waves", "seagulls", "sea coast", "wind", "whales"]
+    keywords: ["waves", "seagulls", "sea coast", "wind"]
 }
 
 export function generalReducer(state = defaultState, action) {
