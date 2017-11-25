@@ -22,7 +22,6 @@ class RoomSettings extends Component {
         this.props.setRoomType(e.target.value);
     }
 
-
     render() {
         const { roomSize, roomType } = this.props
         const capitalize = (a) => a.charAt(0) + a.slice(1).toLowerCase();
@@ -46,7 +45,6 @@ class RoomSettings extends Component {
                     ))}
                 </select>
             </div>
-            
         );
     }
 }

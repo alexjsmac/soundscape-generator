@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import WithWebAudio from '../../audioProvider/WithWebAudio'
+import webAudioUtil from '../../audio/webAudioUtil';
 
 class AudioPlayer extends Component {
     constructor(props) {
@@ -18,7 +18,7 @@ class AudioPlayer extends Component {
 
     componentDidMount() {
         const { src, shouldPlay } = this.props;
-        const { audioContext, resonanceAudioScene } = this.props.appAudio
+
         // Create an AudioElement.
         let audioElement = document.createElement('audio');
         audioElement.crossOrigin = "anonymous";
@@ -27,21 +27,11 @@ class AudioPlayer extends Component {
             this.setState({isPlaying: false})
         });
 
-        // Generate a MediaElementSource from the AudioElement
-        let audioElementSource = audioContext.createMediaElementSource(audioElement);
-        
-        // connect as Resonance audio source
-        let source = resonanceAudioScene.createSource();
-        audioElementSource.connect(source.input);
-
-        // Set the source position relative to the room center (source default position).
-        source.setPosition();
+        this.source = webAudioUtil.createAudioSource(audioElement);
         if (shouldPlay) {
             audioElement.play();
             this.setState({isPlaying: true})
         }
-
-        this.source = source;
         this.audioElement = audioElement;
     }
 
@@ -50,7 +40,6 @@ class AudioPlayer extends Component {
     }
 
     componentDidUpdate() {
-        // TODO: sourcePosition can be held in this components state
         const {sourcePosition} = this.state;
         this.source.setPosition(sourcePosition.x, sourcePosition.y, sourcePosition.z);
     }
@@ -81,7 +70,6 @@ class AudioPlayer extends Component {
 
     render() {
         const { isPlaying, sourcePosition} = this.state;
-        const { roomDimensions } = this.props.appAudio.state;
         return (
             <div>
                 <button onClick={this.togglePlay}>{(isPlaying) ?"Pause":"Play"}</button>
@@ -97,4 +85,4 @@ class AudioPlayer extends Component {
     }
 }
 
-export default WithWebAudio(AudioPlayer);
+export default AudioPlayer;

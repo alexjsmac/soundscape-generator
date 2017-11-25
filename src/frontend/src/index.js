@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore from './core/store/configureStore';
 import App from './components/App';
+import webAudioUtil from './audio/webAudioUtil';
 import registerServiceWorker from './registerServiceWorker';
 import './styles/index.css';
 
 const store = configureStore();
+webAudioUtil.connectToStore(store);
 
 ReactDOM.render(
     <Provider store={store}>

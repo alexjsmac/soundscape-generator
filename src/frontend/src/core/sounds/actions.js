@@ -4,8 +4,6 @@ import {
     SOUND_DELETE
 } from './action-types';
 
-
-
 export function startGetAllSounds() {
     return {
         type: SOUNDS_GET_ALL
@@ -57,6 +55,7 @@ function getSoundSearchResult(keyword) {
 }
 
 function getSound(soundInfo) {
+    if (!soundInfo) return;
     const url = `https://freesound.org/apiv2/sounds/${soundInfo.id}/`
     let headers = new Headers();
     headers.append("Authorization", "Token FTDBgkb5Q3NWqdrtVvNzXNqxIu9TFhj1qrWl2Ue9");
