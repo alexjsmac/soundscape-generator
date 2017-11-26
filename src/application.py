@@ -60,15 +60,20 @@ class Upload(Resource):
 class Scan(Resource):
 
     def get(self, image):
-        return self.detect_labels(BUCKET, image)
+        labels = self.detect_labels(image)
+        room_material = self.get_room_material(image)
+        return {
+            "Labels": labels,
+            "RoomMaterial": room_material
+        }
 
-    def detect_labels(self, bucket, key, max_labels=10, min_confidence=80,
+    def detect_labels(self, key, bucket=BUCKET, max_labels=10, min_confidence=80,
                       region="us-east-1"):
         rekognition = boto3.client("rekognition", region)
-        response = rekognition.detect_labels(
+        rek_results = rekognition.detect_labels(
             Image={
                 "S3Object": {
-                    "Bucket": bucket,
+                    "Bucket": BUCKET,
                     "Name": key,
                 }
             },
@@ -76,9 +81,26 @@ class Scan(Resource):
             MinConfidence=min_confidence,
         )
         labels = []
-        for label in response['Labels']:
+        for label in rek_results['Labels']:
             labels.append(label['Name'])
         return labels
+
+    def get_room_material(self, image):
+        # MATERIAL_TYPES = ['brick', 'concrete', 'curtain', 'fiberglass',
+        #                   'grass', 'linoleum', 'marble', 'metal', 'parquet',
+        #                   'plaster', 'plywood', 'sheetrock', 'water', 'ice']
+        labels = self.detect_labels(image, max_labels=50, min_confidence=1)
+        for label in labels:
+            lower_label = label.lower()
+            if lower_label in ['grass', 'water', 'ice']:
+                return 'OUTSIDE'
+            elif lower_label in ['curtain', 'curtains', 'linoleum', 'parquet']:
+                return 'CURTAINS'
+            elif lower_label in ['brick', 'sheetrock', 'concrete']:
+                return 'BRICK'
+            elif lower_label in ['marble' 'glass', 'fiberglass', ]:
+                return 'MARBLE'
+        return
 
 
 # silly user model
