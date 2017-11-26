@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Results from './Results';
-import ImageUploader from './common/ImageUploader';
+import ImageList from './image/ImageList';
+import ImageUploader from './image/ImageUploader';
 import RoomSettings from './audio/RoomSettings';
 
 import './main-page-styles.css';
@@ -11,6 +12,7 @@ class MainPage extends Component {
       <div className="main-page">
           <div className="main-container">
             <div className="upload-container">
+              <ImageList />
               <ImageUploader />
             </div>
             <div className="results-container">

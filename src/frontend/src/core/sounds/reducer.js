@@ -29,7 +29,7 @@ export function soundsReducer(state = defaultState, action) {
                 [action.keyword]: {
                     ...state[action.keyword],
                     soundList: action.soundList,
-                    soundChoice: -1
+                    soundChoice: 0
                 }
             }
         case SOUNDS_GET_ALL:
@@ -40,7 +40,7 @@ export function soundsReducer(state = defaultState, action) {
                 [action.keyword]: {
                     ...state[action.keyword],
                     sound: {...action.sound},
-                    soundChoice: ++state[action.keyword].soundChoice
+                    soundChoice: (state[action.keyword].soundChoice + 1 >= state[action.keyword].soundList.length) ? 0 : ++state[action.keyword].soundChoice
                 }
             };
         case SOUND_DELETE:

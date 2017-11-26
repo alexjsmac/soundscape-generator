@@ -1,0 +1,32 @@
+.image-list-container {
+    width: 80%;
+    background: white;
+    padding: 12px;
+    border-radius: 6px;
+}
+
+.image-list-container p {
+    padding: 6px 0;
+}
+
+.image-list {
+    display: flex;
+    justify-content: space-between;
+}
+
+.image-list a {
+    flex: 1 1 100px;
+    margin: 0 12px 0 0;
+}
+
+.image-list a:last-child{
+    margin: 0;
+}
+
+.image-list a div {
+    height: 70px;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}

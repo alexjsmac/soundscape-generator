@@ -6,31 +6,20 @@ import './image-uploader-styles.css'
 const Dragger = Upload.Dragger;
 
 class ImageUploader extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            file: '',
-            imagePreviewUrl: ''
-        };
-    }
-
     handleImageChange(file) {
+        const {setImageUrl} = this.props;
         const reader = new FileReader();
 
         reader.onloadend = () => {
-            this.setState({
-                file: file,
-                imagePreviewUrl: reader.result
-            });
+            setImageUrl(reader.result);
             // send to server here
-            this.props.uploadImage(file);
         }
-
+        this.props.uploadImage(file);
         reader.readAsDataURL(file)
     }
 
     render() {
-        let { imagePreviewUrl } = this.state;
+        let { imageUrl } = this.props;
         const props = {
             beforeUpload: (file) => {
                 this.handleImageChange(file);
@@ -40,7 +29,7 @@ class ImageUploader extends Component {
 
         return (
             <div className="image-uploader">
-                {(!imagePreviewUrl) ?
+                {(!imageUrl) ?
                     <div className="upload-area">
                         <Dragger {...props} >
                             <p className="ant-upload-drag-icon">
@@ -53,14 +42,14 @@ class ImageUploader extends Component {
                     <div className="upload-button">
                         <Upload {...props}>
                             <Button>
-                                <Icon type="upload" /> Select A New Image
+                                <Icon type="upload" /> Upload Image
                             </Button>
                         </Upload>
                     </div>
                 }
                 <div className="up-preview">
-                    {(imagePreviewUrl) ?
-                        <img src={imagePreviewUrl} alt="uploaded preview"/> :
+                    {(imageUrl) ?
+                        <img src={imageUrl} alt="uploaded preview"/> :
                         <div className="up-preview-text"></div>
                     }
                 </div>
@@ -71,7 +60,7 @@ class ImageUploader extends Component {
 
 function mapStateToProps(state) {
     return {
-      courses: state.courses
+      imageUrl: state.image.imageUrl
     };
 }
 
