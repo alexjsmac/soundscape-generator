@@ -55,7 +55,9 @@ class Results extends Component {
                 </form>
 
                 {keywords.map((keyword, index) =>
-                    <Result keyword={keyword} sound={sounds[keyword]} key={index}/>
+                    <Result keyword={keyword} 
+                        sound={(sounds[keyword]) ? sounds[keyword] : {}} 
+                        key={index}/>
                 )}
             </div>
         );

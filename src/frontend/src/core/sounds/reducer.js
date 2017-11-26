@@ -1,4 +1,5 @@
 import {
+    SOUND_SET_SOUNDLIST,
     SOUNDS_GET_ALL,
     SOUND_GET_SUCCESS,
     SOUND_DELETE,
@@ -8,18 +9,39 @@ import {
     SOUNDS_STOP_ALL
 } from './action-types';
 
-const defaultState = {}
+const defaultState = {
+    /*
+    [keyword]: {
+        sound: {freeSound details},
+        soundList: [freeSound search results],
+        soundChoice: index of choice in soundList,
+        isPlaying: true
+    }
+    */
+}
 
 export function soundsReducer(state = defaultState, action) {
     let newState;
     switch (action.type) {
+        case SOUND_SET_SOUNDLIST:
+            return {
+                ...state,
+                [action.keyword]: {
+                    ...state[action.keyword],
+                    soundList: action.soundList,
+                    soundChoice: -1
+                }
+            }
         case SOUNDS_GET_ALL:
             return state;
         case SOUND_GET_SUCCESS:
-            console.log("get sound success")
             return {
                 ...state,
-                [action.keyword]: {...action.sound, isPlaying: false}
+                [action.keyword]: {
+                    ...state[action.keyword],
+                    sound: {...action.sound},
+                    soundChoice: ++state[action.keyword].soundChoice
+                }
             };
         case SOUND_DELETE:
             newState = {...state};
@@ -28,12 +50,18 @@ export function soundsReducer(state = defaultState, action) {
         case SOUND_PLAY:
             return {
                 ...state,
-                [action.keyword]: {...state[action.keyword], isPlaying: true}
+                [action.keyword]: {
+                    ...state[action.keyword],
+                    isPlaying: true
+                }
             }
         case SOUND_STOP:
             return {
                 ...state,
-                [action.keyword]: {...state[action.keyword], isPlaying: false}
+                [action.keyword]: {
+                    ...state[action.keyword],
+                    isPlaying: false
+                }
             }
         case SOUNDS_PLAY_ALL:
             newState = {...state};

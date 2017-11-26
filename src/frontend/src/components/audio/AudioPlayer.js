@@ -18,24 +18,35 @@ class AudioPlayer extends Component {
         }
         this.togglePlay = this.togglePlay.bind(this);
         this.updateSourcePosition = this.updateSourcePosition.bind(this);
+        this.shuffle = this.shuffle.bind(this);
     }
 
-    componentDidMount() {
-        const { src, shouldPlay, keyword, stopSound, playSound} = this.props; 
-        // Create an AudioElement.
-        let audioElement = document.createElement('audio');
-        audioElement.crossOrigin = "anonymous";
-        audioElement.src = src;
-        audioElement.addEventListener("ended", () => {
-            stopSound(keyword);
-        });
+    setupAudioElement() {
+        const { shouldPlay, keyword, stopSound} = this.props; 
+        const sound = this.props.sounds[keyword].sound;
+        const newSource = sound.previews["preview-hq-mp3"];
+        if (!this.audioElement || this.audioElement.src != newSource) {
+            // Create an AudioElement.
+            this.audioElement = document.createElement('audio');
+            this.audioElement.crossOrigin = "anonymous";
+            this.audioElement.src = newSource
+            this.audioElement.addEventListener("ended", () => {
+                stopSound(keyword);
+            });
 
-        this.source = webAudioUtil.createAudioSource(audioElement);
+            this.source = webAudioUtil.createAudioSource(this.audioElement);
+        }
+
+    }
+
+
+    componentDidMount() {
+        const { keyword, shouldPlay, playSound} = this.props; 
+        this.setupAudioElement();
         if (shouldPlay) {
-            audioElement.play();
+            this.audioElement.play();
             playSound(keyword);
         }
-        this.audioElement = audioElement;
     }
 
     componentWillUnMount() {
@@ -44,14 +55,22 @@ class AudioPlayer extends Component {
 
     componentDidUpdate() {
         const {sourcePosition, keyword} = this.state;
-        const {isPlaying} = this.props.sounds[keyword];
+        const {isPlaying, sound} = this.props.sounds[keyword];
+
+        //play/pause
         if (isPlaying) {
             this.audioElement.play();
         } else {
             this.audioElement.pause();
             this.audioElement.currentTime = 0;
         }
+
+        // resonance
         this.source.setPosition(sourcePosition.x, sourcePosition.y, sourcePosition.z);
+
+        // audio source
+        // this.audioElement.crossOrigin = "anonymous";
+        this.setupAudioElement();
     }
 
     togglePlay() {
@@ -62,6 +81,12 @@ class AudioPlayer extends Component {
         } else {
             playSound(keyword);
         }
+    }
+
+    shuffle() {
+        const {stopSound, getNextSound, keyword} = this.props
+        stopSound(keyword);
+        getNextSound(keyword);
     }
 
     updateSourcePosition(e) {
@@ -85,6 +110,9 @@ class AudioPlayer extends Component {
             <div className="audio-player">
                 <button onClick={this.togglePlay} className="play-button">
                     {(isPlaying) ? <Icon type="pause-circle" /> : <Icon type="play-circle" />}
+                </button>
+                <button onClick={this.shuffle} className="play-button">
+                    Shuffle
                 </button>
                 <div className="audio-name">{name}</div>
                 <label htmlFor="x">
