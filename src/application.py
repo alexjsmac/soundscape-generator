@@ -62,9 +62,11 @@ class Scan(Resource):
     def get(self, image):
         labels = self.detect_labels(image)
         room_material = self.get_room_material(image)
+        room_size = self.get_room_size(room_material)
         return {
             "Labels": labels,
-            "RoomMaterial": room_material
+            "RoomMaterial": room_material,
+            "RoomSize": room_size
         }
 
     def detect_labels(self, key, bucket=BUCKET, max_labels=10, min_confidence=80,
@@ -90,17 +92,32 @@ class Scan(Resource):
         #                   'grass', 'linoleum', 'marble', 'metal', 'parquet',
         #                   'plaster', 'plywood', 'sheetrock', 'water', 'ice']
         labels = self.detect_labels(image, max_labels=50, min_confidence=1)
+        room_material = ''
         for label in labels:
             lower_label = label.lower()
             if lower_label in ['grass', 'water', 'ice']:
-                return 'OUTSIDE'
+                room_material = 'OUTSIDE'
             elif lower_label in ['curtain', 'curtains', 'linoleum', 'parquet']:
-                return 'CURTAINS'
+                room_material = 'CURTAINS'
             elif lower_label in ['brick', 'sheetrock', 'concrete']:
-                return 'BRICK'
+                room_material = 'BRICK'
             elif lower_label in ['marble' 'glass', 'fiberglass', ]:
-                return 'MARBLE'
-        return
+                room_material = 'MARBLE'
+            else:
+                room_material = 'OUTSIDE'
+        return room_material
+
+    def get_room_size(self, room_material):
+        room_size = ''
+        if room_material == 'OUTSIDE':
+            room_size = 'HUGE'
+        elif room_material == 'CURTAINS':
+            room_size = 'SMALL'
+        elif room_material == 'BRICK':
+            room_size = 'MEDIUM'
+        elif room_material == 'MARBLE':
+            room_size = 'LARGE'
+        return room_size
 
 
 # silly user model
