@@ -19,10 +19,10 @@ ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png']
 s3 = boto3.resource('s3')
 
 # flask-login
-login_manager = LoginManager()
-login_manager.init_app(application)
-login_manager.login_view = "login"
-application.config.update(SECRET_KEY='secret_123')
+# login_manager = LoginManager()
+# login_manager.init_app(application)
+# login_manager.login_view = "login"
+# application.config.update(SECRET_KEY='secret_123')
 
 
 class Upload(Resource):
@@ -82,62 +82,66 @@ class Scan(Resource):
 
 
 # silly user model
-class User(UserMixin):
-
-    def __init__(self, id):
-        self.id = id
-        self.name = "user" + str(id)
-        self.password = self.name + "_secret"
-
-    def __repr__(self):
-        return "%d/%s/%s" % (self.id, self.name, self.password)
+# class User(UserMixin):
+#
+#     def __init__(self, id):
+#         self.id = id
+#         self.name = "user" + str(id)
+#         self.password = self.name + "_secret"
+#
+#     def __repr__(self):
+#         return "%d/%s/%s" % (self.id, self.name, self.password)
 
 
 # create some users with ids 1 to 20
-users = [User(id) for id in range(1, 21)]
+# users = [User(id) for id in range(1, 21)]
 
 
-@application.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        if password == username + "_secret":
-            id = username.split('user')[1]
-            user = User(id)
-            login_user(user)
-            return redirect(request.args.get("next"))
-        else:
-            return abort(401)
-    else:
-        return render_template('login.html')
+# @application.route("/login", methods=["GET", "POST"])
+# def login():
+#     if request.method == 'POST':
+#         username = request.form['username']
+#         password = request.form['password']
+#         if password == username + "_secret":
+#             id = username.split('user')[1]
+#             user = User(id)
+#             login_user(user)
+#             return redirect(request.args.get("next"))
+#         else:
+#             return abort(401)
+#     else:
+#         return render_template('login.html')
 
 
 @application.route('/')
-@login_required
+def hello():
+    return render_template('layout.html')
+
+
+@application.route('/soundscapes')
 def show_index():
     return make_response(open(os.path.join(DIR,
                          'frontend/build/index.html')).read())
 
 
 # somewhere to logout
-@application.route("/logout")
-@login_required
-def logout():
-    logout_user()
-    return Response('<p>Logged out</p>')
+# @application.route("/logout")
+# @login_required
+# def logout():
+#     logout_user()
+#     return Response('<p>Logged out</p>')
 
 
 # handle login failed
-@application.errorhandler(401)
-def page_not_found(e):
-    return Response('<p>Login failed</p>')
+# @application.errorhandler(401)
+# def page_not_found(e):
+#     return Response('<p>Login failed</p>')
 
 
 # callback to reload the user object
-@login_manager.user_loader
-def load_user(userid):
-    return User(userid)
+# @login_manager.user_loader
+# def load_user(userid):
+#     return User(userid)
 
 
 api.add_resource(Upload, '/api/v1/upload')
