@@ -1,9 +1,15 @@
 import { generalActions } from '../general';
 
-// import {
-//     IMAGE_UPLOAD_START,
-//     IMAGE_UPLOAD_SUCCESS
-// } from './action-types';
+import {
+    IMAGE_SET_URL
+} from './action-types';
+
+export function setImageUrl(url) {
+    return {
+        type: IMAGE_SET_URL,
+        url
+    }
+}
 
 
 export function uploadImage(file) {
@@ -23,20 +29,26 @@ export function uploadImage(file) {
             .then((response) => response.json())
             .then((json) => {
                 console.log("IMAGE SUCCESS", json);
-
-                fetch(`/api/v1/scan/${json.fileName}`)
-                    .then(checkResponse)
-                    .then((response) => response.json())
-                    .then((json) => {
-                        console.log("SCAN SUCCESS", json);
-                        dispatch(generalActions.setKeywords(json))
-                    })
-                    .catch((err) => {
-                        console.error("SCAN ERROR", err);
-                    });
+                dispatch(scanImage(json.fileName));
             })
             .catch((err) => {
                 console.error("IMAGE ERROR", err);
+            });
+    }
+}
+
+export function scanImage(fileName) {
+    return function(dispatch) {
+        console.log("scanning image", fileName);
+        fetch(`/api/v1/scan/${fileName}`)
+            .then(checkResponse)
+            .then((response) => response.json())
+            .then((json) => {
+                console.log("SCAN SUCCESS", json);
+                dispatch(generalActions.setKeywords(json))
+            })
+            .catch((err) => {
+                console.error("SCAN ERROR", err);
             });
     }
 }

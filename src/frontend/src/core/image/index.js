@@ -1,4 +1,4 @@
- import * as imageActions from './actions';
+import * as imageActions from './actions';
 export { imageActions };
 
 export * from './action-types';
