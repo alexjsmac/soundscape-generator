@@ -5,21 +5,25 @@ import {
 } from './action-types';
 
 const defaultState = {
-    keywords: ["waves", "seagulls", "sea coast", "wind", "whales"]
+    keywords: [],
+    soundResults: {}
 }
 
 export function generalReducer(state = defaultState, action) {
     switch (action.type) {
         case KEYWORDS_SET:
             return {
+                ...state,
                 keywords: action.keywords
             };
         case KEYWORD_DELETE:
             return {
+                ...state,
                 keywords: state.keywords.filter((keyword) => keyword !== action.keyword)
             }
         case KEYWORD_ADD:
             return {
+                ...state,
                 keywords: [...state.keywords, action.keyword]
             }
         default:
