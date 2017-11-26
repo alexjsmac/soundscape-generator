@@ -38,10 +38,10 @@ class Results extends Component {
 
         return (
             <div className="result-list">
-                <PlayAllButton />
                 <div className="results-header">
                     <h2>Results</h2>
                     <Button type="primary" size="large" onClick={getAllSounds}>Get Sounds</Button>
+                    <PlayAllButton/>
                 </div>
 
                 <form onSubmit={this.addKeyword} className="result-add">
