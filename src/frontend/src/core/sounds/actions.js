@@ -91,7 +91,7 @@ export function getNextSound(keyword) {
 
 
 function getSoundFromList(keyword, sound) {
-    const id = sound.soundList[sound.soundChoice + 1].id
+    const id = sound.soundList[sound.soundChoice].id
     if (!id) return;
     const url = `https://freesound.org/apiv2/sounds/${id}/`
     let headers = new Headers();
