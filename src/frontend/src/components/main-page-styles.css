@@ -28,6 +28,7 @@
     justify-content: flex-start;
     background: rgb(222, 222, 223);
     overflow: auto;
+    min-width: 350px;
 }
 
 .settings-container {
