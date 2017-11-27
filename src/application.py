@@ -64,9 +64,9 @@ class Scan(Resource):
         room_material = self.get_room_material(image)
         room_size = self.get_room_size(room_material)
         return {
-            "Labels": labels,
-            "RoomMaterial": room_material,
-            "RoomSize": room_size
+            "labels": labels,
+            "roomMaterial": room_material,
+            "roomSize": room_size
         }
 
     def detect_labels(self, key, bucket=BUCKET, max_labels=10, min_confidence=80,

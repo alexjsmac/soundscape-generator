@@ -45,7 +45,7 @@ export function scanImage(fileName) {
             .then((response) => response.json())
             .then((json) => {
                 console.log("SCAN SUCCESS", json);
-                dispatch(generalActions.setKeywords(json))
+                dispatch(generalActions.setKeywords(json.labels))
             })
             .catch((err) => {
                 console.error("SCAN ERROR", err);
