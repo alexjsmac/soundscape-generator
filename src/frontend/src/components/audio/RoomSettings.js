@@ -29,7 +29,7 @@ class RoomSettings extends Component {
 
         return (
             <div className="env-settings-container">
-                <h2>Enviornment Settings</h2>
+                <h2>Environment Settings</h2>
                 <div>
                     <div>
                         <label htmlFor="">Room Size: </label>
