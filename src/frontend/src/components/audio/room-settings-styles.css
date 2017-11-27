@@ -9,9 +9,17 @@
 }
 
 .env-settings-container div {
-    padding: 4px 12px 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
-.env-settings-container div label {
+.env-settings-container div div {
+    flex: 1 1 auto;
+    padding: 6px 12px 6px 0;
+}
+
+.env-settings-container div div label {
     font-weight: 700;
+    padding-right: 4px;
 }

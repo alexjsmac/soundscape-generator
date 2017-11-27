@@ -17,7 +17,7 @@
     flex-wrap: wrap;
 }
 .upload-container {
-    flex: 1 1 100px;
+    flex: 1 1 320px;
     display: flex;
     overflow-y: hidden;
     flex-direction: column;
@@ -37,9 +37,9 @@
     width: 100%;
     background: rgb(246, 246, 247);
     
-    /* display: flex;
-    padding: 0 40px;
+    display: flex;
+    padding: 0 12px;
     flex-direction: column;
     justify-content: space-around;
-    align-items: flex-start; */
+    align-items: flex-start;
 }

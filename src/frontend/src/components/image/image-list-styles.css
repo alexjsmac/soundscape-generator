@@ -1,5 +1,6 @@
 .image-list-container {
     width: 80%;
+    max-width: 400px;
     background: white;
     padding: 12px;
     border-radius: 6px;

@@ -31,24 +31,26 @@ class RoomSettings extends Component {
             <div className="env-settings-container">
                 <h2>Enviornment Settings</h2>
                 <div>
-                    <label htmlFor="">Room Size: </label>
-                    <select value={roomSize} onChange={this.selectRoomSize}>
-                        {Object.keys(roomSizes).map(RS => (
-                            <option value={RS} key={RS}>
-                                {capitalize(RS)}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="">Room Materials: </label>
-                    <select value={roomType} onChange={this.selectRoomType}>
-                        {Object.keys(roomTypes).map(RT => (
-                            <option value={RT} key={RT}>
-                                {capitalize(RT)}
-                            </option>
-                        ))}
-                    </select>
+                    <div>
+                        <label htmlFor="">Room Size: </label>
+                        <select value={roomSize} onChange={this.selectRoomSize}>
+                            {Object.keys(roomSizes).map(RS => (
+                                <option value={RS} key={RS}>
+                                    {capitalize(RS)}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label htmlFor="">Room Materials: </label>
+                        <select value={roomType} onChange={this.selectRoomType}>
+                            {Object.keys(roomTypes).map(RT => (
+                                <option value={RT} key={RT}>
+                                    {capitalize(RT)}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
             </div>
         );

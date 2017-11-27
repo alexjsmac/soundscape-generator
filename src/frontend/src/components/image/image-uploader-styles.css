@@ -1,6 +1,10 @@
-.upload-area {
+.image-uploader {
     width: 80%;
     max-width: 400px;
+}
+
+.upload-area {
+    width: 100%;
     background: white;
     margin: 8px auto;
     padding: 12px;
