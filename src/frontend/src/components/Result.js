@@ -19,7 +19,7 @@ class Keyword extends Component {
     )
 
     return (
-        <div className="result-container">
+        <div className="result">
             <div className="result-topbar">
                 <span className="result-keyword">{keyword}</span>
                 <Button type="danger" shape="circle" icon="close" onClick={remove}/>

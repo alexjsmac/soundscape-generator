@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { soundActions } from '../../core/sounds';
-import webAudioUtil from '../../audio/webAudioUtil';
 import { Button } from 'antd';
 import './audio-player-styles.css';
-import { stopAllSounds, playAllSounds } from '../../core/sounds/actions';
 
 class GlobalAudio extends Component {
     constructor(props) {
@@ -40,7 +38,7 @@ class GlobalAudio extends Component {
     }
 
     render() {
-        const { globalPlaying, sourcePosition} = this.state;
+        const { globalPlaying } = this.state;
         return (
             <Button onClick={this.togglePlay} type="primary" size="large">
                 {(globalPlaying) ? "Stop All" : "Play All"}

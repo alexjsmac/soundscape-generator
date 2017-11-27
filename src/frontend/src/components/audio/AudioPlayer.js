@@ -22,10 +22,10 @@ class AudioPlayer extends Component {
     }
 
     setupAudioElement() {
-        const { shouldPlay, keyword, stopSound} = this.props; 
+        const { keyword, stopSound} = this.props; 
         const sound = this.props.sounds[keyword].sound;
         const newSource = sound.previews["preview-hq-mp3"];
-        if (!this.audioElement || this.audioElement.src != newSource) {
+        if (!this.audioElement || this.audioElement.src !== newSource) {
             // Create an AudioElement.
             this.audioElement = document.createElement('audio');
             this.audioElement.crossOrigin = "anonymous";
@@ -55,7 +55,7 @@ class AudioPlayer extends Component {
 
     componentDidUpdate() {
         const {sourcePosition, keyword} = this.state;
-        const {isPlaying, sound} = this.props.sounds[keyword];
+        const {isPlaying} = this.props.sounds[keyword];
 
         //play/pause
         if (isPlaying) {

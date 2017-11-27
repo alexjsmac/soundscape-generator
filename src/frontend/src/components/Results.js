@@ -3,11 +3,9 @@ import { connect } from 'react-redux';
 import { generalActions } from '../core/general';
 import { soundActions } from '../core/sounds';
 import { Button, Input } from 'antd'
-import AudioPlayer from './audio/AudioPlayer';
 import Result from './Result';
 import PlayAllButton from './audio/PlayAllButton';
 import './result-styles.css';
-import start from '../media/Start.wav'
 const InputGroup = Input.Group;
 
 class Results extends Component {
@@ -37,7 +35,7 @@ class Results extends Component {
         const { newKeyword } = this.state;
 
         return (
-            <div className="result-list">
+            <div className="results">
                 <div className="results-header">
                     <h2>Results</h2>
                     <Button type="primary" size="large" onClick={getAllSounds}>Get Sounds</Button>
@@ -54,11 +52,13 @@ class Results extends Component {
                     </InputGroup>
                 </form>
 
-                {keywords.map((keyword, index) =>
-                    <Result keyword={keyword} 
-                        sound={(sounds[keyword]) ? sounds[keyword] : {}} 
-                        key={index}/>
-                )}
+                <div className="results-list">
+                    {keywords.map((keyword, index) =>
+                        <Result keyword={keyword} 
+                            sound={(sounds[keyword]) ? sounds[keyword] : {}} 
+                            key={index}/>
+                    )}
+                </div>
             </div>
         );
     }

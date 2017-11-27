@@ -47,12 +47,11 @@ class ImageUploader extends Component {
                         </Upload>
                     </div>
                 }
-                <div className="up-preview">
-                    {(imageUrl) ?
-                        <img src={imageUrl} alt="uploaded preview"/> :
-                        <div className="up-preview-text"></div>
-                    }
-                </div>
+                {(imageUrl) ?
+                    <div className="up-preview">
+                        <img src={imageUrl} alt="uploaded preview"/>
+                    </div> : ""
+                }
             </div>
         )
     }
