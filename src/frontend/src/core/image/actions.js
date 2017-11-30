@@ -1,7 +1,11 @@
 import { generalActions } from '../general';
 
 import {
-    IMAGE_SET_URL
+    IMAGE_SET_URL,
+    IMAGE_UPLOAD_START,
+    IMAGE_UPLOAD_COMPLETE,
+    IMAGE_SCAN_START,
+    IMAGE_SCAN_COMPLETE
 } from './action-types';
 
 export function setImageUrl(url) {
@@ -11,10 +15,22 @@ export function setImageUrl(url) {
     }
 }
 
+export function imageUploadStart() {
+    return {type: IMAGE_UPLOAD_START}
+}
+export function imageUploadComplete() {
+    return {type: IMAGE_UPLOAD_COMPLETE}
+}
+export function imageScanStart() {
+    return {type: IMAGE_SCAN_START}
+}
+export function imageScanComplete() {
+    return {type: IMAGE_SCAN_COMPLETE}
+}
 
 export function uploadImage(file) {
     return function (dispatch) {
-        console.log("starting upload");
+        dispatch(imageUploadStart());
         const formData = new FormData();
         formData.append('image', file);
 
@@ -22,33 +38,35 @@ export function uploadImage(file) {
             method: 'POST',
             body: formData
         };
-
-        console.log("START POST");
         fetch("/api/v1/upload", requestOptions)
             .then(checkResponse)
             .then((response) => response.json())
             .then((json) => {
                 console.log("IMAGE SUCCESS", json);
+                dispatch(imageUploadComplete());
                 dispatch(scanImage(json.fileName));
             })
             .catch((err) => {
                 console.error("IMAGE ERROR", err);
+                dispatch(imageUploadComplete());
             });
     }
 }
 
 export function scanImage(fileName) {
     return function(dispatch) {
-        console.log("scanning image", fileName);
+        dispatch(imageScanStart());
         fetch(`/api/v1/scan/${fileName}`)
             .then(checkResponse)
             .then((response) => response.json())
             .then((json) => {
                 console.log("SCAN SUCCESS", json);
                 dispatch(generalActions.setKeywords(json.labels))
+                dispatch(imageScanComplete());
             })
             .catch((err) => {
                 console.error("SCAN ERROR", err);
+                dispatch(imageScanComplete());
             });
     }
 }
