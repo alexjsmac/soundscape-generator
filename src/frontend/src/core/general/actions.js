@@ -14,6 +14,7 @@ export function setKeywords(keywords) {
 
 export function deleteKeyword(keyword) {
     return function(dispatch) {
+        dispatch(soundActions.stopSound(keyword));
         dispatch({type: KEYWORD_DELETE, keyword});
         dispatch(soundActions.deleteSound(keyword));
     }

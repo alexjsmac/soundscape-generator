@@ -24,9 +24,12 @@ class Results extends Component {
     }
 
     addKeyword(e) {
+        const { newKeyword } = this.state
+        const { keywords } = this.props;
         e.preventDefault();
         e.stopPropagation();
-        if (this.state.newKeyword === "") return;
+        if (newKeyword === "") return;
+        if (keywords.filter(k => k === newKeyword).length > 0) return;
         this.props.addKeyword(this.state.newKeyword);
         this.setState({newKeyword: ""})
     }
@@ -56,7 +59,7 @@ class Results extends Component {
                     {keywords.map((keyword, index) =>
                         <Result keyword={keyword} 
                             sound={(sounds[keyword]) ? sounds[keyword] : {}} 
-                            key={index}/>
+                            key={keyword}/>
                     )}
                 </div>
             </div>

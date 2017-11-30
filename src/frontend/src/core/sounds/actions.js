@@ -48,9 +48,9 @@ export function playSound(keyword) {
 }
 
 export function stopSound(keyword) {
-    return {
-        type: SOUND_STOP,
-        keyword
+    return function(dispatch, getState) {
+        if(getState().sounds[keyword])  
+            dispatch({type: SOUND_STOP,keyword})
     }
 }
 
@@ -73,7 +73,7 @@ export function getAllSounds() {
             getSoundSearchResults(keyword)
                 .then(soundList => {
                     dispatch(setSoundList(keyword, soundList))
-                    dispatch(getNextSound(keyword));
+                    if (soundList.length > 0) dispatch(getNextSound(keyword));
                 })
         })
     }
@@ -82,6 +82,7 @@ export function getAllSounds() {
 export function getNextSound(keyword) {
     return function (dispatch, getState) {
         const sound = getState().sounds[keyword];
+
         getSoundFromList(keyword, sound)
             .then(sound => {
                 dispatch(getSoundSuccess(keyword, sound))
@@ -91,6 +92,7 @@ export function getNextSound(keyword) {
 
 
 function getSoundFromList(keyword, sound) {
+    console.log("Get Sound from list", keyword, sound)
     const id = sound.soundList[sound.soundChoice].id
     if (!id) return;
     const url = `https://freesound.org/apiv2/sounds/${id}/`

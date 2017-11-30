@@ -41,7 +41,6 @@ class AudioPlayer extends Component {
 
     }
 
-
     componentDidMount() {
         const { keyword, shouldPlay, playSound} = this.props; 
         this.setupAudioElement();
@@ -52,7 +51,10 @@ class AudioPlayer extends Component {
     }
 
     componentWillUnMount() {
+        console.log("component will unmount")
         //TODO: dispose audio element + resonance audio source
+        this.audioElement.pause();
+        this.audioElement.currentTime = 0;
     }
 
     componentDidUpdate() {
