@@ -4,7 +4,8 @@ import { generalActions } from '../core/general';
 import { soundActions } from '../core/sounds';
 import { Button, Input } from 'antd'
 import Result from './Result';
-import PlayAllButton from './audio/PlayAllButton';
+import Header from './common/Header'
+import RoomSettings from './audio/RoomSettings';
 import './result-styles.css';
 const InputGroup = Input.Group;
 
@@ -33,25 +34,24 @@ class Results extends Component {
     render() {
         const { keywords, sounds, getAllSounds } = this.props;
         const { newKeyword } = this.state;
+        const hasSounds = Object.keys(sounds).length > 0;
 
         return (
             <div className="results">
-                <div className="results-header">
-                    <h2>Results</h2>
-                    <Button type="primary" size="large" onClick={getAllSounds}>Get Sounds</Button>
-                    <PlayAllButton/>
-                </div>
-
+                <Header title="Results" 
+                    desc="List of lables for the image, click Get Sounds to populate audio" 
+                    buttonTitle="Get Sounds"
+                    buttonAction={getAllSounds}/>
                 <form onSubmit={this.addKeyword} className="result-add">
                     <InputGroup compact>
                         <Input type="text" size="large" style={{ width: '70%' }}
                             value={newKeyword}
                             onChange={this.onKeywordChange}
                             placeholder="New label" />
-                        <Button type="primary" size="large" style={{ width: '30%' }} onClick={this.addKeyword}>Add</Button>
+                        <Button type="primary" size="large" style={{ width: 60 }} onClick={this.addKeyword}>Add</Button>
                     </InputGroup>
                 </form>
-
+                {(hasSounds) ? <RoomSettings /> : ""}
                 <div className="results-list">
                     {keywords.map((keyword, index) =>
                         <Result keyword={keyword} 

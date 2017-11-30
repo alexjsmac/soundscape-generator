@@ -4,33 +4,24 @@
     overflow: hidden;
 }
 
-.result,
-.results-header {
+.result {
     width: 100%;
     margin: 1px 0;
     background: white;
     overflow: hidden;
 }
 
-.results-header {
-    margin: 0;
-    padding: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-.results-header h2 {
-    padding-right: 10px;
-}
-
-.results-header button {
+.results-header-button {
     margin-right: 10px;
 }
 
 form.result-add {
     display: block;
-    padding: 12px;
+    padding: 0 12px 12px;
+    background: white;
+}
+.result-add > *{
+    max-width: 400px;
 }
 
 .result-topbar {
@@ -48,7 +39,7 @@ form.result-add {
     justify-content: space-between;
     align-items: center;
     padding: 6px 12px;
-    background: rgb(228, 231, 236);
+    background: #f5f5f5;
     /* color: white; */
     font-size: 10px;
 }

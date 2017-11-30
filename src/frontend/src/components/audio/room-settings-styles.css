@@ -1,11 +1,8 @@
 .env-settings-container {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-.env-settings-container h2 {
-    padding-right: 20px;
+    width: 100%;
+    background: #f5f5f5;    
+    padding: 12px;
+    border-top: 1px solid #222;
 }
 
 .env-settings-container div {
@@ -14,12 +11,31 @@
     align-items: center;
 }
 
-.env-settings-container div div {
-    flex: 1 1 auto;
-    padding: 6px 12px 6px 0;
+.env-settings-container .audio-settings-header {
+    width: 100%;
+    justify-content: space-between;
 }
 
-.env-settings-container div div label {
+.audio-options {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 6px 0;
+}
+
+.audio-options div {
+    flex: 1 1 auto;
+    padding: 6px 0;
+}
+.audio-options div:nth-child(1) {
+    padding-right: 6px;
+}
+
+.audio-options label {
     font-weight: 700;
     padding-right: 4px;
+}
+
+.audio-options input {
+    max-width: 200px;
 }

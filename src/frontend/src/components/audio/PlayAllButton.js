@@ -13,18 +13,6 @@ class GlobalAudio extends Component {
         this.togglePlay = this.togglePlay.bind(this);
     }
 
-    componentDidMount() {
-
-    }
-
-    componentWillUnMount() {
-        //TODO: dispose audio element + resonance audio source
-    }
-
-    componentDidUpdate() {
-
-    }
-
     togglePlay() {
         const {playAllSounds, stopAllSounds} = this.props;
         const {globalPlaying} = this.state
@@ -40,12 +28,17 @@ class GlobalAudio extends Component {
     render() {
         const { globalPlaying } = this.state;
         return (
-            <Button onClick={this.togglePlay} type="primary" size="large">
+            <Button 
+                onClick={this.togglePlay} 
+                type="primary" 
+                size="large"
+                style={{marginRight: 8}}>
                 {(globalPlaying) ? "Stop All" : "Play All"}
             </Button>
         );
     }
 }
+
 
 function mapStateToProps(state) {
     return {
