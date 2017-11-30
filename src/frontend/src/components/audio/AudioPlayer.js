@@ -9,15 +9,17 @@ class AudioPlayer extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            keyword: props.keyword,
             sourcePosition: {
                 x: 0,
                 y: 0.5,
                 z: 0.5
             },
-            keyword: props.keyword
+            gain: 1
         }
         this.togglePlay = this.togglePlay.bind(this);
         this.updateSourcePosition = this.updateSourcePosition.bind(this);
+        this.setGain = this.setGain.bind(this);
         this.shuffle = this.shuffle.bind(this);
     }
 
@@ -54,7 +56,7 @@ class AudioPlayer extends Component {
     }
 
     componentDidUpdate() {
-        const {sourcePosition, keyword} = this.state;
+        const { keyword, sourcePosition, gain } = this.state;
         const {isPlaying} = this.props.sounds[keyword];
 
         //play/pause
@@ -67,6 +69,7 @@ class AudioPlayer extends Component {
 
         // resonance
         this.source.setPosition(sourcePosition.x, sourcePosition.y, sourcePosition.z);
+        this.source.setGain(gain);
 
         // audio source
         // this.audioElement.crossOrigin = "anonymous";
@@ -87,6 +90,12 @@ class AudioPlayer extends Component {
         const {stopSound, getNextSound, keyword} = this.props
         stopSound(keyword);
         getNextSound(keyword);
+    }
+
+    setGain(e) {
+        e.preventDefault();
+        const value = parseFloat(e.target.value)
+        this.setState({gain: value});
     }
 
     updateSourcePosition(e) {
@@ -128,12 +137,12 @@ class AudioPlayer extends Component {
                 <label htmlFor="x">
                     Volume
                     <input type="range" 
-                        value={sourcePosition.x}
+                        value={this.gain}
                         name="x"
-                        min={-1}
+                        min={0.001}
                         max={1}
                         step={0.001}
-                        onChange={this.updateSourcePosition} />
+                        onChange={this.setGain} />
                 </label>
             </div>
         );
