@@ -43,3 +43,12 @@
     justify-content: space-around;
     align-items: flex-start;
 }
+
+.topbar {
+    background: #fff;
+    padding: 12px;
+    border-bottom: 1px solid rgb(222, 222, 223);
+}
+.topbar h1 {
+    font-size: 20px;
+}

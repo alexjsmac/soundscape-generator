@@ -11,20 +11,24 @@ class MainPage extends Component {
   render() {
     return (
       <div className="main-page">
-          <div className="main-container">
-            <div className="upload-container">
-              <ImageList />
-              <ImageUploader />
-              <LoadingState />
-            </div>
-            <div className="results-container">
-              <Results />
-            </div>
+        <div className = "topbar">
+          <h1>Soundscape Generator</h1>
+        </div>
+        
+        <div className="main-container">
+          <div className="upload-container">
+            <ImageList />
+            <ImageUploader />
+            <LoadingState />
           </div>
-          
-          <div className="settings-container">
-            <RoomSettings />
+          <div className="results-container">
+            <Results />
           </div>
+        </div>
+        
+        <div className="settings-container">
+          <RoomSettings />
+        </div>
       </div>
     );
   }
