@@ -3,18 +3,13 @@ import { connect } from 'react-redux';
 import { mediaActions } from '../../core/media';
 import './image-list-styles.css';
 
-const URL = "https://s3.amazonaws.com/soundscape-generator-photos/examples/";
-// TODO: update this to read files in the bucket
-const IMAGE_LIST = ["ship.jpg", "party.jpg", "concert.jpeg", "hockey.jpg"];
+const config = {
+    URL: "https://s3.amazonaws.com/soundscape-generator-photos/examples/",
+    // TODO: update this to read files in the bucket
+    FILE_LIST: ["ship.jpg", "party.jpg", "concert.jpeg", "hockey.jpg", "big_buck_bunny.mp4"]
+};
 
 class ImageList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            url: URL,
-            images: IMAGE_LIST
-        };
-    }
 
     handleImageChange(file) {
         const reader = new FileReader();
@@ -31,20 +26,23 @@ class ImageList extends Component {
         reader.readAsDataURL(file)
     }
 
-    selectImage(filename) {
-        const {setMediaUrl, scanMedia} = this.props;
-        console.log("selecting image", filename)
-        setMediaUrl(URL + filename);
-        scanMedia(filename);
+    selectMedia(fileName) {
+        const { URL } = config;
+        const {setMedia, scanMedia} = this.props;
+
+        setMedia({
+            source: URL + fileName,
+            fileName: fileName
+        });
+        scanMedia(fileName);
     }
 
     render() {
-        const {images, url} = this.state
-        const renderImage = (image, index) => {
-            const filename = image;
-            const imageUrl = url + filename;
+        const { FILE_LIST, URL } = config;
+        const renderMedia = (fileName, index) => {
+            const imageUrl = URL + fileName;
             return (
-                <a onClick={this.selectImage.bind(this, filename)} key={index}>
+                <a onClick={this.selectMedia.bind(this, fileName)} key={index}>
                     <div style={{backgroundImage: `url(${imageUrl})`}}></div>
                 </a>
             )
@@ -54,7 +52,7 @@ class ImageList extends Component {
             <div className="image-list-container">
                 <p>Examples</p>
                 <div className="image-list">
-                    {images.map((image, index) => renderImage(image, index))}
+                    {FILE_LIST.map((fileName, index) => renderMedia(fileName, index))}
                 </div>
             </div>
         )

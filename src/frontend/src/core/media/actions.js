@@ -1,5 +1,5 @@
 import { generalActions } from '../general';
-
+import { getMediaType } from '../../utils/formats';
 import {
     MEDIA_SET_URL,
     MEDIA_UPLOAD_START,
@@ -8,10 +8,11 @@ import {
     MEDIA_SCAN_COMPLETE
 } from './action-types';
 
-export function setMediaUrl(url) {
+export function setMedia(data) {
     return {
         type: MEDIA_SET_URL,
-        url
+        source: data.source,
+        mediaType: getMediaType(data.fileName)
     }
 }
 

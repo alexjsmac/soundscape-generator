@@ -7,7 +7,8 @@ import {
 } from './action-types';
 
 const defaultState = {
-    url: "",
+    source: "",
+    type: "",
     isUploading: false,
     isScanning: false
 }
@@ -17,7 +18,8 @@ export function mediaReducer(state = defaultState, action) {
         case MEDIA_SET_URL:
             return {
                 ...state,
-                url: action.url
+                source: action.source,
+                type: action.mediaType
             }
         case MEDIA_UPLOAD_START:
             return {...state, isUploading: true}
