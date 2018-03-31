@@ -19,8 +19,8 @@ class LoadingState extends Component {
 
 function mapStateToProps(state) {
     return {
-        isUploading: state.image.isUploading,
-        isScanning: state.image.isScanning
+        isUploading: state.media.isUploading,
+        isScanning: state.media.isScanning
     };
 }
 

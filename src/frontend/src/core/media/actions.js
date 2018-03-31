@@ -1,36 +1,36 @@
 import { generalActions } from '../general';
 
 import {
-    IMAGE_SET_URL,
-    IMAGE_UPLOAD_START,
-    IMAGE_UPLOAD_COMPLETE,
-    IMAGE_SCAN_START,
-    IMAGE_SCAN_COMPLETE
+    MEDIA_SET_URL,
+    MEDIA_UPLOAD_START,
+    MEDIA_UPLOAD_COMPLETE,
+    MEDIA_SCAN_START,
+    MEDIA_SCAN_COMPLETE
 } from './action-types';
 
-export function setImageUrl(url) {
+export function setMediaUrl(url) {
     return {
-        type: IMAGE_SET_URL,
+        type: MEDIA_SET_URL,
         url
     }
 }
 
-export function imageUploadStart() {
-    return {type: IMAGE_UPLOAD_START}
+export function mediaUploadStart() {
+    return {type: MEDIA_UPLOAD_START}
 }
-export function imageUploadComplete() {
-    return {type: IMAGE_UPLOAD_COMPLETE}
+export function mediaUploadComplete() {
+    return {type: MEDIA_UPLOAD_COMPLETE}
 }
-export function imageScanStart() {
-    return {type: IMAGE_SCAN_START}
+export function mediaScanStart() {
+    return {type: MEDIA_SCAN_START}
 }
-export function imageScanComplete() {
-    return {type: IMAGE_SCAN_COMPLETE}
+export function mediaScanComplete() {
+    return {type: MEDIA_SCAN_COMPLETE}
 }
 
-export function uploadImage(file) {
+export function uploadMedia(file) {
     return function (dispatch) {
-        dispatch(imageUploadStart());
+        dispatch(mediaUploadStart());
         const formData = new FormData();
         formData.append('image', file);
 
@@ -43,30 +43,30 @@ export function uploadImage(file) {
             .then((response) => response.json())
             .then((json) => {
                 console.log("IMAGE SUCCESS", json);
-                dispatch(imageUploadComplete());
-                dispatch(scanImage(json.fileName));
+                dispatch(mediaUploadComplete());
+                dispatch(scanMedia(json.fileName));
             })
             .catch((err) => {
                 console.error("IMAGE ERROR", err);
-                dispatch(imageUploadComplete());
+                dispatch(mediaUploadComplete());
             });
     }
 }
 
-export function scanImage(fileName) {
+export function scanMedia(fileName) {
     return function(dispatch) {
-        dispatch(imageScanStart());
+        dispatch(mediaScanStart());
         fetch(`/api/v1/scan/${fileName}`)
             .then(checkResponse)
             .then((response) => response.json())
             .then((json) => {
                 console.log("SCAN SUCCESS", json);
                 dispatch(generalActions.setKeywords(json.labels))
-                dispatch(imageScanComplete());
+                dispatch(mediaScanComplete());
             })
             .catch((err) => {
                 console.error("SCAN ERROR", err);
-                dispatch(imageScanComplete());
+                dispatch(mediaScanComplete());
             });
     }
 }

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { imageActions } from '../../core/image';
+import { mediaActions } from '../../core/media';
 import './image-list-styles.css';
 
 const URL = "https://s3.amazonaws.com/soundscape-generator-photos/examples/";
+// TODO: update this to read files in the bucket
 const IMAGE_LIST = ["ship.jpg", "party.jpg", "concert.jpeg", "hockey.jpg"];
 
 class ImageList extends Component {
@@ -24,18 +25,17 @@ class ImageList extends Component {
                 imagePreviewUrl: reader.result
             });
             // send to server here
-            this.props.uploadImage(file);
+            this.props.uploadMedia(file);
         }
 
         reader.readAsDataURL(file)
     }
 
     selectImage(filename) {
-        const {setImageUrl, scanImage} = this.props;
+        const {setMediaUrl, scanMedia} = this.props;
         console.log("selecting image", filename)
-        // fire off the scan image action here
-        setImageUrl(URL + filename);
-        scanImage(filename);
+        setMediaUrl(URL + filename);
+        scanMedia(filename);
     }
 
     render() {
@@ -70,5 +70,5 @@ function mapStateToProps(state) {
 
 export default connect(
     mapStateToProps,
-    imageActions
+    mediaActions
 )(ImageList)

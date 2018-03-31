@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { imageActions } from '../../core/image';
+import { mediaActions } from '../../core/media';
 import { Upload, Button, Icon } from 'antd';
 import './image-uploader-styles.css'
 const Dragger = Upload.Dragger;
 
 class ImageUploader extends Component {
     handleImageChange(file) {
-        const {setImageUrl} = this.props;
+        const {setMediaUrl} = this.props;
         const reader = new FileReader();
 
         reader.onloadend = () => {
-            setImageUrl(reader.result);
+            setMediaUrl(reader.result);
             // send to server here
         }
-        this.props.uploadImage(file);
+        this.props.uploadMedia(file);
         reader.readAsDataURL(file)
     }
 
@@ -59,12 +59,12 @@ class ImageUploader extends Component {
 
 function mapStateToProps(state) {
     return {
-      imageUrl: state.image.imageUrl
+      imageUrl: state.media.url
     };
 }
 
 
 export default connect(
     mapStateToProps,
-    imageActions
+    mediaActions
 )(ImageUploader)
