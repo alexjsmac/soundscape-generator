@@ -208,8 +208,8 @@ def show_index():
 
 
 api.add_resource(Upload, '/api/v1/upload')
-api.add_resource(ImageScan, '/api/v1/scan/<image>')
-api.add_resource(VideoScanStart, '/api/v1/videoscan/<video>')
+api.add_resource(ImageScan, '/api/v1/imagescan/<image>')
+api.add_resource(VideoScanStart, '/api/v1/videoscanstart/<video>')
 api.add_resource(VideoScanResults, '/api/v1/videoscanresults/<job_id>')
 
 if __name__ == '__main__':
