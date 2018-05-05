@@ -3,3 +3,4 @@ flask-restful
 boto3
 requests
 flask-login
+flask-cors
