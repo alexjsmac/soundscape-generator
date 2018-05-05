@@ -36,13 +36,11 @@ class MediaList extends Component {
 
     selectMedia(fileName) {
         const { URL } = config;
-        const {setMedia, scanMedia} = this.props;
-
+        const { setMedia } = this.props;
         setMedia({
             source: URL + fileName,
             fileName: fileName
         });
-        scanMedia(fileName);
     }
 
     render() {

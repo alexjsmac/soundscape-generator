@@ -1,30 +1,23 @@
 import { generalActions } from '../general';
-import { getMediaType } from '../../utils/formats';
+import { mediaTypes, getMediaType } from '../../utils/formats';
 import {
     MEDIA_SET_URL,
     MEDIA_UPLOAD_START,
     MEDIA_UPLOAD_COMPLETE,
-    MEDIA_SCAN_START,
-    MEDIA_SCAN_COMPLETE
+    IMAGE_SCAN_START,
+    IMAGE_SCAN_COMPLETE,
+    VIDEO_SCAN_START,
+    VIDEO_SCAN_COMPLETE
 } from './action-types';
 
-const BASE_URL = "http://localhost:8000"
-// const BASE_URL = ""
+// const BASE_URL = "http://localhost:8000"
+const BASE_URL = ""
+
 const ENDPOINTS = {
     UPLOAD: "/api/v1/upload",
     IMAGE_SCAN: (fileName) => "/api/v1/imagescan/" + fileName,
-    VIDEO_SCAN_START: "/api/v1/videoscanstart/",
+    VIDEO_SCAN_START: (fileName) => "/api/v1/videoscanstart/" + fileName,
     VIDEO_SCAN_RESULTS: "/api/v1/videoscanresults/"
-}
-
-
-
-export function setMedia(data) {
-    return {
-        type: MEDIA_SET_URL,
-        source: data.source,
-        mediaType: getMediaType(data.fileName)
-    }
 }
 
 export function mediaUploadStart() {
@@ -33,11 +26,33 @@ export function mediaUploadStart() {
 export function mediaUploadComplete() {
     return {type: MEDIA_UPLOAD_COMPLETE}
 }
+export function imageScanStart() {
+    return {type: IMAGE_SCAN_START}
+}
+export function imageScanComplete() {
+    return {type: IMAGE_SCAN_COMPLETE}
+}
 export function mediaScanStart() {
-    return {type: MEDIA_SCAN_START}
+    return {type: VIDEO_SCAN_START}
 }
 export function mediaScanComplete() {
-    return {type: MEDIA_SCAN_COMPLETE}
+    return {type: VIDEO_SCAN_COMPLETE}
+}
+
+export function setMedia(data) {
+    return function(dispatch) {
+        const mediaType = getMediaType(data.fileName);
+        dispatch({
+            type: MEDIA_SET_URL,
+            source: data.source,
+            mediaType
+        });
+        if (mediaType === mediaTypes.IMAGE) {
+            dispatch(scanImage(data.fileName));
+        } else if(mediaType === mediaTypes.VIDEO) {
+            dispatch(scanVideoStart(data.fileName));
+        }
+    }
 }
 
 export function uploadMedia(file) {
@@ -50,13 +65,11 @@ export function uploadMedia(file) {
             method: 'POST',
             body: formData
         };
-        fetch(BASE_URL + ENDPOINTS.UPLOAD, requestOptions)
-            .then(checkResponse)
-            .then((response) => response.json())
+        get(BASE_URL + ENDPOINTS.UPLOAD, requestOptions)
             .then((json) => {
                 console.log("IMAGE SUCCESS", json);
                 dispatch(mediaUploadComplete());
-                dispatch(scanMedia(json.fileName));
+                dispatch(scanImage(json.fileName));
             })
             .catch((err) => {
                 console.error("IMAGE ERROR", err);
@@ -65,12 +78,10 @@ export function uploadMedia(file) {
     }
 }
 
-export function scanMedia(fileName) {
+function scanImage(fileName) {
     return function(dispatch) {
-        dispatch(mediaScanStart());
-        fetch(BASE_URL + ENDPOINTS.IMAGE_SCAN(fileName))
-            .then(checkResponse)
-            .then((response) => response.json())
+        dispatch(imageScanStart());
+        get(BASE_URL + ENDPOINTS.IMAGE_SCAN(fileName))
             .then((json) => {
                 console.log("SCAN SUCCESS", json);
                 dispatch(generalActions.setKeywords(json.labels))
@@ -83,6 +94,48 @@ export function scanMedia(fileName) {
     }
 }
 
+// start the process of scanning a video
+// this will return a job id that we can query later
+function scanVideoStart(fileName) {
+    return function(dispatch) {
+        dispatch(mediaScanStart());
+        get(BASE_URL + ENDPOINTS.VIDEO_SCAN_START(fileName))
+            .then((json) => {
+                console.log("SCAN SUCCESS", json);
+                dispatch(generalActions.setKeywords(json.labels))
+                dispatch(imageScanComplete());
+            })
+            .catch((err) => {
+                console.error("SCAN ERROR", err);
+                dispatch(imageScanComplete());
+            });
+    }
+}
+
+// attempt to get the list of tags for a video
+// this may return an empty array and we'll need to keep waiting
+export function getVideoResults(fileName) {
+    return function(dispatch) {
+        dispatch(mediaScanStart());
+        get(BASE_URL + ENDPOINTS.VIDEO_SCAN_START(fileName))
+            .then((json) => {
+                console.log("SCAN SUCCESS", json);
+                dispatch(generalActions.setKeywords(json.labels))
+                dispatch(imageScanComplete());
+            })
+            .catch((err) => {
+                console.error("SCAN ERROR", err);
+                dispatch(imageScanComplete());
+            });
+    }
+}
+
+
+function get(url) {
+    return fetch(url)
+        .then(checkResponse)
+        .then((response) => response.json())
+}
 
 function checkResponse(response) {
     if (response.status >= 200 && response.status < 300) {

@@ -2,8 +2,10 @@ import {
     MEDIA_SET_URL,
     MEDIA_UPLOAD_START,
     MEDIA_UPLOAD_COMPLETE,
-    MEDIA_SCAN_START,
-    MEDIA_SCAN_COMPLETE
+    IMAGE_SCAN_START,
+    IMAGE_SCAN_COMPLETE,
+    VIDEO_SCAN_START,
+    VIDEO_SCAN_COMPLETE
 } from './action-types';
 
 const defaultState = {
@@ -25,9 +27,13 @@ export function mediaReducer(state = defaultState, action) {
             return {...state, isUploading: true}
         case MEDIA_UPLOAD_COMPLETE:
             return {...state, isUploading: false}
-        case MEDIA_SCAN_START:
+        case IMAGE_SCAN_START:
             return {...state, isScanning: true}
-        case MEDIA_SCAN_COMPLETE:
+        case IMAGE_SCAN_COMPLETE:
+            return {...state, isScanning: false}
+        case VIDEO_SCAN_START:
+            return {...state, isScanning: true}
+        case VIDEO_SCAN_COMPLETE:
             return {...state, isScanning: false}
         default:
             return state;
