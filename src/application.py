@@ -99,8 +99,8 @@ class ImageScan(Resource):
             "roomSize": room_size
         }
 
-    def detect_labels(self, key, bucket=BUCKET, max_labels=10, min_confidence=80,
-                      region="us-east-1"):
+    def detect_labels(self, key, bucket=BUCKET, max_labels=10,
+                      min_confidence=80, region="us-east-1"):
         rekognition = boto3.client("rekognition", region)
         rek_results = rekognition.detect_labels(
             Image={
@@ -115,6 +115,7 @@ class ImageScan(Resource):
         labels = []
         for label in rek_results['Labels']:
             labels.append(label['Name'])
+        labels = list(set(labels))
         return labels
 
 
@@ -126,8 +127,8 @@ class VideoScanStart(Resource):
             "job_id": job_id
         }
 
-    def begin_video_analysis(self, key, bucket=BUCKET, max_labels=10, min_confidence=80,
-                             region="us-east-1"):
+    def begin_video_analysis(self, key, bucket=BUCKET, max_labels=10,
+                             min_confidence=80, region="us-east-1"):
         rekognition = boto3.client("rekognition", region)
         response = rekognition.start_label_detection(
             Video={
@@ -191,6 +192,7 @@ class VideoScanResults(Resource):
         labels = []
         for label in response['Labels']:
             labels.append(label['Label']['Name'])
+        labels = list(set(labels))
         return labels
 
 
