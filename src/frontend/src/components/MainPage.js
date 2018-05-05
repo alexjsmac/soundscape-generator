@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Results from './Results';
-import ImageList from './media/ImageList';
+import MediaList from './media/MediaList';
 import MediaUploader from './media/MediaUploader';
 import LoadingState from './media/LoadingState';
 import Header from './common/Header'
@@ -18,7 +18,7 @@ class MainPage extends Component {
         <div className="main-container">
           <div className="upload-container">
             <Header title="Image Selection" desc="Upload an image or choose from one of the examples below."/>
-            <ImageList />
+            <MediaList />
             <MediaUploader />
             <LoadingState />
           </div>

@@ -10,7 +10,6 @@ const store = configureStore();
 webAudioUtil.connectToStore(store);
 
 ReactDOM.render(
-    // <div>hey</div>,
     <Provider store={store}>
         <App /> 
     </Provider>,
