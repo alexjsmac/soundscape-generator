@@ -6,11 +6,13 @@ import json
 from flask import Flask, make_response, render_template
 from flaskrun import flaskrun
 from flask_restful import Resource, Api, reqparse, abort
+from flask_cors import CORS
 from cStringIO import StringIO
 from werkzeug.datastructures import FileStorage
 
 application = Flask(__name__,  static_folder='frontend/build/static')
 api = Api(application)
+CORS(application)
 
 DIR = os.path.dirname(os.path.abspath(__file__))
 BUCKET = 'soundscape-generator-photos'
