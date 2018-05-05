@@ -17,7 +17,7 @@ const ENDPOINTS = {
     UPLOAD: "/api/v1/upload",
     IMAGE_SCAN: (fileName) => "/api/v1/imagescan/" + fileName,
     VIDEO_SCAN_START: (fileName) => "/api/v1/videoscanstart/" + fileName,
-    VIDEO_SCAN_RESULTS: "/api/v1/videoscanresults/"
+    VIDEO_SCAN_RESULTS: (jobId) => "/api/v1/videoscanresults/" + jobId
 }
 
 export function mediaUploadStart() {
@@ -32,10 +32,10 @@ export function imageScanStart() {
 export function imageScanComplete() {
     return {type: IMAGE_SCAN_COMPLETE}
 }
-export function mediaScanStart() {
+export function videoScanStart() {
     return {type: VIDEO_SCAN_START}
 }
-export function mediaScanComplete() {
+export function videoScanComplete() {
     return {type: VIDEO_SCAN_COMPLETE}
 }
 
@@ -85,11 +85,11 @@ function scanImage(fileName) {
             .then((json) => {
                 console.log("SCAN SUCCESS", json);
                 dispatch(generalActions.setKeywords(json.labels))
-                dispatch(mediaScanComplete());
+                dispatch(imageScanComplete());
             })
             .catch((err) => {
                 console.error("SCAN ERROR", err);
-                dispatch(mediaScanComplete());
+                dispatch(imageScanComplete());
             });
     }
 }
@@ -98,36 +98,47 @@ function scanImage(fileName) {
 // this will return a job id that we can query later
 function scanVideoStart(fileName) {
     return function(dispatch) {
-        dispatch(mediaScanStart());
+        dispatch(videoScanStart());
         get(BASE_URL + ENDPOINTS.VIDEO_SCAN_START(fileName))
             .then((json) => {
-                console.log("SCAN SUCCESS", json);
-                dispatch(generalActions.setKeywords(json.labels))
-                dispatch(imageScanComplete());
+                const jobId = json.jobId;
+                console.log("SCAN SUCCESS", jobId);
+
+                const test = () => {
+                    console.log("START");
+                    getVideoResults(jobId).then((json) => {
+                        const labels = json.labels;
+                        console.log(labels);
+                        if (labels.length) {
+                            console.log("success");
+                            dispatch(generalActions.setKeywords(labels))
+                            dispatch(videoScanComplete());
+                        } else {
+                            setTimeout(test, 2000);
+                        }
+                    })
+                };
+                test();
+
             })
             .catch((err) => {
                 console.error("SCAN ERROR", err);
-                dispatch(imageScanComplete());
+                dispatch(videoScanComplete());
             });
     }
 }
 
 // attempt to get the list of tags for a video
 // this may return an empty array and we'll need to keep waiting
-export function getVideoResults(fileName) {
-    return function(dispatch) {
-        dispatch(mediaScanStart());
-        get(BASE_URL + ENDPOINTS.VIDEO_SCAN_START(fileName))
-            .then((json) => {
-                console.log("SCAN SUCCESS", json);
-                dispatch(generalActions.setKeywords(json.labels))
-                dispatch(imageScanComplete());
-            })
-            .catch((err) => {
-                console.error("SCAN ERROR", err);
-                dispatch(imageScanComplete());
-            });
-    }
+function getVideoResults(jobId) {
+    return get(BASE_URL + ENDPOINTS.VIDEO_SCAN_RESULTS(jobId))
+        .then((json) => {
+            console.log("GET VIDEO RESULTS SUCCESS", json);
+            return json;
+        })
+        .catch((err) => {
+            console.error("GET VIDEO RESULTS ERROR", err);
+        });
 }
 
 

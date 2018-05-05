@@ -126,10 +126,10 @@ class VideoScanStart(Resource):
     def get(self, video):
         job_id = self.begin_video_analysis(video)
         return {
-            "job_id": job_id
+            "jobId": job_id
         }
 
-    def begin_video_analysis(self, key, bucket=BUCKET, max_labels=10,
+    def begin_video_analysis(self, key, bucket=BUCKET,
                              min_confidence=80, region="us-east-1"):
         rekognition = boto3.client("rekognition", region)
         response = rekognition.start_label_detection(
