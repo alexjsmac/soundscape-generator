@@ -8,6 +8,17 @@ import {
     MEDIA_SCAN_COMPLETE
 } from './action-types';
 
+const BASE_URL = "http://localhost:8000"
+// const BASE_URL = ""
+const ENDPOINTS = {
+    UPLOAD: "/api/v1/upload",
+    IMAGE_SCAN: (fileName) => "/api/v1/imagescan/" + fileName,
+    VIDEO_SCAN_START: "/api/v1/videoscanstart/",
+    VIDEO_SCAN_RESULTS: "/api/v1/videoscanresults/"
+}
+
+
+
 export function setMedia(data) {
     return {
         type: MEDIA_SET_URL,
@@ -39,7 +50,7 @@ export function uploadMedia(file) {
             method: 'POST',
             body: formData
         };
-        fetch("/api/v1/upload", requestOptions)
+        fetch(BASE_URL + ENDPOINTS.UPLOAD, requestOptions)
             .then(checkResponse)
             .then((response) => response.json())
             .then((json) => {
@@ -57,7 +68,7 @@ export function uploadMedia(file) {
 export function scanMedia(fileName) {
     return function(dispatch) {
         dispatch(mediaScanStart());
-        fetch(`/api/v1/scan/${fileName}`)
+        fetch(BASE_URL + ENDPOINTS.IMAGE_SCAN(fileName))
             .then(checkResponse)
             .then((response) => response.json())
             .then((json) => {
