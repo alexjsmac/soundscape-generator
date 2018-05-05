@@ -1,28 +1,58 @@
 #!flask/bin/python
 import os
 import boto3
+import json
 
-from flask import Flask, make_response, request, Response, redirect, render_template
+from flask import Flask, make_response, render_template
 from flaskrun import flaskrun
 from flask_restful import Resource, Api, reqparse, abort
 from cStringIO import StringIO
 from werkzeug.datastructures import FileStorage
-from flask_login import LoginManager, UserMixin, \
-                                login_required, login_user, logout_user
 
 application = Flask(__name__,  static_folder='frontend/build/static')
 api = Api(application)
 
 DIR = os.path.dirname(os.path.abspath(__file__))
 BUCKET = 'soundscape-generator-photos'
-ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png']
+ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'mp4']
+QUEUE_URL = 'https://sqs.us-east-1.amazonaws.com/667582492015/AmazonRekogntionVideoAnalysis'
+SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:667582492015:AmazonRekognitionVideoAnalysis'
+ROLE_ARN = 'arn:aws:iam::667582492015:role/RekognitionRole'
+
 s3 = boto3.resource('s3')
 
-# flask-login
-# login_manager = LoginManager()
-# login_manager.init_app(application)
-# login_manager.login_view = "login"
-# application.config.update(SECRET_KEY='secret_123')
+
+def get_room_material(labels):
+    # MATERIAL_TYPES = ['brick', 'concrete', 'curtain', 'fiberglass',
+    #                   'grass', 'linoleum', 'marble', 'metal', 'parquet',
+    #                   'plaster', 'plywood', 'sheetrock', 'water', 'ice']
+    room_material = ''
+    for label in labels:
+        lower_label = label.lower()
+        if lower_label in ['grass', 'water', 'ice']:
+            room_material = 'OUTSIDE'
+        elif lower_label in ['curtain', 'curtains', 'linoleum', 'parquet']:
+            room_material = 'CURTAINS'
+        elif lower_label in ['brick', 'sheetrock', 'concrete']:
+            room_material = 'BRICK'
+        elif lower_label in ['marble' 'glass', 'fiberglass', ]:
+            room_material = 'MARBLE'
+        else:
+            room_material = 'OUTSIDE'
+    return room_material
+
+
+def get_room_size(room_material):
+    room_size = ''
+    if room_material == 'OUTSIDE':
+        room_size = 'HUGE'
+    elif room_material == 'CURTAINS':
+        room_size = 'SMALL'
+    elif room_material == 'BRICK':
+        room_size = 'MEDIUM'
+    elif room_material == 'MARBLE':
+        room_size = 'LARGE'
+    return room_size
 
 
 class Upload(Resource):
@@ -57,25 +87,25 @@ class Upload(Resource):
         }
 
 
-class Scan(Resource):
+class ImageScan(Resource):
 
     def get(self, image):
         labels = self.detect_labels(image)
-        room_material = self.get_room_material(image)
-        room_size = self.get_room_size(room_material)
+        room_material = get_room_material(labels)
+        room_size = get_room_size(room_material)
         return {
             "labels": labels,
             "roomMaterial": room_material,
             "roomSize": room_size
         }
 
-    def detect_labels(self, key, bucket=BUCKET, max_labels=10, min_confidence=80,
-                      region="us-east-1"):
+    def detect_labels(self, key, bucket=BUCKET, max_labels=10,
+                      min_confidence=80, region="us-east-1"):
         rekognition = boto3.client("rekognition", region)
         rek_results = rekognition.detect_labels(
             Image={
                 "S3Object": {
-                    "Bucket": BUCKET,
+                    "Bucket": bucket,
                     "Name": key,
                 }
             },
@@ -85,71 +115,85 @@ class Scan(Resource):
         labels = []
         for label in rek_results['Labels']:
             labels.append(label['Name'])
+        labels = list(set(labels))
         return labels
 
-    def get_room_material(self, image):
-        # MATERIAL_TYPES = ['brick', 'concrete', 'curtain', 'fiberglass',
-        #                   'grass', 'linoleum', 'marble', 'metal', 'parquet',
-        #                   'plaster', 'plywood', 'sheetrock', 'water', 'ice']
-        labels = self.detect_labels(image, max_labels=50, min_confidence=1)
-        room_material = ''
-        for label in labels:
-            lower_label = label.lower()
-            if lower_label in ['grass', 'water', 'ice']:
-                room_material = 'OUTSIDE'
-            elif lower_label in ['curtain', 'curtains', 'linoleum', 'parquet']:
-                room_material = 'CURTAINS'
-            elif lower_label in ['brick', 'sheetrock', 'concrete']:
-                room_material = 'BRICK'
-            elif lower_label in ['marble' 'glass', 'fiberglass', ]:
-                room_material = 'MARBLE'
-            else:
-                room_material = 'OUTSIDE'
-        return room_material
 
-    def get_room_size(self, room_material):
-        room_size = ''
-        if room_material == 'OUTSIDE':
-            room_size = 'HUGE'
-        elif room_material == 'CURTAINS':
-            room_size = 'SMALL'
-        elif room_material == 'BRICK':
-            room_size = 'MEDIUM'
-        elif room_material == 'MARBLE':
-            room_size = 'LARGE'
-        return room_size
+class VideoScanStart(Resource):
+
+    def get(self, video):
+        job_id = self.begin_video_analysis(video)
+        return {
+            "job_id": job_id
+        }
+
+    def begin_video_analysis(self, key, bucket=BUCKET, max_labels=10,
+                             min_confidence=80, region="us-east-1"):
+        rekognition = boto3.client("rekognition", region)
+        response = rekognition.start_label_detection(
+            Video={
+                'S3Object': {
+                    'Bucket': bucket,
+                    'Name': key
+                }
+            },
+            MinConfidence=min_confidence,
+            NotificationChannel={
+                'SNSTopicArn': SNS_TOPIC_ARN,
+                'RoleArn': ROLE_ARN
+            },
+            JobTag=key
+        )
+        job_id = response['JobId']
+        return job_id
 
 
-# silly user model
-# class User(UserMixin):
-#
-#     def __init__(self, id):
-#         self.id = id
-#         self.name = "user" + str(id)
-#         self.password = self.name + "_secret"
-#
-#     def __repr__(self):
-#         return "%d/%s/%s" % (self.id, self.name, self.password)
+class VideoScanResults(Resource):
 
+    def get(self, job_id):
+        labels = self.get_video_labels(job_id)
+        if labels:
+            room_material = get_room_material(labels)
+            room_size = get_room_size(room_material)
+            return {
+                "labels": labels,
+                "room_material": room_material,
+                "room_size": room_size
+            }
+        else:
+            return {
+                "labels": labels
+            }
 
-# create some users with ids 1 to 20
-# users = [User(id) for id in range(1, 21)]
+    def poll_queue(self, region="us-east-1"):
+        sqs = boto3.client('sqs', region)
+        response = sqs.receive_message(
+            QueueUrl=QUEUE_URL,
+            AttributeNames=[
+                'All'
+            ],
+            MaxNumberOfMessages=1,
+            MessageAttributeNames=[
+                'All'
+            ],
+            WaitTimeSeconds=20
+        )
+        body = json.loads(response['Messages'][0]['Body'])
+        message = json.loads(body['Message'])
+        return message
 
-
-# @application.route("/login", methods=["GET", "POST"])
-# def login():
-#     if request.method == 'POST':
-#         username = request.form['username']
-#         password = request.form['password']
-#         if password == username + "_secret":
-#             id = username.split('user')[1]
-#             user = User(id)
-#             login_user(user)
-#             return redirect(request.args.get("next"))
-#         else:
-#             return abort(401)
-#     else:
-#         return render_template('login.html')
+    def get_video_labels(self, job_id, region="us-east-1"):
+        rekognition = boto3.client("rekognition", region)
+        response = rekognition.get_label_detection(
+            JobId=job_id,
+            MaxResults=10,
+            SortBy="TIMESTAMP"
+            )
+        labels = []
+        for label in response['Labels']:
+            labels.append(label['Label']['Name'])
+        labels = list(set(labels))
+        return labels
 
 
 @application.route('/')
@@ -163,28 +207,10 @@ def show_index():
                          'frontend/build/index.html')).read())
 
 
-# somewhere to logout
-# @application.route("/logout")
-# @login_required
-# def logout():
-#     logout_user()
-#     return Response('<p>Logged out</p>')
-
-
-# handle login failed
-# @application.errorhandler(401)
-# def page_not_found(e):
-#     return Response('<p>Login failed</p>')
-
-
-# callback to reload the user object
-# @login_manager.user_loader
-# def load_user(userid):
-#     return User(userid)
-
-
 api.add_resource(Upload, '/api/v1/upload')
-api.add_resource(Scan, '/api/v1/scan/<image>')
+api.add_resource(ImageScan, '/api/v1/imagescan/<image>')
+api.add_resource(VideoScanStart, '/api/v1/videoscanstart/<video>')
+api.add_resource(VideoScanResults, '/api/v1/videoscanresults/<job_id>')
 
 if __name__ == '__main__':
     flaskrun(application)
