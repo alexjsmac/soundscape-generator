@@ -26,5 +26,7 @@ Getting Started
 4. Start the Flask development server:
 
         $ python src/application.py --port 8000
+        For Debug:
+        $ python src/application.py --port 8000 --debug
 
 5. Open http://127.0.0.1:8000/ in a web browser

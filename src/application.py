@@ -6,11 +6,13 @@ import json
 from flask import Flask, make_response, render_template
 from flaskrun import flaskrun
 from flask_restful import Resource, Api, reqparse, abort
+from flask_cors import CORS
 from cStringIO import StringIO
 from werkzeug.datastructures import FileStorage
 
 application = Flask(__name__,  static_folder='frontend/build/static')
 api = Api(application)
+CORS(application)
 
 DIR = os.path.dirname(os.path.abspath(__file__))
 BUCKET = 'soundscape-generator-photos'
@@ -124,10 +126,10 @@ class VideoScanStart(Resource):
     def get(self, video):
         job_id = self.begin_video_analysis(video)
         return {
-            "job_id": job_id
+            "jobId": job_id
         }
 
-    def begin_video_analysis(self, key, bucket=BUCKET, max_labels=10,
+    def begin_video_analysis(self, key, bucket=BUCKET,
                              min_confidence=80, region="us-east-1"):
         rekognition = boto3.client("rekognition", region)
         response = rekognition.start_label_detection(
@@ -208,8 +210,8 @@ def show_index():
 
 
 api.add_resource(Upload, '/api/v1/upload')
-api.add_resource(ImageScan, '/api/v1/scan/<image>')
-api.add_resource(VideoScanStart, '/api/v1/videoscan/<video>')
+api.add_resource(ImageScan, '/api/v1/imagescan/<image>')
+api.add_resource(VideoScanStart, '/api/v1/videoscanstart/<video>')
 api.add_resource(VideoScanResults, '/api/v1/videoscanresults/<job_id>')
 
 if __name__ == '__main__':

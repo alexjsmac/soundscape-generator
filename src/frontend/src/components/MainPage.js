@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Results from './Results';
-import ImageList from './image/ImageList';
-import ImageUploader from './image/ImageUploader';
-import LoadingState from './image/LoadingState';
+import MediaList from './media/MediaList';
+import MediaUploader from './media/MediaUploader';
+import LoadingState from './media/LoadingState';
 import Header from './common/Header'
 
 import './main-page-styles.css';
@@ -18,8 +18,8 @@ class MainPage extends Component {
         <div className="main-container">
           <div className="upload-container">
             <Header title="Image Selection" desc="Upload an image or choose from one of the examples below."/>
-            <ImageList />
-            <ImageUploader />
+            <MediaList />
+            <MediaUploader />
             <LoadingState />
           </div>
           <div className="results-container">
