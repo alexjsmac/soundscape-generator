@@ -25,6 +25,10 @@
     justify-content: flex-start;
     background: white;
 }
+.upload-container > * {
+    width: 80%;
+    margin: auto;
+}
 
 .results-container {
     flex: 1 1 320px;

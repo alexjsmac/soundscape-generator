@@ -39,6 +39,15 @@ export function videoScanComplete() {
     return {type: VIDEO_SCAN_COMPLETE}
 }
 
+function startScan(dispatch, fileName) {
+    const mediaType = getMediaType(fileName);
+    if (mediaType === mediaTypes.IMAGE) {
+        dispatch(scanImage(fileName));
+    } else if(mediaType === mediaTypes.VIDEO) {
+        dispatch(scanVideoStart(fileName));
+    }
+}
+
 export function setMedia(data) {
     return function(dispatch) {
         const mediaType = getMediaType(data.fileName);
@@ -47,11 +56,7 @@ export function setMedia(data) {
             source: data.source,
             mediaType
         });
-        if (mediaType === mediaTypes.IMAGE) {
-            dispatch(scanImage(data.fileName));
-        } else if(mediaType === mediaTypes.VIDEO) {
-            dispatch(scanVideoStart(data.fileName));
-        }
+        startScan(dispatch, data.fileName);
     }
 }
 
@@ -61,15 +66,11 @@ export function uploadMedia(file) {
         const formData = new FormData();
         formData.append('image', file);
 
-        const requestOptions = {
-            method: 'POST',
-            body: formData
-        };
-        get(BASE_URL + ENDPOINTS.UPLOAD, requestOptions)
+        post(BASE_URL + ENDPOINTS.UPLOAD, formData)
             .then((json) => {
                 console.log("IMAGE SUCCESS", json);
                 dispatch(mediaUploadComplete());
-                dispatch(scanImage(json.fileName));
+                startScan(dispatch, json.fileName);
             })
             .catch((err) => {
                 console.error("IMAGE ERROR", err);
@@ -146,6 +147,14 @@ function get(url) {
     return fetch(url)
         .then(checkResponse)
         .then((response) => response.json())
+}
+
+function post(url, formData) {
+    return fetch(url, {
+        method: 'POST', body: formData
+    })
+    .then(checkResponse)
+    .then((response) => response.json())
 }
 
 function checkResponse(response) {

@@ -38,7 +38,7 @@ class MediaUploader extends Component {
             <div className="upload-area">
                 <Dragger {...uploaderProps} >
                     <p className="ant-upload-drag-icon"><Icon type="inbox"/></p>
-                    <p className="ant-upload-text">Upload Image Here</p>
+                    <p className="ant-upload-text">Upload Media Here</p>
                     <p className="ant-upload-hint">A list of labels will then be shown under Results</p>
                 </Dragger>
             </div>
@@ -47,7 +47,7 @@ class MediaUploader extends Component {
         const uploadButton = () => (
             <div className="upload-button">
                 <Upload {...uploaderProps}>
-                    <Button><Icon type="upload"/> Upload Image</Button>
+                    <Button><Icon type="upload"/> Upload Media</Button>
                 </Upload>
             </div>
         );

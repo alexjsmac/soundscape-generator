@@ -10,8 +10,8 @@ class LoadingState extends Component {
 
         return (
             <div className="image-loading-states">
-                {(isUploading) ? renderLoader("Uploading Image To Server") : ""}
-                {(isScanning) ? renderLoader("Scanning Image For Labels") : ""}
+                {(isUploading) ? renderLoader("Uploading Media To Server") : ""}
+                {(isScanning) ? renderLoader("Scanning Media For Labels") : ""}
             </div>
         )
     }

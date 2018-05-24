@@ -17,7 +17,6 @@ export default function Header(props) {
 }
 
 const containerStyles = {
-    width: "100%",
     background: "white",
     overflow: "hidden",
     padding: "12px",

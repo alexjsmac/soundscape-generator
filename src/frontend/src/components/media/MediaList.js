@@ -50,8 +50,8 @@ class MediaList extends Component {
             const fileURL = URL + file.file;
             const onClick = () => this.selectMedia(file.file);
             return (
-                <div className="media-preview">
-                    <a onClick={onClick} key={index}>
+                <div className="media-preview" key={index}>
+                    <a onClick={onClick}>
                         {(file.type === "IMG") ? (
                             <div style={{backgroundImage: `url(${fileURL})`}} className="media-img"></div>
                         ) : (

@@ -17,7 +17,7 @@ class MainPage extends Component {
         
         <div className="main-container">
           <div className="upload-container">
-            <Header title="Image Selection" desc="Upload an image or choose from one of the examples below."/>
+            <Header title="Media Selection" desc="Upload an image, video or choose from one of the examples below."/>
             <MediaList />
             <MediaUploader />
             <LoadingState />
