@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { mediaActions } from '../../core/media';
-import { mediaTypes } from '../../utils/formats';
+import { mediaTypes } from '../../core/media/mediaTypes';
 import { Upload, Button, Icon } from 'antd';
 import './media-uploader-styles.css'
 const Dragger = Upload.Dragger;

@@ -1,5 +1,5 @@
 import { generalActions } from '../general';
-import { mediaTypes, getMediaType } from '../../utils/formats';
+import { mediaTypes, getMediaType } from './mediaTypes';
 import {
     MEDIA_SET_URL,
     MEDIA_UPLOAD_START,
