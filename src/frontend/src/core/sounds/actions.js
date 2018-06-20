@@ -10,7 +10,6 @@ import {
 } from './action-types';
 
 
-
 function setSoundList(keyword, soundList) {
     return {
         type: SOUND_SET_SOUNDLIST,
@@ -49,8 +48,9 @@ export function playSound(keyword) {
 
 export function stopSound(keyword) {
     return function(dispatch, getState) {
-        if(getState().sounds[keyword])  
+        if (getState().sounds[keyword]) {
             dispatch({type: SOUND_STOP,keyword})
+        }
     }
 }
 
@@ -70,51 +70,48 @@ export function getAllSounds() {
         const { keywords } = getState().general
         // for each keyword, perform a fetch, and then dispatch an action to update the sound
         keywords.forEach(keyword => {
-            getSoundSearchResults(keyword)
+            freeSoundService.search(keyword)
                 .then(soundList => {
                     dispatch(setSoundList(keyword, soundList))
-                    if (soundList.length > 0) dispatch(getNextSound(keyword));
+                    if (soundList.length > 0) dispatch(getSoundForKeyword(keyword));
                 })
+                .catch(() => {throw new Error(`Error getting the list of sounds for keyword: ${keyword}`)})
         })
     }
 }
 
-export function getNextSound(keyword) {
+export function getSoundForKeyword(keyword) {
     return function (dispatch, getState) {
         const sound = getState().sounds[keyword];
+        const id = sound.soundList[sound.soundChoice].id;
+        if (!id) return console.error(`No sound for keyword: ${keyword}`);
 
-        getSoundFromList(keyword, sound)
+        freeSoundService.sound(id)
             .then(sound => {
                 dispatch(getSoundSuccess(keyword, sound))
             })
+            .catch(() => {throw new Error(`Error getting sound for id: ${id}`)})
     }
 }
 
-
-function getSoundFromList(keyword, sound) {
-    console.log("Get Sound from list", keyword, sound)
-    const id = sound.soundList[sound.soundChoice].id
-    if (!id) return;
-    const url = `https://freesound.org/apiv2/sounds/${id}/`
+const freeSoundService = (() => {
+    const baseURL = `https://freesound.org/apiv2`
+    
     let headers = new Headers();
     headers.append("Authorization", "Token FTDBgkb5Q3NWqdrtVvNzXNqxIu9TFhj1qrWl2Ue9");
-    return fetch(url, {headers})
-        .then((response) => response.json())
-        .catch((err) => {
-            console.error("ERROR", err);
-        });
-}
-
-
-function getSoundSearchResults(keyword) {
-    const url = `https://freesound.org/apiv2/search/text/?query=${keyword}`
-    let headers = new Headers();
-    headers.append("Authorization", "Token FTDBgkb5Q3NWqdrtVvNzXNqxIu9TFhj1qrWl2Ue9");
-    return fetch(url, {headers})
-        .then((response) => response.json())
-        .then(json => json.results)
-        .catch((err) => {
-            console.error("ERROR", err);
-            throw new Error(err);
-        });
-}
+    const get = (url) => fetch(url, {headers}).then((response) => response.json());
+    
+    return {
+        search: (keyword) => get(`${baseURL}/search/text/?query=${keyword}`)
+            .then(res => res.results.map(result => {
+                return {id: result.id}
+            })),
+        sound: (id) => get(`${baseURL}/sounds/${id}/`)
+            .then(res =>  {
+                return {
+                    name: res.name,
+                    previews: res.previews
+                }
+            }),
+    }
+})()

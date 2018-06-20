@@ -89,9 +89,9 @@ class AudioPlayer extends Component {
     }
 
     shuffle() {
-        const {stopSound, getNextSound, keyword} = this.props
+        const {stopSound, getSoundForKeyword, keyword} = this.props
         stopSound(keyword);
-        getNextSound(keyword);
+        getSoundForKeyword(keyword);
     }
 
     setGain(e) {

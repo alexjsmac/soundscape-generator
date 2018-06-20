@@ -5,8 +5,7 @@ import {
 } from './action-types';
 
 const defaultState = {
-    keywords: [],
-    soundResults: {}
+    keywords: []
 }
 
 export function generalReducer(state = defaultState, action) {
