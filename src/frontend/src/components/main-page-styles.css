@@ -51,10 +51,13 @@
 
 .topbar {
     background: #fff;
-    padding: 16px 12px;
+    padding: 14px 12px;
     background: #252d49;
 }
 .topbar h1 {
-    font-size: 20px;
+    font-size: 16px;
     color: white;
+    @media (max-width: 400px) {
+     background: blue;   
+    }
 }

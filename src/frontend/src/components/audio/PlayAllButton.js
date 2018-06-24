@@ -39,11 +39,4 @@ class GlobalAudio extends Component {
     }
 }
 
-
-function mapStateToProps(state) {
-    return {
-        sounds: state.sounds
-    }
-}
-
-export default connect(mapStateToProps, soundActions)(GlobalAudio);
+export default connect(null, soundActions)(GlobalAudio);

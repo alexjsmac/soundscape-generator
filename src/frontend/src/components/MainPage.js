@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import Results from './Results';
-import MediaList from './media/MediaList';
-import MediaUploader from './media/MediaUploader';
-import LoadingState from './media/LoadingState';
+import MediaSection from './media/MediaSection';
 import Header from './common/Header'
 
 import './main-page-styles.css';
@@ -17,14 +15,12 @@ class MainPage extends Component {
         
         <div className="main-container">
           <div className="upload-container">
-            <Header title="Media Selection" desc="Upload an image, video or choose from one of the examples below."/>
-            <MediaList />
-            <MediaUploader />
-            <LoadingState />
+            {/* <Header title="Media Selection" desc="Upload an image, video or choose from one of the examples below."/> */}
+            <MediaSection />
           </div>
-          <div className="results-container">
+          {/* <div className="results-container">
             <Results />
-          </div>
+          </div> */}
         </div>
       </div>
     );
