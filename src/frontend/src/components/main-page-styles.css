@@ -48,16 +48,3 @@
     justify-content: space-around;
     align-items: flex-start;
 }
-
-.topbar {
-    background: #fff;
-    padding: 14px 12px;
-    background: #252d49;
-}
-.topbar h1 {
-    font-size: 16px;
-    color: white;
-    @media (max-width: 400px) {
-     background: blue;   
-    }
-}
