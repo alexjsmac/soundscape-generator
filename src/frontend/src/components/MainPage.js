@@ -11,11 +11,13 @@ class MainPage extends Component {
     return (
       <div className="main-page">
         <Topbar />
+        <MediaSection />
+
         
         <div className="main-container">
-          <div className="upload-container">
+          <div className="">
             {/* <Header title="Media Selection" desc="Upload an image, video or choose from one of the examples below."/> */}
-            <MediaSection />
+            
           </div>
           {/* <div className="results-container">
             <Results />
