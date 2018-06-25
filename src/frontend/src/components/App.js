@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
+// redux
 import { Provider } from 'react-redux';
-import smartOutline from 'smart-outline';
-
+import devState from '../local-only/dev-state'
 import configureStore from '../core/store/configureStore';
+
+// styled components
+import { ThemeProvider } from 'styled-components';
+import theme from './theme';
+
+// helpers / app specifics
+import smartOutline from 'smart-outline';
 import webAudioUtil from '../audio/webAudioUtil';
 
-import devState from '../local-only/dev-state'
-
+// components
 import MainPage from './MainPage'
 
 smartOutline.init();
@@ -14,12 +20,13 @@ smartOutline.init();
 const store = configureStore(devState);
 webAudioUtil.connectToStore(store);
 
-
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <MainPage /> 
+        <ThemeProvider theme={theme}>
+          <MainPage /> 
+        </ThemeProvider>
       </Provider>
     );
   }
