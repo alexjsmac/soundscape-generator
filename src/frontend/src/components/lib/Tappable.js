@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-
 export default class Tappable extends Component {
     static propTypes = {
         onClick: PropTypes.func.isRequired,
@@ -40,7 +39,8 @@ export default class Tappable extends Component {
         return (
             <div
                 onClick={this.onClick} 
-                onMouseDown={this.mouseDown}
+                onMouseDown={this.pointerDown}
+                onMouseUp={this.pointerUp}
                 onTouchStart={this.pointerDown}
                 onTouchEnd={this.pointerUp}>
                 {this.props.children}
