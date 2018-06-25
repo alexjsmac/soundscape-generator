@@ -13,5 +13,10 @@ export default {
 
         // background: '#fff',
         // onBackground: '#000'
+    },
+    fontSize: {
+        smaller: '0.6rem',
+        small: '0.8rem',
+        default: '1rem'
     }
 }

@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components';
+
+const TappableEl = styled.div`
+    cursor: pointer;
+`
+
 
 export default class Tappable extends Component {
     static propTypes = {
@@ -37,14 +43,14 @@ export default class Tappable extends Component {
 
     render() {
         return (
-            <div
+            <TappableEl
                 onClick={this.onClick} 
                 onMouseDown={this.pointerDown}
                 onMouseUp={this.pointerUp}
                 onTouchStart={this.pointerDown}
                 onTouchEnd={this.pointerUp}>
                 {this.props.children}
-            </div>
+            </TappableEl>
         )
     }
 }

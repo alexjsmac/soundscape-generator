@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import CtaCard from '../CtaCard'
+import Examples from './Examples';
 import {FileUpload} from 'styled-icons/material/FileUpload'
 
 
@@ -25,6 +26,7 @@ export default class MediaSection extends Component {
             ctaMessage="Upload"
             onClick={handleClick}
           />
+          <Examples />
       </div>
     )
   }

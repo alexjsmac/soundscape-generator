@@ -12,6 +12,8 @@ function boxShadow(shadow) {
 
 export default styled.div`
     box-shadow: ${props => boxShadow(props.shadow)};
-    margin: ${props => props.spaceAround ? '1em 1em' : '0'};
+    margin: ${props => props.spaceAround ? '1rem 1rem' : '0'};
+    margin-bottom: ${props => props.mb ? '1rem' : '0'};
     transition: 0.1s;
+    overflow: hidden;
 `
