@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Results from './Results';
+// import Results from './Results';
 import MediaSection from './media/MediaSection';
-import Header from './common/Header'
+// import Header from './common/Header'
 import Topbar from './TopBar'
 
 import './main-page-styles.css';
