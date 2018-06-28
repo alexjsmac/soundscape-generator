@@ -9,6 +9,8 @@ import {
     VIDEO_SCAN_START,
     VIDEO_SCAN_COMPLETE
 } from './action-types';
+import { appActions } from '../app';
+
 
 const BASE_URL = "http://localhost:8000"
 // const BASE_URL = ""
@@ -27,7 +29,10 @@ export function mediaUploadComplete() {
     return {type: MEDIA_UPLOAD_COMPLETE}
 }
 export function imageScanStart() {
-    return {type: IMAGE_SCAN_START}
+    return function(dispatch) {
+        dispatch({type: IMAGE_SCAN_START})
+        dispatch(appActions.toMediaPlayer());
+    }
 }
 export function imageScanComplete() {
     return {type: IMAGE_SCAN_COMPLETE}
