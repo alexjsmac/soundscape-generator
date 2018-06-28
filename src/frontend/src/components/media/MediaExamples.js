@@ -28,22 +28,31 @@ const ExamplesContainer = styled.div`
     margin: 1rem;
 `
 
-
-export default class Examples extends Component {
+export default class MediaExamples extends Component {
     static propTypes = {
-        prop: PropTypes
+        onSelect: PropTypes.func.isRequired,
+        setMedia: PropTypes.func.isRequired,
     }
-
+    
     render() {
+        const { onSelect } = this.props;
         return (
             <ExamplesContainer xs={12}>
                 <H2 mb>Examples</H2>
                 <Row>
-                    {files.map( file => (
-                        <Col xs={6} sm={4} md={3}>
-                            <ImageCard name={file.name} src={file.url} isVideo={file.type === 'VID'} />
-                        </Col>
-                    ))}
+                    {files.map( (file, i) => {
+                        const onClick = () => onSelect(file.fileName, file.url);
+                        return (
+                            <Col xs={6} sm={4} md={3} key={i}>
+                                <ImageCard 
+                                    name={file.name} 
+                                    src={file.url}
+                                    isVideo={file.type === 'VID'} 
+                                    onClick={onClick}
+                                />
+                            </Col>
+                        )
+                    })}
                 </Row>
             </ExamplesContainer>
         )

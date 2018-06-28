@@ -30,8 +30,8 @@ const CardTitle = styled.h3`
     font-size: ${props => props.theme.fontSize.small}
 `
 
-export default ({name, src, isVideo}) => (
-    <CardAction mb>
+export default ({name, src, isVideo, onClick}) => (
+    <CardAction mb onClick={onClick}>
         {(isVideo) ? (
             <Video src={src}></Video>
         ) : (

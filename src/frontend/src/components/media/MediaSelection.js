@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
+import { FileUpload } from 'styled-icons/material/FileUpload'
+
+import { connect } from 'react-redux';
+import { mediaActions } from '../../core/media';
+
 import CtaCard from '../CtaCard'
-import Examples from './Examples';
-import {FileUpload} from 'styled-icons/material/FileUpload'
+import MediaExamples from './MediaExamples';
 
 
 const FileIcon = FileUpload.extend`
@@ -9,9 +13,16 @@ const FileIcon = FileUpload.extend`
   color: ${props => props.theme.color.primary};
 `
 
-export default class MediaSection extends Component {
-  render() {
+class MediaSelection extends Component {
+  startScan = (fileName, url) => {
+      const { setMedia } = this.props;
+      setMedia({
+          source: url,
+          fileName: fileName
+      });
+  }
 
+  render() {
     //TODO actually upload stuff
     function handleClick() {
       console.log("hey")
@@ -26,8 +37,13 @@ export default class MediaSection extends Component {
             ctaMessage="Upload"
             onClick={handleClick}
           />
-          <Examples />
+          <MediaExamples onSelect={this.startScan} />
       </div>
     )
   }
 }
+
+export default connect(
+  null,
+  mediaActions
+)(MediaSelection)

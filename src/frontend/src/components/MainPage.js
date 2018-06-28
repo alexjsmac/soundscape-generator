@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-// import Results from './Results';
-import MediaSection from './media/MediaSection';
-// import Header from './common/Header'
+import Results from './Results';
+import MediaSelection from './media/MediaSelection';
 import Topbar from './TopBar'
 
 import './main-page-styles.css';
@@ -11,17 +10,13 @@ class MainPage extends Component {
     return (
       <div className="main-page">
         <Topbar />
-        <MediaSection />
+        <MediaSelection />
 
         
         <div className="main-container">
-          <div className="">
-            {/* <Header title="Media Selection" desc="Upload an image, video or choose from one of the examples below."/> */}
-            
-          </div>
-          {/* <div className="results-container">
+          <div className="results-container">
             <Results />
-          </div> */}
+          </div>
         </div>
       </div>
     );
