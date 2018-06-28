@@ -30,8 +30,7 @@ const ExamplesContainer = styled.div`
 
 export default class MediaExamples extends Component {
     static propTypes = {
-        onSelect: PropTypes.func.isRequired,
-        setMedia: PropTypes.func.isRequired,
+        onSelect: PropTypes.func.isRequired
     }
     
     render() {
