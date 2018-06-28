@@ -29,7 +29,7 @@ export default class CardAction extends Component {
 
     render() {
         const { holding } = this.state;
-        const shadow = (holding) ? 0 : 1;
+        const shadow = (holding) ? 'pressed' : 'normal';
         return (
             <Tappable onClick={this.onClick} onHold={this.onHold} >
                 <Card {...this.props} shadow={shadow}>
