@@ -4,7 +4,7 @@ import { FileUpload } from 'styled-icons/material/FileUpload'
 import { connect } from 'react-redux';
 import { mediaActions } from '../../core/media';
 
-import CtaCard from '../CtaCard'
+import { CtaCard } from '../lib'
 import MediaExamples from './MediaExamples';
 
 

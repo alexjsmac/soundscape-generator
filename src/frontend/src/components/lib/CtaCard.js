@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Row, Col } from 'react-flexa';
 
-import {CardAction, H2 } from './lib'
+import CardAction from './CardAction'
+import H2 from './H2'
 
 const InfoHolder = styled.div`
     padding: 1rem;

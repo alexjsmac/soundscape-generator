@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { MEDIA_SELECTION, MEDIA_PLAYER } from '../core/app'
 
-import Results from './Results';
 import MediaSelection from './media/MediaSelection';
 import PlayerPage from './player/PlayerPage';
 import Topbar from './TopBar'

@@ -1,9 +1,43 @@
 import React, { Component } from 'react';
+import styled from 'styled-components'
+import { Icon } from 'antd';
+
 import { connect } from 'react-redux';
 import { soundActions } from '../../core/sounds';
 import webAudioUtil from '../../audio/webAudioUtil';
-import { Icon } from 'antd';
-import './audio-player-styles.css';
+
+
+const Container = styled.div`
+    display: flex;
+`
+
+const Name = styled.div`
+    padding-left: 0;
+    flex: 0 1 120px;
+    align-self: center;
+    font-size: 12px;
+    max-width: 120px;
+`
+
+const PlayButton = styled.button`
+    display: inline-block;
+    padding-left: 0px;
+    padding-right: 10px;
+    border: 0px solid white;
+    border-radius: 6px;
+    background: none;
+    cursor: pointer;
+`
+
+const PlayIcon = styled.i`
+    font-size: 20px;
+    background: transparent;
+    color: rgb(72, 127, 190);
+`
+
+const Label = styled.label`
+    flex: 0 1 150px;
+`
 
 class AudioPlayer extends Component {
     constructor(props) {
@@ -118,15 +152,15 @@ class AudioPlayer extends Component {
         const { isPlaying } = this.props.sounds[keyword];
         const { name } = this.props;
         return (
-            <div className="audio-player">
-                <button onClick={this.togglePlay} className="play-button">
+            <Container>
+                <PlayButton onClick={this.togglePlay}>
                     {(isPlaying) ? <Icon type="pause-circle" /> : <Icon type="play-circle" />}
-                </button>
-                <button onClick={this.shuffle} className="play-button">
+                </PlayButton>
+                <PlayButton onClick={this.shuffle}>
                     Shuffle
-                </button>
-                <div className="audio-name">{name}</div>
-                <label htmlFor="x">
+                </PlayButton>
+                <Name>{name}</Name>
+                <Label htmlFor="x">
                     Pan
                     <input type="range" 
                         value={sourcePosition.x}
@@ -135,8 +169,8 @@ class AudioPlayer extends Component {
                         max={1}
                         step={0.001}
                         onChange={this.updateSourcePosition} />
-                </label>
-                <label htmlFor="x">
+                </Label>
+                <Label htmlFor="x">
                     Volume
                     <input type="range" 
                         value={this.gain}
@@ -145,11 +179,12 @@ class AudioPlayer extends Component {
                         max={1}
                         step={0.001}
                         onChange={this.setGain} />
-                </label>
-            </div>
+                </Label>
+            </Container>
         );
     }
 }
+
 function mapStateToProps(state) {
     return {
         sounds: state.sounds

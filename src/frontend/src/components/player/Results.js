@@ -1,13 +1,24 @@
 import React, { Component } from 'react';
+import styled from 'styled-components'
+
 import { connect } from 'react-redux';
-import { generalActions } from '../core/general';
-import { soundActions } from '../core/sounds';
+import { generalActions } from '../../core/general';
+import { soundActions } from '../../core/sounds';
+
 import { Button, Input } from 'antd'
+import { Row, Col } from 'react-flexa';
+import { H2 } from '../lib'
 import Result from './Result';
-import Header from './common/Header'
-import RoomSettings from './audio/RoomSettings';
-import './result-styles.css';
+import Header from '../common/Header'
 const InputGroup = Input.Group;
+
+
+const Container = styled.div`
+    /* width: 100%;
+    height: 100%;
+    overflow: hidden; */
+`
+
 
 class Results extends Component {
     constructor(props) {
@@ -40,11 +51,20 @@ class Results extends Component {
         const hasSounds = Object.keys(sounds).length > 0;
 
         return (
-            <div className="results">
-                <Header title="Results" 
-                    desc="List of lables for the image, click Get Sounds to populate audio" 
-                    buttonTitle="Get Sounds"
-                    buttonAction={getAllSounds}/>
+            <Container>
+                <Row>
+                    <Col xs={6}>
+                        <H2>Results</H2>
+                        <p>List of lables for the image, click Get Sounds to populate audio</p>
+                    </Col>  
+                    <Col  xs={6}>
+                        <Button type="primary" size="large" onClick={getAllSounds}>
+                            Get Sounds
+                        </Button>
+                    </Col>
+                </Row>
+                
+                {/* Add a new label */}
                 <form onSubmit={this.addKeyword} className="result-add">
                     <InputGroup compact>
                         <Input type="text" size="large" style={{ width: '70%' }}
@@ -54,15 +74,15 @@ class Results extends Component {
                         <Button type="primary" size="large" style={{ width: 60 }} onClick={this.addKeyword}>Add</Button>
                     </InputGroup>
                 </form>
-                {(hasSounds) ? <RoomSettings /> : ""}
-                <div className="results-list">
+
+                <div>
                     {keywords.map((keyword, index) =>
                         <Result keyword={keyword} 
                             sound={(sounds[keyword]) ? sounds[keyword] : {}} 
                             key={keyword}/>
                     )}
                 </div>
-            </div>
+            </Container>
         );
     }
 }

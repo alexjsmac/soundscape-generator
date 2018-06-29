@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Row, Col } from 'react-flexa';
 
-import AudioCard from './AudioCard';
+import PlayAllButton from '../player/PlayAllButton';
 import Media from './Media'
-import styled from 'styled-components';
+import RoomSettings from "./RoomSettings";
+import Results from './Results';
 
 const MediaPageContainer = Row.extend`
     min-height: 100vh;
@@ -16,11 +17,7 @@ const MediaBlock = Col.extend`
     flex-direction: column;
     position: relative;
 `
-const AudioCardBlock = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    position: relative;
-`
+
 
 class PlayerPage extends Component {
     static propTypes = {
@@ -34,18 +31,13 @@ class PlayerPage extends Component {
             <MediaPageContainer flexDirection='column'>
                 <MediaBlock flex="0 1 40vh" >
                     <Media src={mediaSource} type={mediaType}/>
+                    {/* <PlayAllButton /> */}
                 </MediaBlock>
                 <Col flex="0 1 15vh">
-                    hey
+                    <RoomSettings />
                 </Col>
                 <Col flex="0 1 40vh">
-                    <AudioCardBlock>
-                        {results.map( result => 
-                            <AudioCard 
-                                name={result.name} 
-                            />
-                        )}
-                    </AudioCardBlock>
+                    <Results />
                 </Col>
             </MediaPageContainer>
         )
