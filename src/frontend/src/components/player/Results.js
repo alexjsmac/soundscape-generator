@@ -31,7 +31,10 @@ class Results extends Component {
                         <p>List of lables for the image, click Get Sounds to populate audio</p>
                     </Col>  
                     <Col  xs={6}>
-                        <Button onClick={getAllSounds}>
+                        <Button
+                            type="primary"
+                            onClick={getAllSounds}
+                        >
                             Get Sounds
                         </Button>
                     </Col>

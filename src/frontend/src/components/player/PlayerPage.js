@@ -36,7 +36,7 @@ class PlayerPage extends Component {
                 <Col flex="0 1 15vh">
                     <RoomSettings />
                 </Col>
-                <Col flex="0 1 40vh">
+                <Col>
                     <Results />
                 </Col>
             </MediaPageContainer>

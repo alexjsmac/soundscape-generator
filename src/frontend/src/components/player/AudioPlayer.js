@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
-import { Icon } from 'antd';
+import { Icon, Slider } from 'antd';
 
 import { connect } from 'react-redux';
 import { soundActions } from '../../core/sounds';
@@ -122,27 +122,24 @@ class AudioPlayer extends Component {
         getSoundForKeyword(keyword);
     }
 
-    setGain(e) {
-        e.preventDefault();
-        const value = parseFloat(e.target.value)
+    setGain(targetValue) {
+        const value = parseFloat(targetValue)
         this.setState({gain: value});
     }
 
-    updateSourcePosition(e) {
-        e.preventDefault();
-        const target = e.target;
-        const value = parseFloat(target.value)
+    updateSourcePosition(targetValue) {
+        const value = parseFloat(targetValue)
         this.setState({
             ...this.state,
             sourcePosition: {
                 ...this.state.sourcePosition,
-                [target.name]: value
+                x: value
             }
         })
     }
 
     render() {
-        const { sourcePosition, keyword} = this.state;
+        const { sourcePosition, keyword, gain} = this.state;
         const { isPlaying } = this.props.sounds[keyword];
         const { name } = this.props;
         return (
@@ -156,23 +153,25 @@ class AudioPlayer extends Component {
                 <Name>{name}</Name>
                 <Label htmlFor="x">
                     Pan
-                    <input type="range" 
+                    <Slider 
                         value={sourcePosition.x}
                         name="x"
                         min={-1}
                         max={1}
                         step={0.001}
-                        onChange={this.updateSourcePosition} />
+                        onChange={this.updateSourcePosition}
+                    />
                 </Label>
                 <Label htmlFor="x">
                     Volume
-                    <input type="range" 
-                        value={this.gain}
-                        name="x"
+                    <Slider 
+                        value={gain}
+                        name="gain"
                         min={0.001}
                         max={1}
                         step={0.001}
-                        onChange={this.setGain} />
+                        onChange={this.setGain} 
+                    />
                 </Label>
             </Container>
         );

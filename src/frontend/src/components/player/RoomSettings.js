@@ -27,11 +27,9 @@ class RoomSettings extends Component {
     static propTypes = {
         setRoomSize: PropTypes.func.isRequired,
         setRoomType: PropTypes.func.isRequired,
-        roomSize: PropTypes.string.isRequired,
-        roomType: PropTypes.string.isRequired,
     }
     
-    selectRoomSize = (value)=> {
+    selectRoomSize = (value) => {
         this.props.setRoomSize(value);
     }
 
@@ -48,20 +46,32 @@ class RoomSettings extends Component {
                 <Row>
                     <Col xs={6}>
                         <Label htmlFor="room-size">Room Size: </Label>
-                        <Select id="room-size" value={roomSize} onChange={this.selectRoomSize}>
-                            {Object.keys(roomSizes).map(RS => (
-                                <Option value={RS} key={RS}>
-                                    {capitalize(RS)}
+                        <Select 
+                            id="room-size" 
+                            value={roomSize} 
+                            onChange={this.selectRoomSize}
+                        >
+                            {Object.keys(roomSizes).map(rs => (
+                                <Option 
+                                    value={rs} 
+                                    key={rs}
+                                    title={capitalize(rs)}
+                                >
+                                    {capitalize(rs)}
                                 </Option>
                             ))}
                         </Select>
                     </Col>
                     <Col  xs={6}>
                         <Label htmlFor="room-materials">Room Materials: </Label>
-                        <Select id="room-materials" value={roomType} onChange={this.selectRoomType}>
-                            {Object.keys(roomTypes).map(RT => (
-                                <Option value={RT} key={RT}>
-                                    {capitalize(RT)}
+                        <Select 
+                            id="room-materials" 
+                            value={roomType}
+                            onChange={this.selectRoomType}
+                        >
+                            {Object.keys(roomTypes).map(rt => (
+                                <Option value={rt} key={rt}>
+                                    {capitalize(rt)}
                                 </Option>
                             ))}
                         </Select>

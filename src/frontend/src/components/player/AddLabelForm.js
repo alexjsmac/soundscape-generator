@@ -41,7 +41,6 @@ class AddLabelForm extends Component {
                  <InputGroup compact>
                     <Input 
                         type="text" 
-                        size="large" 
                         style={{ width: '70%' }}
                         value={newKeyword}
                         onChange={this.onKeywordChange}
@@ -49,7 +48,6 @@ class AddLabelForm extends Component {
                     />
                     <Button 
                         type="primary" 
-                        size="large" 
                         style={{ width: 60 }} 
                         onClick={this.addKeyword}
                     >
