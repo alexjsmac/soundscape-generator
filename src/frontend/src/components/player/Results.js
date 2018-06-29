@@ -9,7 +9,6 @@ import { Button, Input } from 'antd'
 import { Row, Col } from 'react-flexa';
 import { H2 } from '../lib'
 import Result from './Result';
-import Header from '../common/Header'
 const InputGroup = Input.Group;
 
 
@@ -48,7 +47,6 @@ class Results extends Component {
     render() {
         const { keywords, sounds, getAllSounds } = this.props;
         const { newKeyword } = this.state;
-        const hasSounds = Object.keys(sounds).length > 0;
 
         return (
             <Container>

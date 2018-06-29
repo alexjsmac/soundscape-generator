@@ -26,12 +26,12 @@ class PlayerPage extends Component {
     }
     
     render() {
-        const { mediaSource, mediaType, results } = this.props;
+        const { mediaSource, mediaType } = this.props;
         return (
             <MediaPageContainer flexDirection='column'>
                 <MediaBlock flex="0 1 40vh" >
                     <Media src={mediaSource} type={mediaType}/>
-                    {/* <PlayAllButton /> */}
+                    <PlayAllButton />
                 </MediaBlock>
                 <Col flex="0 1 15vh">
                     <RoomSettings />

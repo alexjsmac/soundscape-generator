@@ -29,12 +29,6 @@ const PlayButton = styled.button`
     cursor: pointer;
 `
 
-const PlayIcon = styled.i`
-    font-size: 20px;
-    background: transparent;
-    color: rgb(72, 127, 190);
-`
-
 const Label = styled.label`
     flex: 0 1 150px;
 `
