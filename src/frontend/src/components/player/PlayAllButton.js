@@ -2,6 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { soundActions } from '../../core/sounds';
 import { Button } from 'antd';
+import { Row } from 'react-flexa'
+
+const ButtonContainer = Row.extend`
+    position: absolute;
+    bottom: 1rem;
+    width: 100%;
+`
 
 class GlobalAudio extends Component {
     constructor(props) {
@@ -27,13 +34,15 @@ class GlobalAudio extends Component {
     render() {
         const { globalPlaying } = this.state;
         return (
-            <Button 
-                onClick={this.togglePlay} 
-                type="primary" 
-                size="large"
-                style={{marginRight: 8}}>
-                {(globalPlaying) ? "Stop All" : "Play All"}
-            </Button>
+            <ButtonContainer justifyContent="center">
+                <Button 
+                    onClick={this.togglePlay} 
+                    type="primary" 
+                    size="large"
+                    >
+                    {(globalPlaying) ? "Stop All" : "Play All"}
+                </Button>
+            </ButtonContainer>
         );
     }
 }
