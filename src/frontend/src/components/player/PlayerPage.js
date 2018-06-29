@@ -9,8 +9,9 @@ import Media from './Media'
 import RoomSettings from "./RoomSettings";
 import Results from './Results';
 import AddLabelForm from './AddLabelForm'
+import BackButton from './BackButton'
 import { Button } from 'antd'
-import { H2 } from '../lib'
+import { H2, Mobile } from '../lib'
 
 const MediaPageContainer = Row.extend`
     height: 100%;
@@ -40,9 +41,12 @@ class PlayerPage extends Component {
         const { mediaSource, mediaType, getAllSounds } = this.props;
         return (
             <MediaPageContainer flexDirection='column'>
-                <MediaBlock flex="0 1 40vh" >
+                <MediaBlock flex="0 1 25 vh" >
                     <Media src={mediaSource} type={mediaType}/>
                     <PlayAllButton />
+                    <Mobile>
+                        <BackButton />
+                    </Mobile>
                 </MediaBlock>
                 <Col flex="0 1 15vh">
                     <RoomSettings />
