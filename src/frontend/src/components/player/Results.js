@@ -1,52 +1,18 @@
 import React, { Component } from 'react';
-import styled from 'styled-components'
 
 import { connect } from 'react-redux';
-import { soundActions } from '../../core/sounds';
 
-import { Row, Col } from 'react-flexa';
-import { Button } from 'antd'
-import { H2 } from '../lib'
+
 import Result from './Result';
-import AddLabelForm from './AddLabelForm'
 
-
-const Container = styled.div`
-    /* width: 100%;
-    height: 100%;
-    overflow: hidden; */
-`
 
 
 class Results extends Component {
-
     render() {
-        const { keywords, sounds, getAllSounds } = this.props;
+        const { keywords, sounds } = this.props;
 
         return (
-            <Container>
-                <Row>
-                    <Col xs={6}>
-                        <H2>Results</H2>
-                        <p>List of lables for the image, click Get Sounds to populate audio</p>
-                    </Col>  
-                    <Col  xs={6}>
-                        <Button
-                            type="primary"
-                            onClick={getAllSounds}
-                        >
-                            Get Sounds
-                        </Button>
-                    </Col>
-                </Row>
-                
-                {/* Add a new label */}
-                <Row justifyContent="center" >
-                    <Col xs={10}>
-                        <AddLabelForm />
-                    </Col>
-                </Row>
-
+            <div>
                 <div>
                     {keywords.map((keyword, index) =>
                         <Result keyword={keyword} 
@@ -54,7 +20,7 @@ class Results extends Component {
                             key={keyword}/>
                     )}
                 </div>
-            </Container>
+            </div>
         );
     }
 }
@@ -68,5 +34,5 @@ function mapStateToProps(state) {
 
 export default connect(
     mapStateToProps,
-    soundActions
+    null
 )(Results);

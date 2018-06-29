@@ -1,21 +1,32 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Row, Col } from 'react-flexa';
+import { soundActions } from '../../core/sounds';
 
+import { Row, Col } from 'react-flexa';
 import PlayAllButton from '../player/PlayAllButton';
 import Media from './Media'
 import RoomSettings from "./RoomSettings";
 import Results from './Results';
+import AddLabelForm from './AddLabelForm'
+import { Button } from 'antd'
+import { H2 } from '../lib'
 
 const MediaPageContainer = Row.extend`
-    min-height: 100vh;
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
 `
 
 const MediaBlock = Col.extend`
     display: flex;
     flex-direction: column;
     position: relative;
+`
+
+const ResultsBlock = Col.extend`
+    flex: 1 1 100px;
+    overflow: scroll;
 `
 
 
@@ -26,7 +37,7 @@ class PlayerPage extends Component {
     }
     
     render() {
-        const { mediaSource, mediaType } = this.props;
+        const { mediaSource, mediaType, getAllSounds } = this.props;
         return (
             <MediaPageContainer flexDirection='column'>
                 <MediaBlock flex="0 1 40vh" >
@@ -35,10 +46,30 @@ class PlayerPage extends Component {
                 </MediaBlock>
                 <Col flex="0 1 15vh">
                     <RoomSettings />
+                    <Row>
+                        <Col xs={6}>
+                            <H2>Results</H2>
+                            <p>List of lables for the image, click Get Sounds to populate audio</p>
+                        </Col>  
+                        <Col  xs={6}>
+                            <Button
+                                type="primary"
+                                onClick={getAllSounds}
+                            >
+                                Get Sounds
+                            </Button>
+                        </Col>
+                    </Row>
+                    {/* Add a new label */}
+                    <Row justifyContent="center" >
+                        <Col xs={10}>
+                            <AddLabelForm />
+                        </Col>
+                    </Row>
                 </Col>
-                <Col>
+                <ResultsBlock>
                     <Results />
-                </Col>
+                </ResultsBlock>
             </MediaPageContainer>
         )
     }
@@ -59,4 +90,8 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, null)(PlayerPage);
+
+export default connect(
+    mapStateToProps,
+    soundActions
+)(PlayerPage);

@@ -3,11 +3,24 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { MEDIA_SELECTION, MEDIA_PLAYER } from '../core/app'
 
+import styled from 'styled-components'
+import { Row, Col } from 'react-flexa';
+import { Desktop, Mobile } from './lib'
 import MediaSelection from './media/MediaSelection';
 import PlayerPage from './player/PlayerPage';
 import Topbar from './TopBar'
 
 import './main-page-styles.css';
+
+const AppContainer = styled.div`
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+`
+
+const DesktopContainer = Row.extend`
+  height: 100%;
+`
 
 class MainPage extends Component {
   static propTypes = {
@@ -27,9 +40,21 @@ class MainPage extends Component {
       }
     }
     return (
-      <div className="main-page">
+      <AppContainer>
         <Topbar />
-        {renderScreen(screen)}
+        <Desktop>
+          <DesktopContainer>
+            <Col xs={6}>
+              <MediaSelection />
+            </Col>
+            <Col xs={6}>
+              <PlayerPage />
+            </Col>
+          </DesktopContainer>
+        </Desktop>
+        <Mobile>
+          {renderScreen(screen)}
+        </Mobile>
 
         
         {/* <div className="main-container">
@@ -37,7 +62,7 @@ class MainPage extends Component {
             <Results />
           </div>
         </div> */}
-      </div>
+      </AppContainer>
     );
   }
 }

@@ -42,7 +42,7 @@ export default class MediaExamples extends Component {
                     {files.map( (file, i) => {
                         const onClick = () => onSelect(file.fileName, file.url);
                         return (
-                            <Col xs={6} sm={4} md={3} key={i}>
+                            <Col xs={6} sm={4} md={4} lg={3} key={i}>
                                 <ImageCard 
                                     name={file.name} 
                                     src={file.url}
