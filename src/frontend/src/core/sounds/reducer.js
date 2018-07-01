@@ -2,6 +2,7 @@ import {
     SOUND_SET_SOUNDLIST,
     SOUNDS_GET_ALL,
     SOUND_GET_SUCCESS,
+    SOUND_GET_ERROR,
     SOUND_DELETE,
     SOUND_PLAY,
     SOUND_STOP,
@@ -12,12 +13,17 @@ import {
 const defaultState = {
     /*
     [keyword]: {
-        sound: {freeSound details},
-        soundList: [freeSound search results],
-        soundChoice: index of choice in soundList,
-        isPlaying: true
     }
     */
+}
+
+const defaultSound = {
+    sound: {},
+    soundList: [],
+    soundChoice: 0,
+    isPlaying: false,
+    isLoading: false,
+    hasNoResults: false
 }
 
 export function soundsReducer(state = defaultState, action) {
@@ -27,7 +33,9 @@ export function soundsReducer(state = defaultState, action) {
             return {
                 ...state,
                 [action.keyword]: {
+                    ...defaultSound,
                     ...state[action.keyword],
+                    isLoading: true,
                     soundList: action.soundList,
                     soundChoice: 0
                 }
@@ -38,11 +46,23 @@ export function soundsReducer(state = defaultState, action) {
             return {
                 ...state,
                 [action.keyword]: {
+                    ...defaultSound,
                     ...state[action.keyword],
                     sound: {...action.sound},
-                    soundChoice: (state[action.keyword].soundChoice + 1 >= state[action.keyword].soundList.length) ? 0 : ++state[action.keyword].soundChoice
+                    isLoading: false,
+                    soundChoice: (state[action.keyword].soundChoice + 1 >= state[action.keyword].soundList.length) ? 0 : ++state[action.keyword].soundChoice,
                 }
             };
+        case SOUND_GET_ERROR:
+            return {
+                ...state,
+                [action.keyword]: {
+                    ...defaultSound,
+                    ...state[action.keyword],
+                    isLoading: false,
+                    hasNoResults: true
+                }
+            }
         case SOUND_DELETE:
             newState = {...state};
             delete newState[action.keyword];
@@ -51,6 +71,7 @@ export function soundsReducer(state = defaultState, action) {
             return {
                 ...state,
                 [action.keyword]: {
+                    ...defaultSound,
                     ...state[action.keyword],
                     isPlaying: true
                 }
@@ -59,6 +80,7 @@ export function soundsReducer(state = defaultState, action) {
             return {
                 ...state,
                 [action.keyword]: {
+                    ...defaultSound,
                     ...state[action.keyword],
                     isPlaying: false
                 }

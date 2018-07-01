@@ -2,24 +2,27 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
-
+import styled from 'styled-components'
 import Result from './Result';
 
-
+const ResultsContainer = styled.div`
+    background: #ddd;
+    padding: 1px 1px;
+    top: -1px;
+    position: relative;
+`
 
 class Results extends Component {
     render() {
-        const { keywords, sounds } = this.props;
+        const { keywords } = this.props;
 
         return (
             <div>
-                <div>
-                    {keywords.map((keyword, index) =>
-                        <Result keyword={keyword} 
-                            sound={(sounds[keyword]) ? sounds[keyword] : {}} 
-                            key={keyword}/>
+                <ResultsContainer>
+                    {keywords.map((keyword) =>
+                        <Result keyword={keyword} key={keyword} />
                     )}
-                </div>
+                </ResultsContainer>
             </div>
         );
     }
@@ -27,8 +30,7 @@ class Results extends Component {
 
 function mapStateToProps(state) {
     return {
-        keywords: state.general.keywords,
-        sounds: state.sounds
+        keywords: state.general.keywords
     }
 }
 

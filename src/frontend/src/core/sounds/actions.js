@@ -2,6 +2,7 @@ import {
     SOUND_SET_SOUNDLIST,
     SOUNDS_GET_ALL,
     SOUND_GET_SUCCESS,
+    SOUND_GET_ERROR,
     SOUND_DELETE,
     SOUND_PLAY,
     SOUND_STOP,
@@ -29,6 +30,13 @@ function getSoundSuccess(keyword, sound) {
         type: SOUND_GET_SUCCESS,
         keyword,
         sound
+    }
+}
+
+function getSoundError(keyword, sound) {
+    return {
+        type: SOUND_GET_ERROR,
+        keyword
     }
 }
 
@@ -72,8 +80,12 @@ export function getAllSounds() {
         keywords.forEach(keyword => {
             freeSoundService.search(keyword)
                 .then(soundList => {
-                    dispatch(setSoundList(keyword, soundList))
-                    if (soundList.length > 0) dispatch(getSoundForKeyword(keyword));
+                    if (soundList.length) {
+                        dispatch(setSoundList(keyword, soundList))   
+                        dispatch(getSoundForKeyword(keyword)) 
+                    } else {
+                        dispatch(getSoundError(keyword));
+                    }
                 })
                 .catch(() => {throw new Error(`Error getting the list of sounds for keyword: ${keyword}`)})
         })
@@ -90,7 +102,10 @@ export function getSoundForKeyword(keyword) {
             .then(sound => {
                 dispatch(getSoundSuccess(keyword, sound))
             })
-            .catch(() => {throw new Error(`Error getting sound for id: ${id}`)})
+            .catch(() => {
+                dispatch(getSoundError(keyword));
+                throw new Error(`Error getting sound for id: ${id}`)
+            })
     }
 }
 

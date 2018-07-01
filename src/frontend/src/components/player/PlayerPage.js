@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { soundActions } from '../../core/sounds';
 
 import { Row, Col } from 'react-flexa';
-import PlayAllButton from '../player/PlayAllButton';
-import Media from './Media'
-import RoomSettings from "./RoomSettings";
-import Results from './Results';
-import AddLabelForm from './AddLabelForm'
-import BackButton from './BackButton'
-import { Button } from 'antd'
 import { H2, Mobile } from '../lib'
+
+import Media from './Media'
+import PlayAllButton from '../player/PlayAllButton';
+import BackButton from './BackButton'
+import RoomSettings from "./RoomSettings";
+import AddLabelForm from './AddLabelForm'
+import Results from './Results';
+
 
 const MediaPageContainer = Row.extend`
     height: 100%;
@@ -38,10 +38,10 @@ class PlayerPage extends Component {
     }
     
     render() {
-        const { mediaSource, mediaType, getAllSounds } = this.props;
+        const { mediaSource, mediaType } = this.props;
         return (
             <MediaPageContainer flexDirection='column'>
-                <MediaBlock flex="0 1 25 vh" >
+                <MediaBlock flex="0 1 25vh" >
                     <Media src={mediaSource} type={mediaType}/>
                     <PlayAllButton />
                     <Mobile>
@@ -54,14 +54,6 @@ class PlayerPage extends Component {
                         <Col xs={6}>
                             <H2>Results</H2>
                             <p>List of lables for the image, click Get Sounds to populate audio</p>
-                        </Col>  
-                        <Col  xs={6}>
-                            <Button
-                                type="primary"
-                                onClick={getAllSounds}
-                            >
-                                Get Sounds
-                            </Button>
                         </Col>
                     </Row>
                     {/* Add a new label */}
@@ -94,8 +86,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-
-export default connect(
-    mapStateToProps,
-    soundActions
-)(PlayerPage);
+export default connect(mapStateToProps, null)(PlayerPage);

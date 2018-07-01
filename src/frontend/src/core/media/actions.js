@@ -1,5 +1,3 @@
-import { generalActions } from '../general';
-import { mediaTypes, getMediaType } from './mediaTypes';
 import {
     MEDIA_SET_URL,
     MEDIA_UPLOAD_START,
@@ -9,7 +7,11 @@ import {
     VIDEO_SCAN_START,
     VIDEO_SCAN_COMPLETE
 } from './action-types';
+import { mediaTypes, getMediaType } from './mediaTypes';
+
+import { generalActions } from '../general';
 import { appActions } from '../app';
+import { soundActions } from '../sounds';
 
 
 const BASE_URL = "http://localhost:8000"
@@ -92,6 +94,7 @@ function scanImage(fileName) {
                 console.log("SCAN SUCCESS", json);
                 dispatch(generalActions.setKeywords(json.labels))
                 dispatch(imageScanComplete());
+                dispatch(soundActions.getAllSounds());
             })
             .catch((err) => {
                 console.error("SCAN ERROR", err);
@@ -119,6 +122,7 @@ function scanVideoStart(fileName) {
                             console.log("success");
                             dispatch(generalActions.setKeywords(labels))
                             dispatch(videoScanComplete());
+                            dispatch(soundActions.getAllSounds());
                         } else {
                             setTimeout(test, 2000);
                         }
