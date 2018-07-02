@@ -1,6 +1,8 @@
 export const SOUND_SET_SOUNDLIST = 'SOUND_SET_SOUNDLIST';
 
 export const SOUNDS_GET_ALL = 'SOUNDS_GET_ALL';
+
+export const SOUND_GET = 'SOUND_GET';
 export const SOUND_GET_SUCCESS = 'SOUND_GET_SUCCESS';
 export const SOUND_GET_ERROR = 'SOUND_GET_ERROR';
 

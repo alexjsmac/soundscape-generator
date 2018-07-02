@@ -5,26 +5,46 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { generalActions } from '../../core/general';
 
-import { Button } from 'antd'
+import { Button, Icon } from 'antd'
+import { Row, Col } from 'react-flexa';
 import AudioPlayerProvider from './AudioPlayer/AudioPlayerProvider'
 import { AudioName, PlayButton, ShuffleButton, VolumeSlider, PanSlider } from "./AudioPlayer/AudioPlayerComponents";
 
-const Container = styled.div`
+const borderColor = '#aac'
+const Container = Col.extend`
     width: 100%;
-    margin: 1px 0;
     background: white;
     overflow: hidden;
-    margin-bottom: 2px;
+    box-shadow: 1px 0 0 0 ${borderColor}, 
+        0 1px 0 0 ${borderColor}, 
+        1px 1px 0 0 ${borderColor}, 
+        1px 0 0 0 ${borderColor} inset, 
+        0 1px 0 0 ${borderColor} inset;
 `
 
-const TopBar = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 12px;
+const InnerRow = Row.extend`
+    padding: 0 0.5rem;
+    padding-top: ${props => props.pt ? props.pt : ""};
+    padding-bottom: ${props => props.pb ? props.pb : ""};
 `
 
-const Keyword = styled.span`
+const Seperator = styled.div`
+    height: 1px;
+    width: 100%;
+    margin: 0.05rem 0.5rem 0;
+    border-bottom: ${ props => `1px solid #bbb `};
+`
+
+const SoundContainer = styled.div`
+    /* background: #f5f5f5; */
+    padding: 0rem 0 1rem;
+`
+
+const SoundPlayRow = Row.extend`
+    padding: 0.5rem 0 0;
+`
+const ResultLabel = styled.span`
+    font-size: ${ props => props.theme.fontSize.default};
     font-weight: 700;
 `
 
@@ -36,45 +56,122 @@ class Result extends Component {
     
     render() {
         const { keyword, sounds, deleteKeyword } = this.props;
-        const sound = sounds[keyword];
+        const sound = sounds[keyword] || {};
         
-        if (typeof sound === 'undefined' || sound.isLoading) {
-            return (
-                <div>Loading sound</div>
-            )
-        }
+        const isLoading = !!sound.isLoading;
+        const isError = !!sound.hasNoResults
 
-        if (sound.hasNoResults) {
-            return (
-                <div>Sound ERROR, no results</div>
-            )
-        }
+        const DeleteButton = (
+            <Button 
+                size="small"
+                icon="delete"
+                onClick={() => deleteKeyword(keyword)}
+                style={{
+                    margin: 0
+                }}
+            >
+                Delete
+            </Button>
+        );
 
-        const remove = () => {
-            deleteKeyword(keyword);
-        }
-
-        return (
-            <Container>
-                <TopBar>
-                    <Keyword>{keyword}</Keyword>
-                    <Button type="danger" shape="circle" icon="close" onClick={remove}/>
-                </TopBar>
-                {/* {(soundObj) ? renderSound(soundObj, keyword) : ""} */}
-                <AudioPlayerProvider keyword={keyword} sound={sound} >
-                    <VolumeSlider />
-                    <PanSlider />
-                    <PlayButton />
-                    <ShuffleButton />
-                    <AudioName />
-                </AudioPlayerProvider>
-            </Container>
+        const TopSection = (
+            <React.Fragment>
+                <InnerRow 
+                    justifyContent="space-between" 
+                    alignItems="center" 
+                    pt="0.5rem" 
+                    pb="0.5rem"
+                >
+                    <Col>
+                        <ResultLabel>{keyword}</ResultLabel>
+                    </Col>
+                    <Col>
+                        {DeleteButton}
+                    </Col>
+                </InnerRow>
+                <InnerRow gutter="1rem">
+                    <Col>
+                        <b>Audio</b>
+                    </Col>
+                    <Col>
+                        { !isLoading && !isError && <ShuffleButton />}
+                    </Col>
+                    <Seperator />
+                </InnerRow>
+            </React.Fragment>
         )
+
+        const SoundSection = (
+            <SoundContainer>
+                <SoundPlayRow gutter="0">
+                    <Col>
+                        <PlayButton />
+                        <AudioName />
+                    </Col>
+                </SoundPlayRow>
+                <InnerRow>
+                    <Col xs={6}>
+                        <VolumeSlider />
+                    </Col>
+                    <Col xs={6}>
+                        <PanSlider />
+                    </Col>
+                </InnerRow>
+            </SoundContainer>
+        )
+
+        const AudioSectionWrap = ({children}) => (
+            <SoundContainer style={{height: "100%"}}>
+                <InnerRow justifyContent="center" alignItems="center" style={{height: "50%"}}>
+                    {children}
+                </InnerRow>
+            </SoundContainer>
+        )
+
+        if (isLoading) {
+            return (
+                <Container xs={6} gutter="1px">
+                        {TopSection}
+                        <AudioSectionWrap>
+                            <Icon 
+                                type="loading" 
+                                size="large"
+                                style={{ 
+                                    fontSize: 16, 
+                                    color: '#08c',
+                                    padding: '0.5rem'
+                                }}
+                            /> 
+                            Loading
+                        </AudioSectionWrap>
+                </Container>
+            )
+        }
+        if (!isLoading && isError ) {
+            return (
+                <Container xs={6} gutter="1px">
+                        {TopSection}
+                        <AudioSectionWrap>
+                            No Sounds Found
+                        </AudioSectionWrap>
+                </Container>
+            )
+        }
+        if (!isLoading && !isError) {
+            return (
+                <Container xs={6} gutter="1px">
+                    <AudioPlayerProvider keyword={keyword} sound={sound} >
+                        {TopSection}
+                        {SoundSection}
+                    </AudioPlayerProvider>
+                </Container>
+            )
+        } 
     }
 }
 
 const mapStateToProps = (state) => ({
     sounds: state.sounds
-})
+});
 
 export default connect(mapStateToProps, generalActions)(Result);

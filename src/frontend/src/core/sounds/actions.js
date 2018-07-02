@@ -1,6 +1,7 @@
 import {
     SOUND_SET_SOUNDLIST,
     SOUNDS_GET_ALL,
+    SOUND_GET,
     SOUND_GET_SUCCESS,
     SOUND_GET_ERROR,
     SOUND_DELETE,
@@ -22,6 +23,13 @@ function setSoundList(keyword, soundList) {
 export function startGetAllSounds() {
     return {
         type: SOUNDS_GET_ALL
+    }
+}
+
+function getSoundStart(keyword) {
+    return {
+        type: SOUND_GET,
+        keyword
     }
 }
 
@@ -98,6 +106,7 @@ export function getSoundForKeyword(keyword) {
         const id = sound.soundList[sound.soundChoice].id;
         if (!id) return console.error(`No sound for keyword: ${keyword}`);
 
+        dispatch(getSoundStart(keyword));
         freeSoundService.sound(id)
             .then(sound => {
                 dispatch(getSoundSuccess(keyword, sound))

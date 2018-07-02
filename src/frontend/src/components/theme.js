@@ -4,7 +4,7 @@ export default {
         // primaryVarient: '#252d49',
         onPrimary: 'white',
         
-        // secondary: '#252d49',
+        secondary: '#108ee9',
         // secondaryVarient: '#252d49',
         // onSecondary: 'white',
 

@@ -1,6 +1,7 @@
 import {
     SOUND_SET_SOUNDLIST,
     SOUNDS_GET_ALL,
+    SOUND_GET,
     SOUND_GET_SUCCESS,
     SOUND_GET_ERROR,
     SOUND_DELETE,
@@ -42,6 +43,15 @@ export function soundsReducer(state = defaultState, action) {
             }
         case SOUNDS_GET_ALL:
             return state;
+        case SOUND_GET:
+            return {
+                ...state,
+                [action.keyword]: {
+                    ...defaultSound,
+                    ...state[action.keyword],
+                    isLoading: true,
+                }
+            };
         case SOUND_GET_SUCCESS:
             return {
                 ...state,

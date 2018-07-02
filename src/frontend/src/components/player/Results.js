@@ -2,15 +2,8 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
-import styled from 'styled-components'
 import Result from './Result';
-
-const ResultsContainer = styled.div`
-    background: #ddd;
-    padding: 1px 1px;
-    top: -1px;
-    position: relative;
-`
+import { Row } from 'react-flexa';
 
 class Results extends Component {
     render() {
@@ -18,11 +11,11 @@ class Results extends Component {
 
         return (
             <div>
-                <ResultsContainer>
+                <Row>
                     {keywords.map((keyword) =>
                         <Result keyword={keyword} key={keyword} />
                     )}
-                </ResultsContainer>
+                </Row>
             </div>
         );
     }
