@@ -4,15 +4,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import { generalActions } from '../../core/general';
 
-import styled from 'styled-components'
 import { Button, Input } from 'antd'
 const InputGroup = Input.Group
 
-const Label = styled.label`
-    font-weight: bold;
-    display: block;
-    margin-top: 0.5rem;
-`
 
 class AddLabelForm extends Component {
     static propTypes = {
@@ -45,9 +39,9 @@ class AddLabelForm extends Component {
         const { newKeyword } = this.state;
         return (
             <form onSubmit={this.addKeyword}>
-                <Label htmlFor="add-label">
-                    New Audio Label
-                </Label>
+                <label htmlFor="add-label">
+                    <b>New Audio Label</b>
+                </label>
                 <InputGroup compact>
                     <Input
                         id="add-label"
@@ -56,7 +50,7 @@ class AddLabelForm extends Component {
                         value={newKeyword}
                         onChange={this.onKeywordChange}
                         style={{
-                            margin: "0rem 0 0.5rem",
+                            margin: "0",
                             width: '70%'
                         }}
                     />

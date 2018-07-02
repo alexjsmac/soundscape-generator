@@ -36,7 +36,6 @@ const Seperator = styled.div`
 `
 
 const SoundContainer = styled.div`
-    /* background: #f5f5f5; */
     padding: 0rem 0 1rem;
 `
 
@@ -56,10 +55,11 @@ class Result extends Component {
     
     render() {
         const { keyword, sounds, deleteKeyword } = this.props;
-        const sound = sounds[keyword] || {};
+        const sound = sounds[keyword];
         
-        const isLoading = !!sound.isLoading;
-        const isError = !!sound.hasNoResults
+        const hasSound = typeof sound !== 'undefined';
+        const isLoading = hasSound && !!sound.isLoading;
+        const isError = hasSound && !!sound.hasNoResults;
 
         const DeleteButton = (
             <Button 
@@ -122,7 +122,11 @@ class Result extends Component {
 
         const AudioSectionWrap = ({children}) => (
             <SoundContainer style={{height: "100%"}}>
-                <InnerRow justifyContent="center" alignItems="center" style={{height: "50%"}}>
+                <InnerRow 
+                    justifyContent="center" 
+                    alignItems="center" 
+                    style={{height: "50%"}}
+                >
                     {children}
                 </InnerRow>
             </SoundContainer>
@@ -130,14 +134,7 @@ class Result extends Component {
 
         return (
             <Container xs={12} sm={6} gutter="1px">
-                    { !isLoading && !isError && (
-                        <AudioPlayerProvider keyword={keyword} sound={sound} >
-                            {TopSection}
-                            {SoundSection}
-                        </AudioPlayerProvider>
-                    )}
-
-                    { isLoading && (
+                    { (isLoading) ? (
                         <React.Fragment>
                             {TopSection}
                             <AudioSectionWrap>
@@ -153,15 +150,22 @@ class Result extends Component {
                                 Loading
                             </AudioSectionWrap>
                         </React.Fragment>
-                    )}
-                    { !isLoading && isError && (
+                    ) : ""}
+                    { (!isLoading && isError) ? (
                         <React.Fragment>
                             {TopSection}
                             <AudioSectionWrap>
                                 <b>No Sounds Found</b>
                             </AudioSectionWrap>
                         </React.Fragment>
-                    )}
+                    ) : ""}
+
+                    { (hasSound && !isLoading && !isError) ? (
+                        <AudioPlayerProvider keyword={keyword} sound={sound} >
+                            {TopSection}
+                            {SoundSection}
+                        </AudioPlayerProvider>
+                    ) : ""}
             </Container>
         )
 

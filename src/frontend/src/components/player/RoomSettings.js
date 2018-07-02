@@ -23,6 +23,10 @@ const Label = styled.label`
     padding-right: 4px;
 `
 
+const selectStyles = {
+    width: '100%'
+}
+
 class RoomSettings extends Component {
     static propTypes = {
         setRoomSize: PropTypes.func.isRequired,
@@ -42,42 +46,42 @@ class RoomSettings extends Component {
         const capitalize = (a) => a.charAt(0) + a.slice(1).toLowerCase();
 
         return (
-            <Container>
-                <Row>
-                    <Col xs={6}>
-                        <Label htmlFor="room-size">Room Size: </Label>
-                        <Select 
-                            id="room-size" 
-                            value={roomSize} 
-                            onChange={this.selectRoomSize}
-                        >
-                            {Object.keys(roomSizes).map(rs => (
-                                <Option 
-                                    value={rs} 
-                                    key={rs}
-                                    title={capitalize(rs)}
-                                >
-                                    {capitalize(rs)}
-                                </Option>
-                            ))}
-                        </Select>
-                    </Col>
-                    <Col  xs={6}>
-                        <Label htmlFor="room-materials">Room Materials: </Label>
-                        <Select 
-                            id="room-materials" 
-                            value={roomType}
-                            onChange={this.selectRoomType}
-                        >
-                            {Object.keys(roomTypes).map(rt => (
-                                <Option value={rt} key={rt}>
-                                    {capitalize(rt)}
-                                </Option>
-                            ))}
-                        </Select>
-                    </Col>
-                </Row>
-            </Container>
+            <React.Fragment>
+                <Col xs={4}>
+                    <Label htmlFor="room-size">Room Size: </Label>
+                    <Select 
+                        id="room-size" 
+                        value={roomSize} 
+                        onChange={this.selectRoomSize}
+                        style={selectStyles}
+                    >
+                        {Object.keys(roomSizes).map(rs => (
+                            <Option 
+                                value={rs} 
+                                key={rs}
+                                title={capitalize(rs)}
+                            >
+                                {capitalize(rs)}
+                            </Option>
+                        ))}
+                    </Select>
+                </Col>
+                <Col  xs={4}>
+                    <Label htmlFor="room-materials">Room Materials: </Label>
+                    <Select 
+                        id="room-materials" 
+                        value={roomType}
+                        onChange={this.selectRoomType}
+                        style={selectStyles}
+                    >
+                        {Object.keys(roomTypes).map(rt => (
+                            <Option value={rt} key={rt}>
+                                {capitalize(rt)}
+                            </Option>
+                        ))}
+                    </Select>
+                </Col>
+            </React.Fragment>
         );
     }
 }

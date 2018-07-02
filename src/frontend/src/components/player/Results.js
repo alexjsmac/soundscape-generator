@@ -2,21 +2,25 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
-import Result from './Result';
 import { Row } from 'react-flexa';
+import Result from './Result';
+
+const ResultsContainer = Row.extend`
+    position: relative;
+    top: -1px;
+`
+
 
 class Results extends Component {
     render() {
         const { keywords } = this.props;
 
         return (
-            <div>
-                <Row>
-                    {keywords.map((keyword) =>
-                        <Result keyword={keyword} key={keyword} />
-                    )}
-                </Row>
-            </div>
+            <ResultsContainer>
+                {keywords.map((keyword) =>
+                    <Result keyword={keyword} key={keyword} />
+                )}
+            </ResultsContainer>
         );
     }
 }

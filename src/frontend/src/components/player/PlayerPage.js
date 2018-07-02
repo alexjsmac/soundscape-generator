@@ -31,10 +31,15 @@ const ResultsBlock = Col.extend`
     overflow: scroll;
 `
 
-const AudioHeadingBlock = Row.extend`
-    padding: 0.5rem 0.5rem 0;
+const AudioBlock = CardBorderGrid.extend`
+    margin-bottom: 1px;
 `
-
+const AudioHeadingBlock = Row.extend`
+    padding: 0.5rem;
+`
+const AudioControlsBlock = AudioHeadingBlock.extend`
+    background: rgba(100, 100, 150, 0.15);
+`
 
 class PlayerPage extends Component {
     static propTypes = {
@@ -52,16 +57,12 @@ class PlayerPage extends Component {
             >
                 <MediaBlock flex="0 1 20vh" gutter="0" >
                     <Media src={mediaSource} type={mediaType}/>
-                    <PlayAllButton />
                     <Mobile>
                         <BackButton />
                     </Mobile>
                 </MediaBlock>
-                <Col  gutter="0">
-                    <CardBorderGrid>
-                        <RoomSettings />
-                    </CardBorderGrid>
-                    <CardBorderGrid>
+                <Col gutter="0">
+                    <AudioBlock>
                         <AudioHeadingBlock>
                             <Col xs={6}>
                                 <H2>Audio Clips</H2>
@@ -74,7 +75,15 @@ class PlayerPage extends Component {
                                 <AddLabelForm />
                             </Col>
                         </AudioHeadingBlock>
-                    </CardBorderGrid>
+                        <AudioControlsBlock
+                            alignItems='center'
+                        >
+                            <Col xs={3} gutter='2rem'>
+                                <PlayAllButton />
+                            </Col>
+                            <RoomSettings />
+                        </AudioControlsBlock>
+                    </AudioBlock>
                 </Col>
                 <ResultsBlock>
                     <Results />
