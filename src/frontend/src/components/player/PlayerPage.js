@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { mediaTypes } from '../../core/media/mediaTypes'
 
 import { Row, Col } from 'react-flexa';
-import { H2, Mobile } from '../lib'
+import { H2, Mobile, CardBorderGrid } from '../lib'
 
 import Media from './Media'
 import PlayAllButton from '../player/PlayAllButton';
@@ -30,6 +31,10 @@ const ResultsBlock = Col.extend`
     overflow: scroll;
 `
 
+const AudioHeadingBlock = Row.extend`
+    padding: 0.5rem 0.5rem 0;
+`
+
 
 class PlayerPage extends Component {
     static propTypes = {
@@ -40,28 +45,36 @@ class PlayerPage extends Component {
     render() {
         const { mediaSource, mediaType } = this.props;
         return (
-            <MediaPageContainer flexDirection='column'>
-                <MediaBlock flex="0 1 25vh" >
+            <MediaPageContainer 
+                flexDirection='column' 
+                justifyContent='flex-start'
+                flexWrap='nowrap'
+            >
+                <MediaBlock flex="0 1 20vh" gutter="0" >
                     <Media src={mediaSource} type={mediaType}/>
                     <PlayAllButton />
                     <Mobile>
                         <BackButton />
                     </Mobile>
                 </MediaBlock>
-                <Col flex="0 1 15vh">
-                    <RoomSettings />
-                    <Row>
-                        <Col xs={6}>
-                            <H2>Results</H2>
-                            <p>List of lables for the image, click Get Sounds to populate audio</p>
-                        </Col>
-                    </Row>
-                    {/* Add a new label */}
-                    <Row justifyContent="center" >
-                        <Col xs={10}>
-                            <AddLabelForm />
-                        </Col>
-                    </Row>
+                <Col  gutter="0">
+                    <CardBorderGrid>
+                        <RoomSettings />
+                    </CardBorderGrid>
+                    <CardBorderGrid>
+                        <AudioHeadingBlock>
+                            <Col xs={6}>
+                                <H2>Audio Clips</H2>
+                                <p>Here are the generated labels for this
+                                    {mediaType === mediaTypes.VIDEO && " video"}
+                                    {mediaType === mediaTypes.IMAGE && " image"}
+                                </p>
+                            </Col>
+                            <Col xs={6}>
+                                <AddLabelForm />
+                            </Col>
+                        </AudioHeadingBlock>
+                    </CardBorderGrid>
                 </Col>
                 <ResultsBlock>
                     <Results />

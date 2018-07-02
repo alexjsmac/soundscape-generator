@@ -128,45 +128,43 @@ class Result extends Component {
             </SoundContainer>
         )
 
-        if (isLoading) {
-            return (
-                <Container xs={6} gutter="1px">
-                        {TopSection}
-                        <AudioSectionWrap>
-                            <Icon 
-                                type="loading" 
-                                size="large"
-                                style={{ 
-                                    fontSize: 16, 
-                                    color: '#08c',
-                                    padding: '0.5rem'
-                                }}
-                            /> 
-                            Loading
-                        </AudioSectionWrap>
-                </Container>
-            )
-        }
-        if (!isLoading && isError ) {
-            return (
-                <Container xs={6} gutter="1px">
-                        {TopSection}
-                        <AudioSectionWrap>
-                            No Sounds Found
-                        </AudioSectionWrap>
-                </Container>
-            )
-        }
-        if (!isLoading && !isError) {
-            return (
-                <Container xs={6} gutter="1px">
-                    <AudioPlayerProvider keyword={keyword} sound={sound} >
-                        {TopSection}
-                        {SoundSection}
-                    </AudioPlayerProvider>
-                </Container>
-            )
-        } 
+        return (
+            <Container xs={12} sm={6} gutter="1px">
+                    { !isLoading && !isError && (
+                        <AudioPlayerProvider keyword={keyword} sound={sound} >
+                            {TopSection}
+                            {SoundSection}
+                        </AudioPlayerProvider>
+                    )}
+
+                    { isLoading && (
+                        <React.Fragment>
+                            {TopSection}
+                            <AudioSectionWrap>
+                                <Icon 
+                                    type="loading" 
+                                    size="large"
+                                    style={{ 
+                                        fontSize: 16, 
+                                        color: '#08c',
+                                        padding: '0.5rem'
+                                    }}
+                                /> 
+                                Loading
+                            </AudioSectionWrap>
+                        </React.Fragment>
+                    )}
+                    { !isLoading && isError && (
+                        <React.Fragment>
+                            {TopSection}
+                            <AudioSectionWrap>
+                                <b>No Sounds Found</b>
+                            </AudioSectionWrap>
+                        </React.Fragment>
+                    )}
+            </Container>
+        )
+
     }
 }
 
