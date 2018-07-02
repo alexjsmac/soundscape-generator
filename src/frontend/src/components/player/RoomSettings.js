@@ -6,17 +6,9 @@ import { audioActions } from '../../core/audio';
 import { roomSizes, roomTypes } from '../../core/audio/room-settings';
 
 import styled from 'styled-components'
-import { Row, Col } from 'react-flexa';
+import { Col } from 'react-flexa';
 import { Select } from 'antd';
-
 const Option = Select.Option;
-
-const Container = styled.div`
-    width: 100%;
-    background: #f5f5f5;    
-    padding: 12px;
-    border-top: 1px solid #222;
-`
 
 const Label = styled.label`
     font-weight: 700;

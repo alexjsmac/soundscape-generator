@@ -9,8 +9,7 @@ const TappableEl = styled.div`
 
 export default class Tappable extends Component {
     static propTypes = {
-        onClick: PropTypes.func.isRequired,
-        onHold: PropTypes.func.isRequired,
+        onClick: PropTypes.func.isRequired
     }
     
     constructor(props) {
@@ -18,9 +17,9 @@ export default class Tappable extends Component {
     
         this.state = {
             clicked: false,
-            holding: false    
+            holding: false,
+            onHold: props.onHold ? props.onHold : () => false
         }
-
         this.onClick = this.onClick.bind(this);
         this.pointerDown = this.pointerDown.bind(this);
         this.pointerUp = this.pointerUp.bind(this)
@@ -33,7 +32,7 @@ export default class Tappable extends Component {
 
     pointerDown() {
         this.setState({clicked: false, holding: true})
-        this.props.onHold();
+        this.state.onHold();
     }
 
     pointerUp() {

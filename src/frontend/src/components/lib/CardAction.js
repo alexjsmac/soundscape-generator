@@ -13,26 +13,18 @@ export default class CardAction extends Component {
 
         this.state = {
             clicked: false,
-            holding: false
         };
         this.onClick = this.onClick.bind(this);
-        this.onHold = this.onHold.bind(this)
     }
 
     onClick() {
         this.setState({holding: false, clicked: true})
     }
 
-    onHold() {
-        this.setState({holding: true})
-    }
-
     render() {
-        const { holding } = this.state;
-        const shadow = (holding) ? 'pressed' : 'normal';
         return (
-            <Tappable onClick={this.onClick} onHold={this.onHold} >
-                <Card {...this.props} shadow={shadow}>
+            <Tappable onClick={this.onClick} >
+                <Card {...this.props}>
                     {this.props.children}
                 </Card>
             </Tappable>

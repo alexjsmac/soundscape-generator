@@ -13,6 +13,8 @@ export default {
 
         // background: '#fff',
         // onBackground: '#000'
+
+        borderOne: '#aac'
     },
     fontSize: {
         smaller: '0.6rem',

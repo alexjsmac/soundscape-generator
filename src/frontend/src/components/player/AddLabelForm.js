@@ -22,7 +22,7 @@ class AddLabelForm extends Component {
         this.setState({newKeyword: e.target.value})
     }
 
-    addKeyword = (e) => {
+    addNewKeyword = (e) => {
         const { newKeyword } = this.state
         const { keywords, addKeyword } = this.props;
         e.preventDefault();
@@ -38,7 +38,7 @@ class AddLabelForm extends Component {
     render() {
         const { newKeyword } = this.state;
         return (
-            <form onSubmit={this.addKeyword}>
+            <form onSubmit={this.addNewKeyword}>
                 <label htmlFor="add-label">
                     <b>New Audio Label</b>
                 </label>

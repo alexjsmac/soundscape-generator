@@ -1,21 +1,9 @@
 import styled from 'styled-components'
 
-function boxShadow(shadow) {
-    const none = '0'
-    const standard = '0 2px 8px 0 rgba(0,0,0,0.2)';
-    const pressed = '0 1px 6px 0 rgba(0,0,0,0.1)';
-    switch (shadow) {
-        case 'none': return none;
-        case 'pressed': return pressed;
-        case 'normal': return standard;
-        default: return standard;
-    }
-}
-
 export default styled.div`
-    box-shadow: ${props => boxShadow(props.shadow)};
     margin: ${props => props.spaceAround ? '1rem 1rem' : '0'};
     margin-bottom: ${props => props.mb ? '1rem' : '0'};
-    transition: 0.1s;
+    padding: 1px;
     overflow: hidden;
+    box-shadow: 0 0 0 1px ${props => props.theme.color.borderOne} inset;
 `

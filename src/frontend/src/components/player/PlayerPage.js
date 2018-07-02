@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { mediaTypes } from '../../core/media/mediaTypes'
 
+import styled from 'styled-components'
 import { Row, Col } from 'react-flexa';
-import { H2, Mobile, CardBorderGrid } from '../lib'
+import { H2, Mobile, gridBorder } from '../lib'
 
 import Media from './Media'
 import PlayAllButton from '../player/PlayAllButton';
@@ -16,7 +17,6 @@ import Results from './Results';
 
 const MediaPageContainer = Row.extend`
     height: 100%;
-    /* max-height: 100%; */
     overflow: hidden;
 `
 
@@ -28,11 +28,15 @@ const MediaBlock = Col.extend`
 
 const ResultsBlock = Col.extend`
     flex: 1 1 100px;
+    height: 100%;
     overflow: scroll;
+    padding: 0;
+    ${gridBorder}
 `
 
-const AudioBlock = CardBorderGrid.extend`
+const AudioBlock = styled.div`
     margin-bottom: 1px;
+    ${gridBorder}
 `
 const AudioHeadingBlock = Row.extend`
     padding: 0.5rem;
@@ -54,6 +58,7 @@ class PlayerPage extends Component {
                 flexDirection='column' 
                 justifyContent='flex-start'
                 flexWrap='nowrap'
+                gutter="1rem"
             >
                 <MediaBlock flex="0 1 20vh" gutter="0" >
                     <Media src={mediaSource} type={mediaType}/>
@@ -85,7 +90,7 @@ class PlayerPage extends Component {
                         </AudioControlsBlock>
                     </AudioBlock>
                 </Col>
-                <ResultsBlock>
+                <ResultsBlock gutter="1rem">
                     <Results />
                 </ResultsBlock>
 
@@ -95,17 +100,9 @@ class PlayerPage extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const results = state.general.keywords.reduce( (result, keyword) => {
-        result.push({
-            name: keyword,
-            sound: state.sounds[keyword] ? state.sounds[keyword] : false
-        });
-        return result;
-    }, [])
     return {
         mediaSource: state.media.source,
         mediaType: state.media.type,
-        results: results
     }
 }
 

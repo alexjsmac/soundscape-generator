@@ -86,17 +86,14 @@ export function getAllSounds() {
         const { keywords } = getState().general
         // for each keyword, perform a fetch, and then dispatch an action to update the sound
         keywords.forEach(keyword => {
-            freeSoundService.search(keyword)
-                .then(soundList => {
-                    if (soundList.length) {
-                        dispatch(setSoundList(keyword, soundList))   
-                        dispatch(getSoundForKeyword(keyword)) 
-                    } else {
-                        dispatch(getSoundError(keyword));
-                    }
-                })
-                .catch(() => {throw new Error(`Error getting the list of sounds for keyword: ${keyword}`)})
+            getSoundList(dispatch, keyword)
         })
+    }
+}
+
+export function getSoundListForKeyword(keyword) {
+    return function (dispatch, getState) {
+        getSoundList(dispatch, keyword)
     }
 }
 
@@ -116,6 +113,20 @@ export function getSoundForKeyword(keyword) {
                 throw new Error(`Error getting sound for id: ${id}`)
             })
     }
+}
+
+// shared function
+function getSoundList(dispatch, keyword) {
+    return freeSoundService.search(keyword)
+        .then(soundList => {
+            if (soundList.length) {
+                dispatch(setSoundList(keyword, soundList))   
+                dispatch(getSoundForKeyword(keyword)) 
+            } else {
+                dispatch(getSoundError(keyword));
+            }
+        })
+        .catch(() => {throw new Error(`Error getting the list of sounds for keyword: ${keyword}`)})
 }
 
 const freeSoundService = (() => {

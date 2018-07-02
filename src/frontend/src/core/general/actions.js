@@ -20,9 +20,9 @@ export function clearKeywords() {
 }
 
 export function addKeyword(keyword) {
-    return {
-        type: KEYWORD_ADD,
-        keyword
+    return function(dispatch) {
+        dispatch({type: KEYWORD_ADD, keyword});
+        dispatch(soundActions.getSoundListForKeyword(keyword));
     }
 }
 
