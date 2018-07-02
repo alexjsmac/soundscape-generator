@@ -1,5 +1,6 @@
 import {
     KEYWORDS_SET,
+    KEYWORDS_CLEAR,
     KEYWORD_DELETE,
     KEYWORD_ADD
 } from './action-types';
@@ -14,6 +15,11 @@ export function generalReducer(state = defaultState, action) {
             return {
                 ...state,
                 keywords: action.keywords
+            };
+        case KEYWORDS_CLEAR: 
+            return {
+                ...state,
+                keywords: []
             };
         case KEYWORD_DELETE:
             return {

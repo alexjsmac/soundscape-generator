@@ -16,7 +16,7 @@ import Results from './Results';
 
 const MediaPageContainer = Row.extend`
     height: 100%;
-    max-height: 100%;
+    /* max-height: 100%; */
     overflow: hidden;
 `
 
@@ -88,6 +88,7 @@ class PlayerPage extends Component {
                 <ResultsBlock>
                     <Results />
                 </ResultsBlock>
+
             </MediaPageContainer>
         )
     }

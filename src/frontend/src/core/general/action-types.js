@@ -1,3 +1,5 @@
 export const KEYWORDS_SET = 'KEYWORDS_SET';
+export const KEYWORDS_CLEAR = 'KEYWORDS_CLEAR';
+
 export const KEYWORD_DELETE = 'KEYWORD_DELETE';
 export const KEYWORD_ADD = 'KEYWORD_ADD';

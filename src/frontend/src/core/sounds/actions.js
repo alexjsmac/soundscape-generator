@@ -1,6 +1,6 @@
 import {
     SOUND_SET_SOUNDLIST,
-    SOUNDS_GET_ALL,
+    SOUNDS_CLEAR_ALL,
     SOUND_GET,
     SOUND_GET_SUCCESS,
     SOUND_GET_ERROR,
@@ -20,9 +20,9 @@ function setSoundList(keyword, soundList) {
     }
 }
 
-export function startGetAllSounds() {
+export function clearAllSounds() {
     return {
-        type: SOUNDS_GET_ALL
+        type: SOUNDS_CLEAR_ALL
     }
 }
 

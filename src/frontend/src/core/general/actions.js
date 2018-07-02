@@ -1,5 +1,6 @@
 import {
     KEYWORDS_SET,
+    KEYWORDS_CLEAR,
     KEYWORD_DELETE,
     KEYWORD_ADD
 } from './action-types';
@@ -12,6 +13,19 @@ export function setKeywords(keywords) {
     }
 }
 
+export function clearKeywords() {
+    return {
+        type: KEYWORDS_CLEAR
+    }
+}
+
+export function addKeyword(keyword) {
+    return {
+        type: KEYWORD_ADD,
+        keyword
+    }
+}
+
 export function deleteKeyword(keyword) {
     return function(dispatch) {
         dispatch(soundActions.stopSound(keyword));
@@ -19,11 +33,3 @@ export function deleteKeyword(keyword) {
         dispatch(soundActions.deleteSound(keyword));
     }
 }
-  
-export function addKeyword(keyword) {
-    return {
-        type: KEYWORD_ADD,
-        keyword
-    }
-}
-  

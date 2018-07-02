@@ -9,8 +9,8 @@ import {
 } from './action-types';
 import { mediaTypes, getMediaType } from './mediaTypes';
 
-import { generalActions } from '../general';
 import { appActions } from '../app';
+import { generalActions } from '../general';
 import { soundActions } from '../sounds';
 
 
@@ -33,6 +33,8 @@ export function mediaUploadComplete() {
 export function imageScanStart() {
     return function(dispatch) {
         dispatch({type: IMAGE_SCAN_START})
+        dispatch(soundActions.clearAllSounds());
+        dispatch(generalActions.clearKeywords());
         dispatch(appActions.toMediaPlayer());
     }
 }

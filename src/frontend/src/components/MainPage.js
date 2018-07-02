@@ -55,13 +55,6 @@ class MainPage extends Component {
         <Mobile>
           {renderScreen(screen)}
         </Mobile>
-
-        
-        {/* <div className="main-container">
-          <div className="results-container">
-            <Results />
-          </div>
-        </div> */}
       </AppContainer>
     );
   }

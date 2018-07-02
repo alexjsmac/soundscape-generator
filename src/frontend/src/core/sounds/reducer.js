@@ -1,6 +1,6 @@
 import {
     SOUND_SET_SOUNDLIST,
-    SOUNDS_GET_ALL,
+    SOUNDS_CLEAR_ALL,
     SOUND_GET,
     SOUND_GET_SUCCESS,
     SOUND_GET_ERROR,
@@ -11,12 +11,7 @@ import {
     SOUNDS_STOP_ALL
 } from './action-types';
 
-const defaultState = {
-    /*
-    [keyword]: {
-    }
-    */
-}
+const defaultState = {}
 
 const defaultSound = {
     sound: {},
@@ -41,8 +36,8 @@ export function soundsReducer(state = defaultState, action) {
                     soundChoice: 0
                 }
             }
-        case SOUNDS_GET_ALL:
-            return state;
+        case SOUNDS_CLEAR_ALL:
+            return defaultState;
         case SOUND_GET:
             return {
                 ...state,
