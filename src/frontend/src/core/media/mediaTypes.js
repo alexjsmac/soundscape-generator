@@ -20,7 +20,7 @@ function isImage(fileName) {
 }
 
 function isVideo(fileName) {
-    formats.video.includes(getExtension(fileName));
+    return formats.video.includes(getExtension(fileName));
 }
 
 function getExtension(fileName) {

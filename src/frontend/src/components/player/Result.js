@@ -58,8 +58,8 @@ class Result extends Component {
         const sound = sounds[keyword];
         
         const hasSound = typeof sound !== 'undefined';
-        const isLoading = hasSound && !!sound.isLoading;
-        const isError = hasSound && !!sound.hasNoResults;
+        const isLoading = (hasSound) ? !!sound.isLoading : true;
+        const isError = (hasSound) ? !!sound.hasNoResults : false;
 
         const DeleteButton = (
             <Button 

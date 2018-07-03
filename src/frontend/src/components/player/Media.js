@@ -16,7 +16,7 @@ const Image = styled.div`
 
 const Video = styled.video`
     width: 100%;
-    /* height: 6rem; */
+    height: 100%;
     margin: auto;
 `
 

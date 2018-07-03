@@ -20,11 +20,10 @@ class Results extends Component {
     static propTypes = {
         keywords: PropTypes.array.isRequired,
         isScanning: PropTypes.bool.isRequired,
-        isUploading: PropTypes.bool.isRequired,
     }
     
     render() {
-        const { keywords, isScanning, isUploading } = this.props;
+        const { keywords, isScanning } = this.props;
         const renderLoader = (message) => (
             <div>
                 <Row justifyContent="center">
@@ -34,17 +33,14 @@ class Results extends Component {
             </div>
         )
 
-        if (isScanning || isUploading) {
+        if (isScanning) {
             return (
-                <LoadingContainer 
-                    justifyContent="center" 
-                    // alignItems="center"
-                >
-                    {(isUploading) ? renderLoader("Uploading Media To Server") : ""}
+                <LoadingContainer justifyContent="center" >
                     {(isScanning) ? renderLoader("Scanning Media For Labels") : ""}
                 </LoadingContainer>
             )
         }
+        
         return (
             <ResultsContainer>
                 {keywords.map((keyword) =>
@@ -58,7 +54,6 @@ class Results extends Component {
 function mapStateToProps(state) {
     return {
         keywords: state.general.keywords,
-        isUploading: state.media.isUploading,
         isScanning: state.media.isScanning
     }
 }

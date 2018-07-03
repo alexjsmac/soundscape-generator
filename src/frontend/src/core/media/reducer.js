@@ -24,7 +24,7 @@ export function mediaReducer(state = defaultState, action) {
                 type: action.mediaType
             }
         case MEDIA_UPLOAD_START:
-            return {...state, isUploading: true}
+            return {...state, isScanning: false, isUploading: true}
         case MEDIA_UPLOAD_COMPLETE:
             return {...state, isUploading: false}
         case IMAGE_SCAN_START:

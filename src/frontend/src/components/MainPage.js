@@ -5,7 +5,7 @@ import { MEDIA_SELECTION, MEDIA_PLAYER } from '../core/app'
 
 import styled from 'styled-components'
 import { Row, Col } from 'react-flexa';
-import { Desktop, Mobile } from './lib'
+import { Desktop, Mobile, H2 } from './lib'
 import MediaSelection from './media/MediaSelection';
 import PlayerPage from './player/PlayerPage';
 import Topbar from './TopBar'
@@ -16,6 +16,11 @@ const AppContainer = styled.div`
   height: 100vh;
   max-height: 100vh;
   overflow: hidden;
+`
+
+const WelcomeSection = styled.div`
+  margin: 2rem 1rem;
+  font-size: ${props => props.theme.fontSize.small};
 `
 
 const DesktopContainer = Row.extend`
@@ -45,6 +50,10 @@ class MainPage extends Component {
         <Desktop>
           <DesktopContainer>
             <Col xs={6}>
+              <WelcomeSection>
+                <H2>Welcome!</H2>
+                <p>This is an application that allows users to upload their photos and easily create captivating soundscapes with the help of some friendly AI and audio clips.</p>
+              </WelcomeSection>
               <MediaSelection />
             </Col>
             <Col xs={6}>
