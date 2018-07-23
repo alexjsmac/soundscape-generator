@@ -1,14 +1,15 @@
 import {
     SOUND_SET_SOUNDLIST,
-    SOUNDS_GET_ALL,
+    SOUNDS_CLEAR_ALL,
+    SOUND_GET,
     SOUND_GET_SUCCESS,
+    SOUND_GET_ERROR,
     SOUND_DELETE,
     SOUND_PLAY,
     SOUND_STOP,
     SOUNDS_PLAY_ALL,
     SOUNDS_STOP_ALL
 } from './action-types';
-
 
 
 function setSoundList(keyword, soundList) {
@@ -19,9 +20,16 @@ function setSoundList(keyword, soundList) {
     }
 }
 
-export function startGetAllSounds() {
+export function clearAllSounds() {
     return {
-        type: SOUNDS_GET_ALL
+        type: SOUNDS_CLEAR_ALL
+    }
+}
+
+function getSoundStart(keyword) {
+    return {
+        type: SOUND_GET,
+        keyword
     }
 }
 
@@ -30,6 +38,13 @@ function getSoundSuccess(keyword, sound) {
         type: SOUND_GET_SUCCESS,
         keyword,
         sound
+    }
+}
+
+function getSoundError(keyword, sound) {
+    return {
+        type: SOUND_GET_ERROR,
+        keyword
     }
 }
 
@@ -49,8 +64,9 @@ export function playSound(keyword) {
 
 export function stopSound(keyword) {
     return function(dispatch, getState) {
-        if(getState().sounds[keyword])  
+        if (getState().sounds[keyword]) {
             dispatch({type: SOUND_STOP,keyword})
+        }
     }
 }
 
@@ -70,51 +86,67 @@ export function getAllSounds() {
         const { keywords } = getState().general
         // for each keyword, perform a fetch, and then dispatch an action to update the sound
         keywords.forEach(keyword => {
-            getSoundSearchResults(keyword)
-                .then(soundList => {
-                    dispatch(setSoundList(keyword, soundList))
-                    if (soundList.length > 0) dispatch(getNextSound(keyword));
-                })
+            getSoundList(dispatch, keyword)
         })
     }
 }
 
-export function getNextSound(keyword) {
+export function getSoundListForKeyword(keyword) {
+    return function (dispatch, getState) {
+        getSoundList(dispatch, keyword)
+    }
+}
+
+export function getSoundForKeyword(keyword) {
     return function (dispatch, getState) {
         const sound = getState().sounds[keyword];
+        const id = sound.soundList[sound.soundChoice].id;
+        if (!id) return console.error(`No sound for keyword: ${keyword}`);
 
-        getSoundFromList(keyword, sound)
+        dispatch(getSoundStart(keyword));
+        freeSoundService.sound(id)
             .then(sound => {
                 dispatch(getSoundSuccess(keyword, sound))
+            })
+            .catch(() => {
+                dispatch(getSoundError(keyword));
+                throw new Error(`Error getting sound for id: ${id}`)
             })
     }
 }
 
-
-function getSoundFromList(keyword, sound) {
-    console.log("Get Sound from list", keyword, sound)
-    const id = sound.soundList[sound.soundChoice].id
-    if (!id) return;
-    const url = `https://freesound.org/apiv2/sounds/${id}/`
-    let headers = new Headers();
-    headers.append("Authorization", "Token FTDBgkb5Q3NWqdrtVvNzXNqxIu9TFhj1qrWl2Ue9");
-    return fetch(url, {headers})
-        .then((response) => response.json())
-        .catch((err) => {
-            console.error("ERROR", err);
-        });
+// shared function
+function getSoundList(dispatch, keyword) {
+    return freeSoundService.search(keyword)
+        .then(soundList => {
+            if (soundList.length) {
+                dispatch(setSoundList(keyword, soundList))   
+                dispatch(getSoundForKeyword(keyword)) 
+            } else {
+                dispatch(getSoundError(keyword));
+            }
+        })
+        .catch(() => {throw new Error(`Error getting the list of sounds for keyword: ${keyword}`)})
 }
 
-
-function getSoundSearchResults(keyword) {
-    const url = `https://freesound.org/apiv2/search/text/?query=${keyword}`
+const freeSoundService = (() => {
+    const baseURL = `https://freesound.org/apiv2`
+    
     let headers = new Headers();
     headers.append("Authorization", "Token FTDBgkb5Q3NWqdrtVvNzXNqxIu9TFhj1qrWl2Ue9");
-    return fetch(url, {headers})
-        .then((response) => response.json())
-        .then(json => json.results)
-        .catch((err) => {
-            console.error("ERROR", err);
-            throw new Error(err);
-        });
-}
+    const get = (url) => fetch(url, {headers}).then((response) => response.json());
+    
+    return {
+        search: (keyword) => get(`${baseURL}/search/text/?query=${keyword}`)
+            .then(res => res.results.map(result => {
+                return {id: result.id}
+            })),
+        sound: (id) => get(`${baseURL}/sounds/${id}/`)
+            .then(res =>  {
+                return {
+                    name: res.name,
+                    previews: res.previews
+                }
+            }),
+    }
+})()

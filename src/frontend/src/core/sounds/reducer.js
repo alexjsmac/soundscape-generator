@@ -1,7 +1,9 @@
 import {
     SOUND_SET_SOUNDLIST,
-    SOUNDS_GET_ALL,
+    SOUNDS_CLEAR_ALL,
+    SOUND_GET,
     SOUND_GET_SUCCESS,
+    SOUND_GET_ERROR,
     SOUND_DELETE,
     SOUND_PLAY,
     SOUND_STOP,
@@ -9,15 +11,15 @@ import {
     SOUNDS_STOP_ALL
 } from './action-types';
 
-const defaultState = {
-    /*
-    [keyword]: {
-        sound: {freeSound details},
-        soundList: [freeSound search results],
-        soundChoice: index of choice in soundList,
-        isPlaying: true
-    }
-    */
+const defaultState = {}
+
+const defaultSound = {
+    sound: {},
+    soundList: [],
+    soundChoice: 0,
+    isPlaying: false,
+    isLoading: false,
+    hasNoResults: false
 }
 
 export function soundsReducer(state = defaultState, action) {
@@ -27,22 +29,45 @@ export function soundsReducer(state = defaultState, action) {
             return {
                 ...state,
                 [action.keyword]: {
+                    ...defaultSound,
                     ...state[action.keyword],
+                    isLoading: true,
                     soundList: action.soundList,
                     soundChoice: 0
                 }
             }
-        case SOUNDS_GET_ALL:
-            return state;
+        case SOUNDS_CLEAR_ALL:
+            return defaultState;
+        case SOUND_GET:
+            return {
+                ...state,
+                [action.keyword]: {
+                    ...defaultSound,
+                    ...state[action.keyword],
+                    isLoading: true,
+                }
+            };
         case SOUND_GET_SUCCESS:
             return {
                 ...state,
                 [action.keyword]: {
+                    ...defaultSound,
                     ...state[action.keyword],
                     sound: {...action.sound},
-                    soundChoice: (state[action.keyword].soundChoice + 1 >= state[action.keyword].soundList.length) ? 0 : ++state[action.keyword].soundChoice
+                    isLoading: false,
+                    soundChoice: (state[action.keyword].soundChoice + 1 >= state[action.keyword].soundList.length) ? 0 : ++state[action.keyword].soundChoice,
                 }
             };
+        case SOUND_GET_ERROR:
+            return {
+                ...state,
+                [action.keyword]: {
+                    ...defaultSound,
+                    ...state[action.keyword],
+                    isLoading: false,
+                    hasNoResults: true
+                }
+            }
         case SOUND_DELETE:
             newState = {...state};
             delete newState[action.keyword];
@@ -51,6 +76,7 @@ export function soundsReducer(state = defaultState, action) {
             return {
                 ...state,
                 [action.keyword]: {
+                    ...defaultSound,
                     ...state[action.keyword],
                     isPlaying: true
                 }
@@ -59,6 +85,7 @@ export function soundsReducer(state = defaultState, action) {
             return {
                 ...state,
                 [action.keyword]: {
+                    ...defaultSound,
                     ...state[action.keyword],
                     isPlaying: false
                 }

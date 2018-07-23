@@ -1,17 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import configureStore from './core/store/configureStore';
 import App from './components/App';
-import webAudioUtil from './audio/webAudioUtil';
 import './styles/index.css';
 
-const store = configureStore();
-webAudioUtil.connectToStore(store);
+const rootEl = document.getElementById('root')
+ReactDOM.render(<App />, rootEl);
 
-ReactDOM.render(
-    <Provider store={store}>
-        <App /> 
-    </Provider>,
-    document.getElementById('root')
-);
+if (module.hot) {
+    module.hot.accept('./components/App', () => {
+        const NextApp = require('./components/App').default
+        ReactDOM.render( <
+            NextApp / > ,
+            rootEl
+        )
+    })
+}

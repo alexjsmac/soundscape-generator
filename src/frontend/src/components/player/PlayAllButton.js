@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { soundActions } from '../../core/sounds';
+
 import { Button } from 'antd';
-import './audio-player-styles.css';
 
 class GlobalAudio extends Component {
     constructor(props) {
@@ -32,18 +32,11 @@ class GlobalAudio extends Component {
                 onClick={this.togglePlay} 
                 type="primary" 
                 size="large"
-                style={{marginRight: 8}}>
+                >
                 {(globalPlaying) ? "Stop All" : "Play All"}
             </Button>
         );
     }
 }
 
-
-function mapStateToProps(state) {
-    return {
-        sounds: state.sounds
-    }
-}
-
-export default connect(mapStateToProps, soundActions)(GlobalAudio);
+export default connect(null, soundActions)(GlobalAudio);

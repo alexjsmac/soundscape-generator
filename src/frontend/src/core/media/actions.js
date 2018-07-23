@@ -1,14 +1,21 @@
-import { generalActions } from '../general';
-import { mediaTypes, getMediaType } from '../../utils/formats';
 import {
     MEDIA_SET_URL,
     MEDIA_UPLOAD_START,
     MEDIA_UPLOAD_COMPLETE,
+    MEDIA_UPLOAD_ERROR,
     IMAGE_SCAN_START,
     IMAGE_SCAN_COMPLETE,
     VIDEO_SCAN_START,
-    VIDEO_SCAN_COMPLETE
+    IMAGE_SCAN_ERROR,
+    VIDEO_SCAN_COMPLETE,
+    VIDEO_SCAN_ERROR
 } from './action-types';
+import { mediaTypes, getMediaType } from './mediaTypes';
+
+import { appActions } from '../app';
+import { generalActions } from '../general';
+import { soundActions } from '../sounds';
+
 
 // const BASE_URL = "http://localhost:8000"
 const BASE_URL = ""
@@ -20,23 +27,37 @@ const ENDPOINTS = {
     VIDEO_SCAN_RESULTS: (jobId) => "/api/v1/videoscanresults/" + jobId
 }
 
-export function mediaUploadStart() {
+function mediaUploadStart() {
     return {type: MEDIA_UPLOAD_START}
 }
-export function mediaUploadComplete() {
+function mediaUploadComplete() {
     return {type: MEDIA_UPLOAD_COMPLETE}
 }
-export function imageScanStart() {
-    return {type: IMAGE_SCAN_START}
+function mediaUploadError() {
+    return {type: MEDIA_UPLOAD_ERROR}
 }
-export function imageScanComplete() {
+function imageScanStart() {
+    return function(dispatch) {
+        dispatch({type: IMAGE_SCAN_START})
+        dispatch(soundActions.clearAllSounds());
+        dispatch(generalActions.clearKeywords());
+        dispatch(appActions.toMediaPlayer());
+    }
+}
+function imageScanComplete() {
     return {type: IMAGE_SCAN_COMPLETE}
 }
-export function videoScanStart() {
+function imageScanError() {
+    return {type: IMAGE_SCAN_ERROR}
+}
+function videoScanStart() {
     return {type: VIDEO_SCAN_START}
 }
-export function videoScanComplete() {
+function videoScanComplete() {
     return {type: VIDEO_SCAN_COMPLETE}
+}
+function videoScanError() {
+    return {type: VIDEO_SCAN_ERROR}
 }
 
 function startScan(dispatch, fileName) {
@@ -74,7 +95,7 @@ export function uploadMedia(file) {
             })
             .catch((err) => {
                 console.error("IMAGE ERROR", err);
-                dispatch(mediaUploadComplete());
+                dispatch(mediaUploadError());
             });
     }
 }
@@ -87,10 +108,11 @@ function scanImage(fileName) {
                 console.log("SCAN SUCCESS", json);
                 dispatch(generalActions.setKeywords(json.labels))
                 dispatch(imageScanComplete());
+                dispatch(soundActions.getAllSounds());
             })
             .catch((err) => {
                 console.error("SCAN ERROR", err);
-                dispatch(imageScanComplete());
+                dispatch(imageScanError());
             });
     }
 }
@@ -114,6 +136,7 @@ function scanVideoStart(fileName) {
                             console.log("success");
                             dispatch(generalActions.setKeywords(labels))
                             dispatch(videoScanComplete());
+                            dispatch(soundActions.getAllSounds());
                         } else {
                             setTimeout(test, 2000);
                         }
@@ -124,7 +147,7 @@ function scanVideoStart(fileName) {
             })
             .catch((err) => {
                 console.error("SCAN ERROR", err);
-                dispatch(videoScanComplete());
+                dispatch(videoScanError());
             });
     }
 }
