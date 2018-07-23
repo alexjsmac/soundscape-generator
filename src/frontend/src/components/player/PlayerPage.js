@@ -19,6 +19,8 @@ const MediaPageContainer = Row.extend`
     height: 100%;
     overflow: hidden;
     padding-right: 1px;
+    padding-bottom: 2.9rem;
+    padding-top: -1px;
     margin: 0;
 `
 
