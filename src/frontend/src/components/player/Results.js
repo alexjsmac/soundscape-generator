@@ -12,7 +12,7 @@ const ResultsContainer = Row.extend`
     top: -1px;
 `
 
-const LoadingContainer = ResultsContainer.extend`
+const MessageContainer = ResultsContainer.extend`
     height: 100%;
 `
 
@@ -20,10 +20,11 @@ class Results extends Component {
     static propTypes = {
         keywords: PropTypes.array.isRequired,
         isScanning: PropTypes.bool.isRequired,
+        hasError: PropTypes.bool.isRequired,
     }
     
     render() {
-        const { keywords, isScanning } = this.props;
+        const { keywords, isScanning, hasError } = this.props;
         const renderLoader = (message) => (
             <div>
                 <Row justifyContent="center">
@@ -33,11 +34,21 @@ class Results extends Component {
             </div>
         )
 
+        if (hasError) {
+            return (
+                <MessageContainer justifyContent="center">
+                    <b style={{fontSize: "18px", padding: "3rem 0 1rem"}} >
+                        Error loading media 
+                    </b>
+                </MessageContainer>
+            )
+        }
+
         if (isScanning) {
             return (
-                <LoadingContainer justifyContent="center" >
+                <MessageContainer justifyContent="center" >
                     {(isScanning) ? renderLoader("Scanning Media For Labels") : ""}
-                </LoadingContainer>
+                </MessageContainer>
             )
         }
         
@@ -54,7 +65,8 @@ class Results extends Component {
 function mapStateToProps(state) {
     return {
         keywords: state.general.keywords,
-        isScanning: state.media.isScanning
+        isScanning: state.media.isScanning,
+        hasError: state.media.hasError
     }
 }
 

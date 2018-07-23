@@ -2,10 +2,13 @@ import {
     MEDIA_SET_URL,
     MEDIA_UPLOAD_START,
     MEDIA_UPLOAD_COMPLETE,
+    MEDIA_UPLOAD_ERROR,
     IMAGE_SCAN_START,
     IMAGE_SCAN_COMPLETE,
     VIDEO_SCAN_START,
-    VIDEO_SCAN_COMPLETE
+    IMAGE_SCAN_ERROR,
+    VIDEO_SCAN_COMPLETE,
+    VIDEO_SCAN_ERROR
 } from './action-types';
 import { mediaTypes, getMediaType } from './mediaTypes';
 
@@ -24,13 +27,16 @@ const ENDPOINTS = {
     VIDEO_SCAN_RESULTS: (jobId) => "/api/v1/videoscanresults/" + jobId
 }
 
-export function mediaUploadStart() {
+function mediaUploadStart() {
     return {type: MEDIA_UPLOAD_START}
 }
-export function mediaUploadComplete() {
+function mediaUploadComplete() {
     return {type: MEDIA_UPLOAD_COMPLETE}
 }
-export function imageScanStart() {
+function mediaUploadError() {
+    return {type: MEDIA_UPLOAD_ERROR}
+}
+function imageScanStart() {
     return function(dispatch) {
         dispatch({type: IMAGE_SCAN_START})
         dispatch(soundActions.clearAllSounds());
@@ -38,14 +44,20 @@ export function imageScanStart() {
         dispatch(appActions.toMediaPlayer());
     }
 }
-export function imageScanComplete() {
+function imageScanComplete() {
     return {type: IMAGE_SCAN_COMPLETE}
 }
-export function videoScanStart() {
+function imageScanError() {
+    return {type: IMAGE_SCAN_ERROR}
+}
+function videoScanStart() {
     return {type: VIDEO_SCAN_START}
 }
-export function videoScanComplete() {
+function videoScanComplete() {
     return {type: VIDEO_SCAN_COMPLETE}
+}
+function videoScanError() {
+    return {type: VIDEO_SCAN_ERROR}
 }
 
 function startScan(dispatch, fileName) {
@@ -83,7 +95,7 @@ export function uploadMedia(file) {
             })
             .catch((err) => {
                 console.error("IMAGE ERROR", err);
-                dispatch(mediaUploadComplete());
+                dispatch(mediaUploadError());
             });
     }
 }
@@ -100,7 +112,7 @@ function scanImage(fileName) {
             })
             .catch((err) => {
                 console.error("SCAN ERROR", err);
-                dispatch(imageScanComplete());
+                dispatch(imageScanError());
             });
     }
 }
@@ -135,7 +147,7 @@ function scanVideoStart(fileName) {
             })
             .catch((err) => {
                 console.error("SCAN ERROR", err);
-                dispatch(videoScanComplete());
+                dispatch(videoScanError());
             });
     }
 }
