@@ -18,6 +18,8 @@ import Results from './Results';
 const MediaPageContainer = Row.extend`
     height: 100%;
     overflow: hidden;
+    padding-right: 1px;
+    margin: 0;
 `
 
 const MediaBlock = Col.extend`
@@ -31,6 +33,8 @@ const ResultsBlock = Col.extend`
     height: 100%;
     overflow: scroll;
     padding: 0;
+    padding-right: 1px;
+    margin: 0;
     ${gridBorder}
 `
 
@@ -68,7 +72,7 @@ class PlayerPage extends Component {
                 </MediaBlock>
                 <Col gutter="0">
                     <AudioBlock>
-                        <AudioHeadingBlock>
+                        <AudioHeadingBlock gutter="0">
                             <Col xs={6}>
                                 <H2>Audio Clips</H2>
                                 <p>Here are the generated labels for this
@@ -81,6 +85,7 @@ class PlayerPage extends Component {
                             </Col>
                         </AudioHeadingBlock>
                         <AudioControlsBlock
+                            gutter="0"
                             alignItems='center'
                         >
                             <Col xs={3} gutter='2rem'>

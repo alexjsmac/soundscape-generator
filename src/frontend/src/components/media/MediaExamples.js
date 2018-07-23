@@ -25,7 +25,7 @@ const files = (() => {
 
 const ExamplesContainer = styled.div`
     margin-top: 1rem;
-    margin: 1rem;
+    margin-right: 2rem;
 `
 
 export default class MediaExamples extends Component {

@@ -12,7 +12,7 @@ const Dragger = Upload.Dragger;
 
 
 const MediaUploadContainer = Card.extend`
-    margin: 1rem;
+    margin: 1rem 2rem 1rem 0;
 `
 
 const InfoHolder = styled.div`

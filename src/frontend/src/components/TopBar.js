@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Row, Col } from 'react-flexa';
+import { DesktopMaxWidth } from './lib'
 
 const Wrap = styled.div`
-  background: #fff;
-  padding: 0.8rem 12px;
+  padding: 0.8rem 0;
   background: ${props => props.theme.color.primary};
 `
 
@@ -15,6 +16,12 @@ const Title = styled.h1`
 
 export default () => (
   <Wrap>
-    <Title>Soundscape Generator</Title>
+    <DesktopMaxWidth>
+      <Row gutter="0">
+        <Col xs={12} gutter="2rem">
+          <Title>Soundscape Generator</Title>
+        </Col>
+      </Row>
+    </DesktopMaxWidth>
   </Wrap>
 )
