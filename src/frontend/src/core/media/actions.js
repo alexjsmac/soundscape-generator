@@ -17,8 +17,8 @@ import { generalActions } from '../general';
 import { soundActions } from '../sounds';
 
 
-const BASE_URL = "http://localhost:8000"
-// const BASE_URL = ""
+// const BASE_URL = "http://localhost:8000"
+const BASE_URL = ""
 
 const ENDPOINTS = {
     UPLOAD: "/api/v1/upload",
