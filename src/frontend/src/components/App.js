@@ -15,9 +15,9 @@ import webAudioUtil from '../audio/webAudioUtil';
 import MainPage from './MainPage'
 
 // TEMP
-import devState from '../local-only/dev-state'
+// import devState from '../local-only/dev-state'
 
-const store = configureStore(devState);
+const store = configureStore();
 webAudioUtil.connectToStore(store);
 
 smartOutline.init();

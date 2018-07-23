@@ -7,7 +7,7 @@ const Image = styled.div`
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: blue;
+    background: #222;
     background-image: url(${props => props.source});
     background-size: cover;
     background-repeat: no-repeat;
