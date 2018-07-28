@@ -12,6 +12,7 @@ const Option = Select.Option;
 
 const Label = styled.label`
     font-weight: 700;
+    font-size: ${props => props.theme.fontSize.smaller};
     padding-right: 4px;
 `
 

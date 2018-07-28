@@ -53,7 +53,7 @@ class Results extends Component {
         }
         
         return (
-            <ResultsContainer>
+            <ResultsContainer gutter="0">
                 {keywords.map((keyword) =>
                     <Result keyword={keyword} key={keyword} />
                 )}

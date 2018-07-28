@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { soundActions } from '../../core/sounds';
+import { Desktop, Mobile } from '../lib'
 
 import { Button } from 'antd';
 
@@ -27,15 +28,25 @@ class GlobalAudio extends Component {
 
     render() {
         const { globalPlaying } = this.state;
-        return (
-            <Button 
-                onClick={this.togglePlay} 
-                type="primary" 
-                size="large"
+        return [
+            <Desktop>
+                <Button 
+                    onClick={this.togglePlay} 
+                    type="primary" 
+                    size="large"
+                    >
+                    {(globalPlaying) ? "Stop All" : "Play All"}
+                </Button>
+            </Desktop>,
+            <Mobile>
+                <Button 
+                    onClick={this.togglePlay} 
+                    type="primary"
                 >
-                {(globalPlaying) ? "Stop All" : "Play All"}
-            </Button>
-        );
+                    {(globalPlaying) ? "Stop All" : "Play All"}
+                </Button>                
+            </Mobile>
+        ];
     }
 }
 

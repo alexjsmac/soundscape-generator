@@ -33,10 +33,7 @@ const MediaBlock = Col.extend`
 const ResultsBlock = Col.extend`
     flex: 1 1 100px;
     height: 100%;
-    overflow: scroll;
-    padding: 0;
-    padding-right: 1px;
-    margin: 0;
+    overflow-y: scroll;
     ${gridBorder}
 `
 
@@ -90,14 +87,14 @@ class PlayerPage extends Component {
                             gutter="0"
                             alignItems='center'
                         >
-                            <Col xs={3} gutter='2rem'>
+                            <Col xs={4} gutter='0'>
                                 <PlayAllButton />
                             </Col>
                             <RoomSettings />
                         </AudioControlsBlock>
                     </AudioBlock>
                 </Col>
-                <ResultsBlock gutter="1rem">
+                <ResultsBlock gutter="0rem" >
                     <Results />
                 </ResultsBlock>
 
