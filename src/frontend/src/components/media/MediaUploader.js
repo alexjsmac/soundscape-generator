@@ -12,7 +12,7 @@ const Dragger = Upload.Dragger;
 
 
 const MediaUploadContainer = Card.extend`
-    margin: 1rem 2rem 1rem 0;
+    margin: 1rem 0;
 `
 
 const InfoHolder = styled.div`
@@ -77,7 +77,7 @@ class MediaUploader extends Component {
                                 <p>Upload your photo or video here to generate an audio soundscape.</p>
                             </InfoHolder>
                         </Col>
-                        <Col xs={4}>
+                        <Col xs={3}>
                             <IconSection>
                                 <FileIcon />
                                 <CTAMessage>Upload Media Here</CTAMessage>

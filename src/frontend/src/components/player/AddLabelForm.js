@@ -57,7 +57,7 @@ class AddLabelForm extends Component {
                     <Button 
                         type="primary"
                         size="small"
-                        style={{ width: 60 }} 
+                        style={{ width: '30%' }} 
                         onClick={this.addKeyword}
                         >
                         Add

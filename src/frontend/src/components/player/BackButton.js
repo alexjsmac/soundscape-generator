@@ -9,8 +9,8 @@ import { Button } from 'antd';
 
 const ButtonContainer = styled.div`
     position: absolute;
-    top: 1rem;
-    left: 1rem;
+    top: 0.6rem;
+    left: 0.6rem;
 `
 
 class BackButton extends Component {
@@ -21,12 +21,8 @@ class BackButton extends Component {
   render() {
     return (
       <ButtonContainer>
-        <Button 
-            onClick={this.props.toMediaSelection} 
-            // type="primary" 
-            size="large"
-            >
-            Back
+        <Button onClick={this.props.toMediaSelection} >
+          Back
         </Button>
       </ButtonContainer>
     )

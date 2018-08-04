@@ -32,6 +32,10 @@ const DesktopContainer = Row.extend`
   height: 100%;
 `
 
+const MobileContainer = Row.extend`
+  height: 100%;
+`
+
 class MainPage extends Component {
   static propTypes = {
     screen: PropTypes.string.isRequired
@@ -39,12 +43,29 @@ class MainPage extends Component {
   
   render() {
     const { screen } = this.props;
+
+    const Welcome = () => (
+      <WelcomeSection>
+        <H2>Welcome!</H2>
+        <p>This is an application that allows users to upload their photos and easily create captivating soundscapes with the help of some friendly AI and audio clips.</p>
+      </WelcomeSection>
+    )
+    
     const renderScreen = (screen) => {
       switch (screen) {
         case MEDIA_SELECTION:
-          return <MediaSelection />
+          return (
+            <ContentColumn xs={12} gutter="2rem">
+              <Welcome />
+              <MediaSelection />
+            </ContentColumn>
+          )
         case MEDIA_PLAYER:
-          return <PlayerPage />
+          return (
+            <ContentColumn xs={12} gutter="1rem">
+              <PlayerPage />
+            </ContentColumn>
+          )
         default:
           return ""
       }
@@ -56,10 +77,7 @@ class MainPage extends Component {
           <DesktopMaxWidth>
             <DesktopContainer gutter="0">
               <ContentColumn xs={6} gutter="2rem">
-                <WelcomeSection>
-                  <H2>Welcome!</H2>
-                  <p>This is an application that allows users to upload their photos and easily create captivating soundscapes with the help of some friendly AI and audio clips.</p>
-                </WelcomeSection>
+                <Welcome />
                 <MediaSelection />
               </ContentColumn>
               <ContentColumn xs={6}>
@@ -69,7 +87,11 @@ class MainPage extends Component {
           </DesktopMaxWidth>
         </Desktop>
         <Mobile>
-          {renderScreen(screen)}
+          <MobileContainer gutter="1rem">
+            
+              {renderScreen(screen)}
+            
+          </MobileContainer>
         </Mobile>
       </AppContainer>
     );
