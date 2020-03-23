@@ -3,30 +3,32 @@ Soundscape Generator
 
 This project provides a web application for scanning images and videos with Amazon Rekognition to retrieve a list of labels for the media asset. These labels are then used to query a sound library and retrieve a bundle of audio clips that will form an audio backdrop for the media asset.
 
-Live Site
----------
-
-http://ec2-34-231-21-21.compute-1.amazonaws.com/
-
-Getting Started
+Getting Started w/ Local Deployment
 ---------------
 
-1. Create a Python virtual environment:
+1. Build the frontend
 
-        $ virtualenv .venv
+        $ npm install   # inside src/frontend
+        $ npm run build
 
-2. Activate the virtual environment:
+2. Configure AWS credentials: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
+
+3. Create a Python virtual environment:
+
+        $ virtualenv .venv  # back in the project's root folder
+
+4. Activate the virtual environment:
 
         $ source .venv/bin/activate
 
-3. Install Python dependencies for this project:
+5. Install Python dependencies for this project:
 
         $ pip install -r requirements.txt
 
-4. Start the Flask development server:
+6. Start the Flask development server:
 
         $ python src/application.py --port 8000
-        For Debug:
+        # For Debug:
         $ python src/application.py --port 8000 --debug
 
-5. Open http://127.0.0.1:8000/ in a web browser
+7. Open http://127.0.0.1:8000/ in a web browser
