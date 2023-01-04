@@ -9,7 +9,7 @@
     "react-flexa": "^0.8.3",
     "react-redux": "^5.0.7",
     "react-responsive": "^4.1.0",
-    "react-scripts": "^1.1.4",
+    "react-scripts": "^5.0.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "resonance-audio": "^1.0.0",
