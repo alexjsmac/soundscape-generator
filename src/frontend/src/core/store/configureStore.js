@@ -8,6 +8,6 @@
 //   return module.default;
 // }
 
-import getStore from './configureStore.dev';
+import getStore from "./configureStore.dev";
 
 export default getStore;

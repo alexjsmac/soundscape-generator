@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Row = styled.div`
   display: flex;
@@ -6,6 +6,6 @@ export const Row = styled.div`
 `;
 
 export const Col = styled.div`
-   display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 `;
