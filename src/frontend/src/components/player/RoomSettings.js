@@ -6,7 +6,7 @@ import { audioActions } from '../../core/audio';
 import { roomSizes, roomTypes } from '../../core/audio/room-settings';
 
 import styled from 'styled-components'
-import { Col } from 'react-flexa';
+import { Col } from '../lib';
 import { Select } from 'antd';
 const Option = Select.Option;
 

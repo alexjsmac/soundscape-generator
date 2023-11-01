@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { connect } from 'react-redux';
 
-import { Row } from 'react-flexa';
+import { Row } from '../lib';
 import Result from './Result';
 import styled from 'styled-components';
 
