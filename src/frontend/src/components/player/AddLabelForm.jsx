@@ -38,7 +38,7 @@ class AddLabelForm extends Component {
     const { newKeyword } = this.state;
     return (
       <form onSubmit={this.addNewKeyword}>
-        <label htmlFor="add-label">
+        <label htmlFor="add-label" className="text-xs">
           <b>New Audio Label</b>
         </label>
         <InputGroup compact>

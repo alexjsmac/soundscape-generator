@@ -29,7 +29,7 @@ class MainPage extends Component {
     );
 
     return (
-      <div className="h-screen overflow-hidden bg-gray-50">
+      <div className="h-screen max-h-screen overflow-y-hidden bg-gray-50">
         <Topbar />
         <Desktop>
           <div className="h-full max-w-[1200px] m-auto">
@@ -38,7 +38,7 @@ class MainPage extends Component {
                 <Welcome />
                 <MediaSelection />
               </div>
-              <div className="flex flex-col">
+              <div className="h-full">
                 <PlayerPage />
               </div>
             </div>

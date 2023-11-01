@@ -24,7 +24,7 @@ const Media = ({ src, type }) => {
   return type === mediaTypes.VIDEO ? (
     <Video src={src}></Video>
   ) : (
-    <Image source={src}></Image>
+    <Image data-source={src}></Image>
   );
 };
 

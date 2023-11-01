@@ -4,17 +4,12 @@ import { mediaActions } from "../../core/media";
 
 import { Upload } from "antd";
 import styled from "styled-components";
-import { Card, H2, Row, Col } from "../lib";
+import { Card, H2 } from "../lib";
 
 const Dragger = Upload.Dragger;
 
 const MediaUploadContainer = styled(Card)`
   margin: 1rem 0;
-`;
-
-const InfoHolder = styled.div`
-  padding: 1rem;
-  text-align: left;
 `;
 
 const IconSection = styled.div`
@@ -23,12 +18,6 @@ const IconSection = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
-
-const CTAMessage = styled.span`
-  text-align: center;
-  font-weight: bold;
-  color: ${(props) => props.theme.color.primary};
 `;
 
 class MediaUploader extends Component {
@@ -59,23 +48,18 @@ class MediaUploader extends Component {
     return (
       <MediaUploadContainer>
         <Dragger {...uploaderProps}>
-          <Row padding="1rem">
-            <Col xs={8}>
-              <InfoHolder>
-                <H2>Your Soundscape</H2>
-                <p>
-                  Upload your photo or video here to generate an audio
-                  soundscape.
-                </p>
-              </InfoHolder>
-            </Col>
-            <Col xs={3}>
-              <IconSection>
-                {/* <FileIcon /> */}
-                <CTAMessage>Upload Media Here</CTAMessage>
-              </IconSection>
-            </Col>
-          </Row>
+          <div className="grid grid-cols-12 gap-4">
+            <div className="col-span-8 p-2 text-left">
+              <H2>Your Soundscape</H2>
+              <p>
+                Upload your photo or video here to generate an audio soundscape.
+              </p>
+            </div>
+            <div className="col-span-3 flex items-center">
+              {/* <FileIcon /> */}
+              <span className="text-center font-bold">Upload Media Here</span>
+            </div>
+          </div>
         </Dragger>
       </MediaUploadContainer>
     );

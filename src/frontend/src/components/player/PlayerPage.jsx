@@ -13,21 +13,6 @@ import RoomSettings from "./RoomSettings";
 import AddLabelForm from "./AddLabelForm";
 import Results from "./Results";
 
-const MediaPageContainer = styled(Row)`
-  height: 100%;
-  overflow: hidden;
-  padding-right: 1px;
-  padding-bottom: 2.9rem;
-  padding-top: -1px;
-  margin: 0;
-`;
-
-const MediaBlock = styled(Col)`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-`;
-
 const ResultsBlock = styled(Col)`
   flex: 1 1 100px;
   height: 100%;
@@ -55,7 +40,7 @@ class PlayerPage extends Component {
   render() {
     const { mediaSource, mediaType } = this.props;
     return (
-      <div className="flex flex-col h-full justify-start items-stretch flex-nowrap">
+      <div className="h-full h-max-screen">
         {mediaSource && (
           <div className="flex flex-col relative flex-grow-0 flex-shrink-1 flex-basis-[20vh] h-[20vh]">
             <Media src={mediaSource} type={mediaType} />
@@ -64,32 +49,31 @@ class PlayerPage extends Component {
             </Mobile>
           </div>
         )}
-        <Col gutter="0">
-          <AudioBlock>
-            <AudioHeadingBlock gutter="0">
-              <Col xs={6}>
-                <H2>Audio Clips</H2>
-                <p>
-                  Here are the generated labels for this
-                  {mediaType === mediaTypes.VIDEO && " video"}
-                  {mediaType === mediaTypes.IMAGE && " image"}
-                </p>
-              </Col>
-              <Col xs={6}>
-                <AddLabelForm />
-              </Col>
-            </AudioHeadingBlock>
-            <AudioControlsBlock gutter="0" alignItems="center">
-              <Col xs={4} gutter="0">
-                <PlayAllButton />
-              </Col>
-              <RoomSettings />
-            </AudioControlsBlock>
-          </AudioBlock>
-        </Col>
-        <ResultsBlock gutter="0rem">
+        <div className="border box-shadow-border">
+          <div className="grid grid-cols-2 p-2">
+            <div>
+              <H2>Audio Clips</H2>
+              <p className="text-xs">
+                Here are the generated labels for this
+                {mediaType === mediaTypes.VIDEO && " video"}
+                {mediaType === mediaTypes.IMAGE && " image"}
+              </p>
+            </div>
+            <AddLabelForm />
+          </div>
+          <AudioControlsBlock gutter="0" alignItems="center">
+            <Col xs={4} gutter="0">
+              <PlayAllButton />
+            </Col>
+            <RoomSettings />
+          </AudioControlsBlock>
+        </div>
+        <div
+          id="results"
+          className="h-max-full grid grid-cols-2 overflow-y-scroll"
+        >
           <Results />
-        </ResultsBlock>
+        </div>
       </div>
     );
   }

@@ -49,11 +49,11 @@ class Results extends Component {
     }
 
     return (
-      <div className="h-full relative grid grid-cols-2">
+      <>
         {keywords.map((keyword) => (
           <Result keyword={keyword} key={keyword} />
         ))}
-      </div>
+      </>
     );
   }
 }

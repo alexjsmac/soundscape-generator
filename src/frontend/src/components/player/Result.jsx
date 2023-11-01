@@ -33,14 +33,6 @@ const SoundContainer = styled.div`
   padding: 0rem 0 1rem;
 `;
 
-const SoundPlayRow = styled(Row)`
-  padding: 0.5rem 0 0;
-`;
-const ResultLabel = styled.span`
-  font-size: ${(props) => props.theme.fontSize.default};
-  font-weight: 700;
-`;
-
 class Result extends Component {
   static propTypes = {
     keyword: PropTypes.string.isRequired,
@@ -58,7 +50,7 @@ class Result extends Component {
     const TopSection = (
       <>
         <div className="flex gap-2 justify-between m-2">
-          <ResultLabel>{keyword}</ResultLabel>
+          <span className="font-bold truncate">{keyword}</span>
           {!isLoading && !isError && <ShuffleButton />}
           <Button size="small" onClick={() => deleteKeyword(keyword)}>
             Delete
