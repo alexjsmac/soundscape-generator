@@ -19,7 +19,7 @@ const AppContainer = styled.div`
   background: #eee;
 `
 
-const ContentColumn = Col.extend`
+const ContentColumn = styled(Col)`
   background: white;
 `
 
@@ -28,11 +28,11 @@ const WelcomeSection = styled.div`
   font-size: ${props => props.theme.fontSize.small};
 `
 
-const DesktopContainer = Row.extend`
+const DesktopContainer = styled(Row)`
   height: 100%;
 `
 
-const MobileContainer = Row.extend`
+const MobileContainer = styled(Row)`
   height: 100%;
 `
 

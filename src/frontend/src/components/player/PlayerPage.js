@@ -15,7 +15,7 @@ import AddLabelForm from './AddLabelForm'
 import Results from './Results';
 
 
-const MediaPageContainer = Row.extend`
+const MediaPageContainer = styled(Row)`
     height: 100%;
     overflow: hidden;
     padding-right: 1px;
@@ -24,13 +24,13 @@ const MediaPageContainer = Row.extend`
     margin: 0;
 `
 
-const MediaBlock = Col.extend`
+const MediaBlock = styled(Col)`
     display: flex;
     flex-direction: column;
     position: relative;
 `
 
-const ResultsBlock = Col.extend`
+const ResultsBlock = styled(Col)`
     flex: 1 1 100px;
     height: 100%;
     overflow-y: scroll;
@@ -41,10 +41,10 @@ const AudioBlock = styled.div`
     margin-bottom: 1px;
     ${gridBorder}
 `
-const AudioHeadingBlock = Row.extend`
+const AudioHeadingBlock = styled(Row)`
     padding: 0.5rem;
 `
-const AudioControlsBlock = AudioHeadingBlock.extend`
+const AudioControlsBlock = styled(AudioHeadingBlock)`
     background: rgba(100, 100, 150, 0.15);
 `
 

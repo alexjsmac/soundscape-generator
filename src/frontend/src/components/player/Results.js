@@ -4,15 +4,15 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 
 import { Row } from 'react-flexa';
-import { Icon } from 'antd'
 import Result from './Result';
+import styled from 'styled-components';
 
-const ResultsContainer = Row.extend`
+const ResultsContainer = styled(Row)`
     position: relative;
     top: -1px;
 `
 
-const MessageContainer = ResultsContainer.extend`
+const MessageContainer = styled(ResultsContainer)`
     height: 100%;
 `
 
@@ -28,7 +28,7 @@ class Results extends Component {
         const renderLoader = (message) => (
             <div>
                 <Row justifyContent="center">
-                    <Icon type="loading" style={{fontSize: "28px", padding: "3rem 0 1rem"}}/>
+                    {/* <Icon type="loading" style={{fontSize: "28px", padding: "3rem 0 1rem"}}/> */}
                 </Row>
                 <b>{message}</b>
             </div>

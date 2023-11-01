@@ -10,8 +10,7 @@ import { Card, H2 } from '../lib'
 
 const Dragger = Upload.Dragger;
 
-
-const MediaUploadContainer = Card.extend`
+const MediaUploadContainer = styled(Card)`
     margin: 1rem 0;
 `
 
@@ -34,7 +33,7 @@ const CTAMessage = styled.span`
     color: ${props => props.theme.color.primary};
 `
 
-const FileIcon = FileUpload.extend`
+const FileIcon = styled(FileUpload)`
   height: 2.5rem;
   color: ${props => props.theme.color.primary};
 `

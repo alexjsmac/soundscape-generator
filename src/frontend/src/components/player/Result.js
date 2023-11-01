@@ -5,13 +5,13 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { generalActions } from '../../core/general';
 
-import { Button, Icon } from 'antd'
+import { Button } from 'antd'
 import { Row, Col } from 'react-flexa';
 import AudioPlayerProvider from './AudioPlayer/AudioPlayerProvider'
 import { AudioName, PlayButton, ShuffleButton, VolumeSlider, PanSlider } from "./AudioPlayer/AudioPlayerComponents";
 
 const borderColor = '#aac'
-const Container = Col.extend`
+const Container = styled(Col)`
     width: 100%;
     background: white;
     overflow: hidden;
@@ -22,7 +22,7 @@ const Container = Col.extend`
         0 1px 0 0 ${borderColor} inset;
 `
 
-const InnerRow = Row.extend`
+const InnerRow = styled(Row)`
     padding: 0 0.5rem;
     padding-top: ${props => props.pt ? props.pt : ""};
     padding-bottom: ${props => props.pb ? props.pb : ""};
@@ -39,7 +39,7 @@ const SoundContainer = styled.div`
     padding: 0rem 0 1rem;
 `
 
-const SoundPlayRow = Row.extend`
+const SoundPlayRow = styled(Row)`
     padding: 0.5rem 0 0;
 `
 const ResultLabel = styled.span`
@@ -138,7 +138,7 @@ class Result extends Component {
                         <React.Fragment>
                             {TopSection}
                             <AudioSectionWrap>
-                                <Icon 
+                                {/* <Icon 
                                     type="loading" 
                                     size="large"
                                     style={{ 
@@ -146,7 +146,7 @@ class Result extends Component {
                                         color: '#08c',
                                         padding: '0.5rem'
                                     }}
-                                /> 
+                                />  */}
                                 Loading
                             </AudioSectionWrap>
                         </React.Fragment>

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { withAudioPlayerContext } from './AudioPlayerContext'
-import { Button, Icon, Slider } from 'antd'
+import { Button, Slider } from 'antd'
 
 const Label = styled.label`
     display: block;
@@ -41,7 +41,7 @@ export const ShuffleButton = withAudioPlayerContext(({context}) => (
     <ShuffleLink 
         onClick={context.shuffle}
     >
-        <Icon type="swap" />
+        {/* <Icon type="swap" /> */}
         Shuffle
     </ShuffleLink>
 ));

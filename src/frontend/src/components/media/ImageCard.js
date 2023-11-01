@@ -21,7 +21,7 @@ const Video = styled.video`
     margin: auto;
 `
 
-const CardInfo = Row.extend`
+const CardInfo = styled(Row)`
     padding: 0.4rem 0.3rem;
 `
 
