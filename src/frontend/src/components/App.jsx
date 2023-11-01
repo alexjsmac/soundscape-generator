@@ -1,18 +1,12 @@
-import React, { Component } from 'react';
-// redux
-import { Provider } from 'react-redux';
-import configureStore from '../core/store/configureStore';
+import React, { Component } from "react";
+import { Provider } from "react-redux";
+import { ThemeProvider } from "styled-components";
+import smartOutline from "smart-outline";
 
-// styled components
-import { ThemeProvider } from 'styled-components';
-import theme from './theme';
-
-// helpers / app specifics
-import smartOutline from 'smart-outline';
-import webAudioUtil from '../audio/webAudioUtil';
-
-// components
-import MainPage from './MainPage'
+import configureStore from "../core/store/configureStore";
+import webAudioUtil from "../audio/webAudioUtil";
+import theme from "./theme";
+import MainPage from "./MainPage";
 
 // TEMP
 // import devState from '../local-only/dev-state'
@@ -27,7 +21,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <ThemeProvider theme={theme}>
-          <MainPage /> 
+          <MainPage />
         </ThemeProvider>
       </Provider>
     );
