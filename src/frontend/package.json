@@ -16,7 +16,7 @@
     "styled-components": "^6.1.0"
   },
   "scripts": {
-    "start": "vite",
+    "start": "vite --port 3000",
     "build": "vite build"
   },
   "browserslist": {
@@ -33,6 +33,9 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.1.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.5",
     "vite": "^4.5.0",
     "vite-plugin-svgr": "^4.1.0"
   }
