@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { mediaActions } from '../../core/media';
 
-import { FileUpload } from 'styled-icons/material/FileUpload'
 import { Upload } from 'antd';
 import styled from 'styled-components'
-import { Row, Col } from 'react-flexa';
-import { Card, H2 } from '../lib'
+import { Card, H2, Row, Col } from '../lib'
 
 const Dragger = Upload.Dragger;
 
@@ -31,11 +29,6 @@ const CTAMessage = styled.span`
     text-align: center;
     font-weight: bold;
     color: ${props => props.theme.color.primary};
-`
-
-const FileIcon = styled(FileUpload)`
-  height: 2.5rem;
-  color: ${props => props.theme.color.primary};
 `
 
 
@@ -78,7 +71,7 @@ class MediaUploader extends Component {
                         </Col>
                         <Col xs={3}>
                             <IconSection>
-                                <FileIcon />
+                                {/* <FileIcon /> */}
                                 <CTAMessage>Upload Media Here</CTAMessage>
                             </IconSection>
                         </Col>

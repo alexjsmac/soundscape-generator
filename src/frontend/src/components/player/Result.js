@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { generalActions } from '../../core/general';
 
 import { Button } from 'antd'
-import { Row, Col } from 'react-flexa';
+import { Row, Col } from '../lib';
 import AudioPlayerProvider from './AudioPlayer/AudioPlayerProvider'
 import { AudioName, PlayButton, ShuffleButton, VolumeSlider, PanSlider } from "./AudioPlayer/AudioPlayerComponents";
 

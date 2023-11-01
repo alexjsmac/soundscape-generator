@@ -6,7 +6,6 @@
     "antd": "^5.10.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-flexa": "^0.8.3",
     "react-redux": "^5.0.7",
     "react-responsive": "^4.1.0",
     "react-scripts": "^5.0.1",
@@ -15,8 +14,7 @@
     "resonance-audio": "^1.0.0",
     "smart-outline": "0.0.5",
     "style-loader": "0.19.0",
-    "styled-components": "^6.1.0",
-    "styled-icons": "^2.2.0"
+    "styled-components": "^6.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

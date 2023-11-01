@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components';
-import { Row, Col } from 'react-flexa';
+import { Row, Col } from '../lib';
 
 import { H2 } from '../lib';
 import ImageCard from './ImageCard'

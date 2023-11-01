@@ -1,9 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import { CardAction } from '../lib';
-import { PhotoCamera } from 'styled-icons/material/PhotoCamera';
-import { Videocam } from 'styled-icons/material/Videocam';
-import { Row, Col } from 'react-flexa';
+import { Row, Col } from '../lib';
 
 const Image = styled.div`
     width: 100%;
@@ -27,7 +25,7 @@ const CardInfo = styled(Row)`
 
 const CardTitle = styled.h3`
     font-weight: 600;
-    font-size: ${props => props.theme.fontSize.small}
+    font-size: ${props => props.theme.fontSize.small};
 `
 
 export default ({name, src, isVideo, onClick}) => (
@@ -42,11 +40,11 @@ export default ({name, src, isVideo, onClick}) => (
                 <CardTitle>{name}</CardTitle>
             </Col>
             <Col>
-                {(isVideo) ? (
+                {/* {(isVideo) ? (
                     <Videocam size={12}/>
                 ) : (
                     <PhotoCamera size={12}/>
-                )}
+                )} */}
             </Col>
         </CardInfo>
     </CardAction>

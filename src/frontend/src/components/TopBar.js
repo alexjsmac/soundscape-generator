@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Row, Col } from 'react-flexa';
+import { Row, Col } from './lib';
 import { DesktopMaxWidth } from './lib'
 
 const Wrap = styled.div`

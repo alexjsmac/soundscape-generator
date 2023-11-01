@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { MEDIA_SELECTION, MEDIA_PLAYER } from '../core/app'
 
 import styled from 'styled-components'
-import { Row, Col } from 'react-flexa';
+import { Row, Col } from './lib';
 import { Desktop, Mobile, H2, DesktopMaxWidth } from './lib'
 import MediaSelection from './media/MediaSelection';
 import PlayerPage from './player/PlayerPage';

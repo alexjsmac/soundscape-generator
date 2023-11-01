@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 import { mediaTypes } from '../../core/media/mediaTypes'
 
 import styled from 'styled-components'
-import { Row, Col } from 'react-flexa';
-import { H2, Mobile, gridBorder } from '../lib'
+import { H2, Mobile, gridBorder, Row, Col } from '../lib'
 
 import Media from './Media'
 import PlayAllButton from '../player/PlayAllButton';
