@@ -1,4 +1,6 @@
 {
-    "python.pythonPath": "${workspaceRoot}/.venv/bin/python",
-    "python.linting.pylintEnabled": false
+  "python.pythonPath": "${workspaceRoot}/.venv/bin/python",
+  "python.linting.pylintEnabled": false,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
