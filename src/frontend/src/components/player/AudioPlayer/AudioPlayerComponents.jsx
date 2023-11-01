@@ -17,19 +17,19 @@ const LabelName = styled.span`
   font-weight: bold;
 `;
 
-const ShuffleLink = styled.a`
+const ShuffleLink = styled.button`
   font-weight: bold;
   color: ${(props) => props.theme.color.secondary};
 `;
 
 export const AudioName = withAudioPlayerContext(({ context }) => (
-  <span>{context.name}</span>
+  <span className="text-sm truncate">{context.name}</span>
 ));
 
 export const PlayButton = withAudioPlayerContext(({ context }) => (
   <Button
     shape="circle"
-    icon={context.isPlaying ? "pause" : "caret-right"}
+    // icon={context.isPlaying ? "pause" : "caret-right"}
     onClick={context.togglePlay}
     style={{
       marginRight: "0.5rem",
@@ -38,7 +38,7 @@ export const PlayButton = withAudioPlayerContext(({ context }) => (
 ));
 
 export const ShuffleButton = withAudioPlayerContext(({ context }) => (
-  <ShuffleLink onClick={context.shuffle}>
+  <ShuffleLink onClick={context.shuffle} className="text-sm">
     {/* <Icon type="swap" /> */}
     Shuffle
   </ShuffleLink>

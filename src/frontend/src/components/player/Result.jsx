@@ -16,19 +16,6 @@ import {
   PanSlider,
 } from "./AudioPlayer/AudioPlayerComponents";
 
-const borderColor = "#aac";
-const Container = styled(Col)`
-  width: 100%;
-  background: white;
-  overflow: hidden;
-  box-shadow:
-    1px 0 0 0 ${borderColor},
-    0 1px 0 0 ${borderColor},
-    1px 1px 0 0 ${borderColor},
-    1px 0 0 0 ${borderColor} inset,
-    0 1px 0 0 ${borderColor} inset;
-`;
-
 const InnerRow = styled(Row)`
   padding: 0 0.5rem;
   padding-top: ${(props) => (props.pt ? props.pt : "")};
@@ -68,58 +55,29 @@ class Result extends Component {
     const isLoading = hasSound ? !!sound.isLoading : true;
     const isError = hasSound ? !!sound.hasNoResults : false;
 
-    const DeleteButton = (
-      <Button
-        size="small"
-        icon="delete"
-        onClick={() => deleteKeyword(keyword)}
-        style={{
-          margin: 0,
-        }}
-      >
-        Delete
-      </Button>
-    );
-
     const TopSection = (
-      <React.Fragment>
-        <InnerRow
-          justifyContent="space-between"
-          alignItems="center"
-          pt="0.5rem"
-          pb="0.5rem"
-        >
-          <Col>
-            <ResultLabel>{keyword}</ResultLabel>
-          </Col>
-          <Col>{DeleteButton}</Col>
-        </InnerRow>
-        <InnerRow gutter="1rem">
-          <Col>
-            <b>Audio</b>
-          </Col>
-          <Col>{!isLoading && !isError && <ShuffleButton />}</Col>
-          <Seperator />
-        </InnerRow>
-      </React.Fragment>
+      <>
+        <div className="flex gap-2 justify-between m-2">
+          <ResultLabel>{keyword}</ResultLabel>
+          {!isLoading && !isError && <ShuffleButton />}
+          <Button size="small" onClick={() => deleteKeyword(keyword)}>
+            Delete
+          </Button>
+        </div>
+        <Seperator />
+      </>
     );
 
     const SoundSection = (
       <SoundContainer>
-        <SoundPlayRow gutter="0">
-          <Col>
-            <PlayButton />
-            <AudioName />
-          </Col>
-        </SoundPlayRow>
-        <InnerRow>
-          <Col xs={6}>
-            <VolumeSlider />
-          </Col>
-          <Col xs={6}>
-            <PanSlider />
-          </Col>
-        </InnerRow>
+        <div className="flex items-center p-2">
+          <PlayButton />
+          <AudioName />
+        </div>
+        <div className="grid grid-cols-2 gap-2 text-sm">
+          <VolumeSlider />
+          <PanSlider />
+        </div>
       </SoundContainer>
     );
 
@@ -135,47 +93,40 @@ class Result extends Component {
       </SoundContainer>
     );
 
-    return (
-      <Container xs={12} sm={6} gutter="1px">
-        {isLoading ? (
-          <React.Fragment>
-            {TopSection}
-            <AudioSectionWrap>
-              {/* <Icon 
-                                    type="loading" 
-                                    size="large"
-                                    style={{ 
-                                        fontSize: 16, 
-                                        color: '#08c',
-                                        padding: '0.5rem'
-                                    }}
-                                />  */}
-              Loading
-            </AudioSectionWrap>
-          </React.Fragment>
-        ) : (
-          ""
-        )}
-        {!isLoading && isError ? (
-          <React.Fragment>
-            {TopSection}
-            <AudioSectionWrap>
-              <b>No Sounds Found</b>
-            </AudioSectionWrap>
-          </React.Fragment>
-        ) : (
-          ""
-        )}
+    if (isLoading) {
+      return (
+        <div className="box-shadow-border">
+          {TopSection}
+          <AudioSectionWrap>
+            {/* loading icon */}
+            Loading
+          </AudioSectionWrap>
+        </div>
+      );
+    }
 
-        {hasSound && !isLoading && !isError ? (
-          <AudioPlayerProvider keyword={keyword} sound={sound}>
-            {TopSection}
-            {SoundSection}
-          </AudioPlayerProvider>
-        ) : (
-          ""
-        )}
-      </Container>
+    if (isError) {
+      return (
+        <div className="box-shadow-border">
+          {TopSection}
+          <AudioSectionWrap>
+            <b>No Sounds Found</b>
+          </AudioSectionWrap>
+        </div>
+      );
+    }
+
+    if (!hasSound) {
+      return "";
+    }
+
+    return (
+      <div className="box-shadow-border">
+        <AudioPlayerProvider keyword={keyword} sound={sound}>
+          {TopSection}
+          {SoundSection}
+        </AudioPlayerProvider>
+      </div>
     );
   }
 }

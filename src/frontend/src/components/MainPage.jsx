@@ -33,7 +33,7 @@ class MainPage extends Component {
         <Topbar />
         <Desktop>
           <div className="h-full max-w-[1200px] m-auto">
-            <div className="h-full flex">
+            <div className="h-full grid grid-cols-2">
               <div className="px-4">
                 <Welcome />
                 <MediaSelection />

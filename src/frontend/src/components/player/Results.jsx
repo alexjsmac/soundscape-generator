@@ -7,12 +7,8 @@ import { Row } from "../lib";
 import Result from "./Result";
 import styled from "styled-components";
 
-const ResultsContainer = styled(Row)`
+const MessageContainer = styled.div`
   position: relative;
-  top: -1px;
-`;
-
-const MessageContainer = styled(ResultsContainer)`
   height: 100%;
 `;
 
@@ -53,11 +49,11 @@ class Results extends Component {
     }
 
     return (
-      <ResultsContainer gutter="0">
+      <div className="h-full relative grid grid-cols-2">
         {keywords.map((keyword) => (
           <Result keyword={keyword} key={keyword} />
         ))}
-      </ResultsContainer>
+      </div>
     );
   }
 }
