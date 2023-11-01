@@ -1,7 +1,13 @@
-if(process.env.NODE_ENV === 'production') {
-  module.exports = require('./configureStore.prod');
-} else {
-  module.exports = require('./configureStore.dev');
-}
+// async function getStore() {
+//   let module;
+//   if (import.meta.env.PROD === true) {
+//     module = await import('./configureStore.prod');
+//   } else {
+//     module = await import('./configureStore.dev');
+//   }
+//   return module.default;
+// }
 
-//Dynamic imports aren't supported by ES6, so use require instead
+import getStore from './configureStore.dev';
+
+export default getStore;
