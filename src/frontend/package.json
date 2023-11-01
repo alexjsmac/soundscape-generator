@@ -8,7 +8,6 @@
     "react-dom": "^16.14.0",
     "react-redux": "^5.0.7",
     "react-responsive": "^4.1.0",
-    "react-scripts": "^5.0.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "resonance-audio": "^1.0.0",
@@ -17,12 +16,8 @@
     "styled-components": "^6.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "dev": "vite",
-    "build-vite": "vite build",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "start": "vite",
+    "build": "vite build"
   },
   "browserslist": {
     "production": [
