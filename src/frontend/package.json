@@ -1,7 +1,12 @@
 {
-  "name": "space-generator-ui",
+  "name": "soundscape-generator-ui",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "vite --port 3000",
+    "build": "vite build",
+    "format": "prettier --write ."
+  },
   "dependencies": {
     "antd": "^5.10.3",
     "classnames": "^2.3.2",
@@ -13,10 +18,14 @@
     "redux-thunk": "^2.4.2",
     "styled-components": "^6.1.0"
   },
-  "scripts": {
-    "start": "vite --port 3000",
-    "build": "vite build",
-    "format": "prettier --write ."
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.1.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "prettier": "^3.0.3",
+    "tailwindcss": "^3.3.5",
+    "vite": "^4.5.0",
+    "vite-plugin-svgr": "^4.1.0"
   },
   "browserslist": {
     "production": [
@@ -29,14 +38,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@vitejs/plugin-react": "^4.1.0",
-    "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.31",
-    "prettier": "^3.0.3",
-    "tailwindcss": "^3.3.5",
-    "vite": "^4.5.0",
-    "vite-plugin-svgr": "^4.1.0"
   }
 }
