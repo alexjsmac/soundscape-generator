@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
-import smartOutline from "smart-outline";
 
 import configureStore from "../core/store/configureStore";
 import webAudioUtil from "../audio/webAudioUtil";
@@ -13,8 +12,6 @@ import MainPage from "./MainPage";
 
 const store = configureStore();
 webAudioUtil.connectToStore(store);
-
-smartOutline.init();
 
 class App extends Component {
   render() {
