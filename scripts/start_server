@@ -1,3 +1,0 @@
-cd /home/ec2-user/python-flask-service/
-source environment/bin/activate
-supervisord -c supervisord.conf
