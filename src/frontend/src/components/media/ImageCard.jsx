@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { CardAction } from "../lib";
+import { Card } from "../lib";
 
 const Image = styled.div`
   width: 100%;
@@ -19,7 +19,7 @@ const Video = styled.video`
 `;
 
 export default ({ name, src, isVideo, onClick }) => (
-  <CardAction onClick={onClick}>
+  <Card onClick={onClick}>
     {isVideo ? <Video src={src}></Video> : <Image data-source={src}></Image>}
     <div className="flex justify-between p-2">
       <h3 className="font-semibold text-xs">{name}</h3>
@@ -29,5 +29,5 @@ export default ({ name, src, isVideo, onClick }) => (
           <PhotoCamera size={12}/>
       )} */}
     </div>
-  </CardAction>
+  </Card>
 );

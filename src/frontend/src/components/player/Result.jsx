@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import { generalActions } from "../../core/general";
 
 import { Button } from "antd";
-import { Row, Col } from "../lib";
 import AudioPlayerProvider from "./AudioPlayer/AudioPlayerProvider";
 import {
   AudioName,
@@ -16,7 +15,8 @@ import {
   PanSlider,
 } from "./AudioPlayer/AudioPlayerComponents";
 
-const InnerRow = styled(Row)`
+const InnerRow = styled.div`
+  display: flex;
   padding: 0 0.5rem;
   padding-top: ${(props) => (props.pt ? props.pt : "")};
   padding-bottom: ${(props) => (props.pb ? props.pb : "")};

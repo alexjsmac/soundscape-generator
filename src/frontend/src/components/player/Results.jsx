@@ -1,16 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-
 import { connect } from "react-redux";
 
-import { Row } from "../lib";
 import Result from "./Result";
-import styled from "styled-components";
-
-const MessageContainer = styled.div`
-  position: relative;
-  height: 100%;
-`;
 
 class Results extends Component {
   static propTypes = {
@@ -23,20 +15,20 @@ class Results extends Component {
     const { keywords, isScanning, hasError } = this.props;
     const renderLoader = (message) => (
       <div>
-        <Row justifyContent="center">
+        <div>
           {/* <Icon type="loading" style={{fontSize: "28px", padding: "3rem 0 1rem"}}/> */}
-        </Row>
+        </div>
         <b>{message}</b>
       </div>
     );
 
     if (hasError) {
       return (
-        <MessageContainer justifyContent="center">
+        <div className="relative h-full">
           <b style={{ fontSize: "18px", padding: "3rem 0 1rem" }}>
             Error loading media
           </b>
-        </MessageContainer>
+        </div>
       );
     }
 

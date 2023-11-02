@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import ImageCard from "./ImageCard";
 
 const files = (() => {
@@ -22,14 +21,13 @@ function MediaExamples({ onSelect }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {files.map((file, i) => {
-        const onClick = () => onSelect(file.fileName, file.url);
         return (
           <div key={i} className="cursor-pointer">
             <ImageCard
               name={file.name}
               src={file.url}
               isVideo={file.type === "VID"}
-              onClick={onClick}
+              onClick={() => onSelect(file.fileName, file.url)}
             />
           </div>
         );

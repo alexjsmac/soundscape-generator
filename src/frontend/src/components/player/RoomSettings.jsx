@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-
+import styled from "styled-components";
+import { Select } from "antd";
 import { connect } from "react-redux";
 import { audioActions } from "../../core/audio";
 import { roomSizes, roomTypes } from "../../core/audio/room-settings";
 
-import styled from "styled-components";
-import { Col } from "../lib";
-import { Select } from "antd";
 const Option = Select.Option;
 
 const Label = styled.label`
@@ -39,8 +37,8 @@ class RoomSettings extends Component {
     const capitalize = (a) => a.charAt(0) + a.slice(1).toLowerCase();
 
     return (
-      <React.Fragment>
-        <Col xs={4}>
+      <>
+        <div>
           <Label htmlFor="room-size">Room Size: </Label>
           <Select
             id="room-size"
@@ -54,8 +52,8 @@ class RoomSettings extends Component {
               </Option>
             ))}
           </Select>
-        </Col>
-        <Col xs={4}>
+        </div>
+        <div>
           <Label htmlFor="room-materials">Room Materials: </Label>
           <Select
             id="room-materials"
@@ -69,8 +67,8 @@ class RoomSettings extends Component {
               </Option>
             ))}
           </Select>
-        </Col>
-      </React.Fragment>
+        </div>
+      </>
     );
   }
 }
