@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { soundActions } from "../../core/sounds";
-import { Desktop, Mobile, Button } from "../lib";
+import { Button } from "../lib";
 
 class GlobalAudio extends Component {
   constructor(props) {
