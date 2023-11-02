@@ -5,3 +5,4 @@ export { default as DesktopMaxWidth } from "./DesktopMaxWidth";
 export { Desktop, Mobile } from "./Responsive";
 export { gridBorder } from "./gridBorder";
 export { Row, Col } from "./flexa";
+export * from "./Button";

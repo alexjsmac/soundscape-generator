@@ -5,13 +5,7 @@ import { connect } from "react-redux";
 import { appActions } from "../../core/app";
 
 import styled from "styled-components";
-import { Button } from "antd";
-
-const ButtonContainer = styled.div`
-  position: absolute;
-  top: 0.6rem;
-  left: 0.6rem;
-`;
+import { Button } from "../lib";
 
 class BackButton extends Component {
   static propTypes = {
@@ -20,9 +14,14 @@ class BackButton extends Component {
 
   render() {
     return (
-      <ButtonContainer>
-        <Button onClick={this.props.toMediaSelection}>Back</Button>
-      </ButtonContainer>
+      <div className="absolute top-3 left-3">
+        <Button
+          className="bg-gray-400 hover:bg-gray-500 text-gray-900 border-0"
+          onClick={this.props.toMediaSelection}
+        >
+          Back
+        </Button>
+      </div>
     );
   }
 }

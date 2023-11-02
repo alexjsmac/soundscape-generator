@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { generalActions } from "../../core/general";
 
-import { Button, Input } from "antd";
+import { Input } from "antd";
+import { Button } from "../lib";
 const InputGroup = Input.Group;
 
 class AddLabelForm extends Component {
@@ -41,7 +42,7 @@ class AddLabelForm extends Component {
         <label htmlFor="add-label" className="text-xs">
           <b>New Audio Label</b>
         </label>
-        <InputGroup compact>
+        <div className="flex">
           <Input
             id="add-label"
             type="text"
@@ -51,17 +52,18 @@ class AddLabelForm extends Component {
             style={{
               margin: "0",
               width: "70%",
+              borderTopRightRadius: "0",
+              borderBottomRightRadius: "0",
+              // borderRight: "1px solid transparent",
             }}
           />
           <Button
-            type="primary"
-            size="small"
-            style={{ width: "30%" }}
+            className="px-2 py-0 h-[24px] m-0 rounded-tl-none rounded-l-none"
             onClick={this.addKeyword}
           >
             Add
           </Button>
-        </InputGroup>
+        </div>
       </form>
     );
   }

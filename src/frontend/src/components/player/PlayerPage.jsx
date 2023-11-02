@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { mediaTypes } from "../../core/media/mediaTypes";
-
-import styled from "styled-components";
-import { H2, Mobile, gridBorder, Row, Col } from "../lib";
+import { H2, Mobile } from "../lib";
 
 import Media from "./Media";
 import PlayAllButton from "../player/PlayAllButton";
@@ -12,24 +10,6 @@ import BackButton from "./BackButton";
 import RoomSettings from "./RoomSettings";
 import AddLabelForm from "./AddLabelForm";
 import Results from "./Results";
-
-const ResultsBlock = styled(Col)`
-  flex: 1 1 100px;
-  height: 100%;
-  overflow-y: scroll;
-  ${gridBorder}
-`;
-
-const AudioBlock = styled.div`
-  margin-bottom: 1px;
-  ${gridBorder}
-`;
-const AudioHeadingBlock = styled(Row)`
-  padding: 0.5rem;
-`;
-const AudioControlsBlock = styled(AudioHeadingBlock)`
-  background: rgba(100, 100, 150, 0.15);
-`;
 
 class PlayerPage extends Component {
   static propTypes = {
@@ -61,17 +41,14 @@ class PlayerPage extends Component {
             </div>
             <AddLabelForm />
           </div>
-          <AudioControlsBlock gutter="0" alignItems="center">
-            <Col xs={4} gutter="0">
+          <div className="grid grid-cols-3 gap-4 m-2">
+            <div className="flex items-center">
               <PlayAllButton />
-            </Col>
+            </div>
             <RoomSettings />
-          </AudioControlsBlock>
+          </div>
         </div>
-        <div
-          id="results"
-          className="h-max-full grid grid-cols-2 overflow-y-scroll"
-        >
+        <div className="h-max-full grid grid-cols-2 overflow-y-scroll">
           <Results />
         </div>
       </div>
