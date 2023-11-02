@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.ant-btn-sm {
+  line-height: 20px;
+}
+
+.box-shadow-border {
+  box-shadow:
+    1px 0 0 0 #aac,
+    0 1px 0 0 #aac,
+    1px 1px 0 0 #aac,
+    1px 0 0 0 #aac inset,
+    0 1px 0 0 #aac inset;
+}

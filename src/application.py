@@ -3,14 +3,14 @@ import os
 import boto3
 import json
 
-from flask import Flask, make_response, render_template
+from flask import Flask, make_response, render_template, send_from_directory
 from flaskrun import flaskrun
 from flask_restful import Resource, Api, reqparse, abort
 from flask_cors import CORS
 from io import StringIO
 from werkzeug.datastructures import FileStorage
 
-application = Flask(__name__,  static_folder='frontend/build/static')
+application = Flask(__name__,  static_folder='frontend/build')
 api = Api(application)
 CORS(application)
 
@@ -202,11 +202,13 @@ class VideoScanResults(Resource):
 def hello():
     return render_template('layout.html')
 
+@application.route('/<path:path>')
+def serve_static(path):
+    return send_from_directory(application.static_folder, path)
 
 @application.route('/soundscapes')
-def show_index():
-    return make_response(open(os.path.join(DIR,
-                         'frontend/build/index.html')).read())
+def serve_soundscapes():
+    return send_from_directory(application.static_folder, 'index.html')
 
 
 api.add_resource(Upload, '/api/v1/upload')

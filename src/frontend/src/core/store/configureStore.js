@@ -1,7 +1,3 @@
-if(process.env.NODE_ENV === 'production') {
-  module.exports = require('./configureStore.prod');
-} else {
-  module.exports = require('./configureStore.dev');
-}
+import getStore from "./configureStore.prod";
 
-//Dynamic imports aren't supported by ES6, so use require instead
+export default getStore;

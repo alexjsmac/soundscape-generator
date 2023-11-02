@@ -1,5 +1,5 @@
-import * as audioActions from './actions';
+import * as audioActions from "./actions";
 
 export { audioActions };
-export * from './action-types';
-export { audioReducer } from './reducer';
+export * from "./action-types";
+export { audioReducer } from "./reducer";
