@@ -8,7 +8,7 @@ const Image = styled.div`
   height: 100%;
   overflow: hidden;
   background: #222;
-  background-image: url(${(props) => props.source});
+  background-image: url(${(props) => props["data-source"]});
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;

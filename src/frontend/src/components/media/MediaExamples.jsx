@@ -1,13 +1,18 @@
+import { mediaTypes } from "../../core/media/mediaTypes";
 import ImageCard from "./ImageCard";
 
 const files = (() => {
   const URL = "https://s3.amazonaws.com/soundscape-generator-photos/examples/";
   const exampleFiles = [
-    { type: "IMG", fileName: "ship.jpg", name: "Ship" },
-    { type: "IMG", fileName: "party.jpg", name: "Party Scene" },
-    { type: "IMG", fileName: "concert.jpeg", name: "Concert" },
-    { type: "IMG", fileName: "hockey.jpg", name: "Hockey Game" },
-    { type: "VID", fileName: "big_buck_bunny.mp4", name: "Bunny Video" },
+    { type: mediaTypes.IMAGE, fileName: "ship.jpg", name: "Ship" },
+    { type: mediaTypes.IMAGE, fileName: "party.jpg", name: "Party Scene" },
+    { type: mediaTypes.IMAGE, fileName: "concert.jpeg", name: "Concert" },
+    { type: mediaTypes.IMAGE, fileName: "hockey.jpg", name: "Hockey Game" },
+    {
+      type: mediaTypes.VIDEO,
+      fileName: "big_buck_bunny.mp4",
+      name: "Bunny Video",
+    },
   ];
   return exampleFiles.map((file) => {
     return {
@@ -26,7 +31,7 @@ function MediaExamples({ onSelect }) {
             <ImageCard
               name={file.name}
               src={file.url}
-              isVideo={file.type === "VID"}
+              isVideo={file.type === mediaTypes.VIDEO}
               onClick={() => onSelect(file.fileName, file.url)}
             />
           </div>

@@ -15,6 +15,7 @@ import Results from "./Results";
 const PlayerPage = ({ mediaSource, mediaType }) => {
   const { isMobile } = useScreen();
 
+  console.log("PlayerPage", mediaSource, mediaType);
   return (
     <div className="h-full h-max-screen">
       {mediaSource && (
