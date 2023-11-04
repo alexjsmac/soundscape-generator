@@ -6,29 +6,23 @@ This project provides a web application for scanning images and videos with Amaz
 Getting Started w/ Local Deployment
 ---------------
 
-1. Build the frontend
+1. Configure AWS credentials: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
 
-        $ npm install   # inside src/frontend
-        $ npm run build
+2. Create a Python virtual environment:
 
-2. Configure AWS credentials: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
+        $ virtualenv .venv
 
-3. Create a Python virtual environment:
-
-        $ virtualenv .venv  # back in the project's root folder
-
-4. Activate the virtual environment:
+3. Activate the virtual environment:
 
         $ source .venv/bin/activate
 
-5. Install Python dependencies for this project:
+4. Install Python dependencies:
 
         $ pip install -r requirements.txt
 
-6. Start the Flask development server:
+5. Run the server locally:
 
-        $ python src/application.py --port 8000
-        # For Debug:
-        $ python src/application.py --port 8000 --debug
+        $ npm run build
+        $ npm start
 
-7. Open http://127.0.0.1:8000/ in a web browser
+6. Open http://127.0.0.1:8000/ in a web browser
