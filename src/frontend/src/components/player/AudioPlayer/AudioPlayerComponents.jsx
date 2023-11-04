@@ -5,6 +5,7 @@ import classNames from "classnames";
 
 import { withAudioPlayerContext } from "./AudioPlayerContext";
 import { Pause, Play, Shuffle } from "lucide-react";
+import { audioContext } from "../../../audio/webAudioUtil";
 
 const Label = styled.label`
   display: block;
@@ -28,25 +29,32 @@ export const AudioName = withAudioPlayerContext(({ context }) => (
   <span className="text-sm truncate">{context.name}</span>
 ));
 
-export const PlayButton = withAudioPlayerContext(({ context }) => (
-  <button
-    shape="circle"
-    onClick={context.togglePlay}
-    className={classNames(
-      "p-2 rounded-full flex justify-center mr-2 hover:text-blue-600",
-      {
-        "text-gray-500 bg-gray-100 hover:bg-blue-200": !context.isPlaying,
-        "text-blue-700 bg-blue-100": context.isPlaying,
-      }
-    )}
-  >
-    {context.isPlaying ? (
-      <Pause size={16} strokeWidth={2} />
-    ) : (
-      <Play size={16} strokeWidth={2} absoluteStrokeWidth />
-    )}
-  </button>
-));
+export const PlayButton = withAudioPlayerContext(({ context }) => {
+  const onClick = async () => {
+    await audioContext.resume();
+    context.togglePlay();
+  };
+
+  return (
+    <button
+      shape="circle"
+      onClick={onClick}
+      className={classNames(
+        "p-2 rounded-full flex justify-center mr-2 hover:text-blue-600",
+        {
+          "text-gray-500 bg-gray-100 hover:bg-blue-200": !context.isPlaying,
+          "text-blue-700 bg-blue-100": context.isPlaying,
+        }
+      )}
+    >
+      {context.isPlaying ? (
+        <Pause size={16} strokeWidth={2} />
+      ) : (
+        <Play size={16} strokeWidth={2} absoluteStrokeWidth />
+      )}
+    </button>
+  );
+});
 
 export const ShuffleButton = withAudioPlayerContext(({ context }) => (
   <ShuffleLink

@@ -2,9 +2,9 @@ const AudioContext = window.AudioContext || window.webkitAudioContext;
 // problem with ResonanceAudio webpack build...so just adding script to index.html for now
 const ResonanceAudio = window.ResonanceAudio;
 
-const ctx = new AudioContext();
-const resAudio = new ResonanceAudio(ctx);
-resAudio.output.connect(ctx.destination);
+export const audioContext = new AudioContext();
+const resAudio = new ResonanceAudio(audioContext);
+resAudio.output.connect(audioContext.destination);
 
 function webAudioUtil(context, resonanceAudioScene) {
   return {
@@ -26,4 +26,4 @@ function webAudioUtil(context, resonanceAudioScene) {
   };
 }
 
-export default webAudioUtil(ctx, resAudio);
+export default webAudioUtil(audioContext, resAudio);
