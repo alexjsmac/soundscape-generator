@@ -25,7 +25,7 @@ const MainPage = ({ screen }) => {
   );
 
   return (
-    <div className="h-screen max-h-screen overflow-y-hidden bg-gray-50">
+    <div className="bg-gray-50">
       <Topbar />
       {isMobile ? (
         <div className="h-full max-w-[600px] m-auto flex-col p-2">

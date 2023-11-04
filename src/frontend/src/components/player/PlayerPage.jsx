@@ -1,6 +1,4 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { mediaTypes } from "../../core/media/mediaTypes";
 import { useScreen } from "../../hooks";
 import { H2 } from "../lib";
@@ -12,12 +10,13 @@ import RoomSettings from "./RoomSettings";
 import AddLabelForm from "./AddLabelForm";
 import Results from "./Results";
 
-const PlayerPage = ({ mediaSource, mediaType }) => {
+const PlayerPage = () => {
   const { isMobile } = useScreen();
+  const mediaSource = useSelector((state) => state.media.source);
+  const mediaType = useSelector((state) => state.media.type);
 
-  console.log("PlayerPage", mediaSource, mediaType);
   return (
-    <div className="h-full h-max-screen">
+    <div className="h-full h-max-screen flex flex-col">
       {mediaSource && (
         <div className="flex flex-col relative flex-grow-0 flex-shrink-1 flex-basis-[20vh] h-[20vh]">
           <Media src={mediaSource} type={mediaType} />
@@ -50,14 +49,4 @@ const PlayerPage = ({ mediaSource, mediaType }) => {
   );
 };
 
-PlayerPage.propTypes = {
-  mediaSource: PropTypes.string.isRequired,
-  mediaType: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  mediaSource: state.media.source,
-  mediaType: state.media.type,
-});
-
-export default connect(mapStateToProps)(PlayerPage);
+export default PlayerPage;
