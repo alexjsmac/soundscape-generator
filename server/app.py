@@ -1,18 +1,19 @@
-#!flask/bin/python
 import os
 import boto3
 import json
 
-from flask import Flask, make_response, render_template, send_from_directory
-from src.flaskrun import flaskrun
+from flask import Flask, render_template, send_from_directory
 from flask_restful import Resource, Api, reqparse, abort
 from flask_cors import CORS
 from io import StringIO
 from werkzeug.datastructures import FileStorage
+from dotenv import load_dotenv
 
-application = Flask(__name__,  static_folder='frontend/build')
-api = Api(application)
-CORS(application)
+load_dotenv()
+
+app = Flask(__name__, static_folder='../client/build/', static_url_path='/')
+api = Api(app)
+CORS(app)
 
 DIR = os.path.dirname(os.path.abspath(__file__))
 BUCKET = 'soundscape-generator-photos'
@@ -198,17 +199,17 @@ class VideoScanResults(Resource):
         return labels
 
 
-@application.route('/')
+@app.route('/')
 def hello():
     return render_template('layout.html')
 
-@application.route('/<path:path>')
+@app.route('/<path:path>')
 def serve_static(path):
-    return send_from_directory(application.static_folder, path)
+    return send_from_directory(app.static_folder, path)
 
-@application.route('/soundscapes')
+@app.route('/soundscapes')
 def serve_soundscapes():
-    return send_from_directory(application.static_folder, 'index.html')
+    return send_from_directory(app.static_folder, 'index.html')
 
 
 api.add_resource(Upload, '/api/v1/upload')
@@ -217,4 +218,4 @@ api.add_resource(VideoScanStart, '/api/v1/videoscanstart/<video>')
 api.add_resource(VideoScanResults, '/api/v1/videoscanresults/<job_id>')
 
 if __name__ == '__main__':
-    flaskrun(application)
+    app.run(port=(os.getenv('PORT') if os.getenv('PORT') else 8000), debug=False)

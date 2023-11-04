@@ -18,3 +18,5 @@ htmlcov
 .coverage
 .coverage.*
 *,cover
+
+node_modules

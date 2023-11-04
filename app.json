@@ -1,0 +1,39 @@
+{
+    "name": "Soundscape Generator",
+    "description": "This project provides a web application for scanning images and videos with Amazon Rekognition to retrieve a list of labels for the media asset. These labels are then used to query a sound library and retrieve a bundle of audio clips that will form an audio backdrop for the media asset.",
+    "keywords": [
+      "Heroku",
+      "Flask",
+      "React",
+      "frontend",
+      "server",
+      "deploy"
+    ],
+    "repository": "https://github.com/alexjsmac/soundscape-generator",
+    "success_url": "/",
+    "logo": "https://node-js-sample.herokuapp.com/node.png",
+    "env": {
+      "FLASK_APP": {
+        "description": "The FLASK_APP variable for pointing to the app",
+        "value": "server.app:app"
+      },
+      "WEB_CONCURRENCY": {
+        "description": "The number of processes to run.",
+        "value": "3"
+      }
+    },
+    "formation": {
+      "web": {
+        "quantity": 1,
+        "size": "free"
+      }
+    },
+    "buildpacks": [
+      {
+        "url": "heroku/nodejs"
+      },
+      {
+        "url": "heroku/python"
+      }
+    ]
+  }
