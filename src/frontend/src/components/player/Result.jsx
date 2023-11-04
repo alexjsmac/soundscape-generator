@@ -1,10 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { generalActions } from "../../core/general";
-
 import { Button } from "antd";
 import AudioPlayerProvider from "./AudioPlayer/AudioPlayerProvider";
 import {
@@ -15,13 +13,6 @@ import {
   PanSlider,
 } from "./AudioPlayer/AudioPlayerComponents";
 
-const InnerRow = styled.div`
-  display: flex;
-  padding: 0 0.5rem;
-  padding-top: ${(props) => (props.pt ? props.pt : "")};
-  padding-bottom: ${(props) => (props.pb ? props.pb : "")};
-`;
-
 const Seperator = styled.div`
   height: 1px;
   width: 100%;
@@ -29,102 +20,74 @@ const Seperator = styled.div`
   border-bottom: ${(props) => `1px solid #bbb `};
 `;
 
-const SoundContainer = styled.div`
-  padding: 0rem 0 1rem;
-`;
+const Result = ({ keyword }) => {
+  const dispatch = useDispatch();
+  const sounds = useSelector((state) => state.sounds);
+  const sound = sounds[keyword];
+  const hasSound = typeof sound !== "undefined";
+  const isLoading = hasSound ? !!sound.isLoading : true;
+  const isError = hasSound ? !!sound.hasNoResults : false;
 
-class Result extends Component {
-  static propTypes = {
-    keyword: PropTypes.string.isRequired,
-    sounds: PropTypes.object.isRequired,
-  };
+  const deleteKeyword = (keyword) =>
+    dispatch(generalActions.deleteKeyword(keyword));
 
-  render() {
-    const { keyword, sounds, deleteKeyword } = this.props;
-    const sound = sounds[keyword];
+  const TopSection = (
+    <>
+      <div className="flex gap-2 justify-between m-2">
+        <span className="font-bold truncate">{keyword}</span>
+        {!isLoading && !isError && <ShuffleButton />}
+        <Button size="small" onClick={() => deleteKeyword(keyword)}>
+          Delete
+        </Button>
+      </div>
+      <Seperator />
+    </>
+  );
 
-    const hasSound = typeof sound !== "undefined";
-    const isLoading = hasSound ? !!sound.isLoading : true;
-    const isError = hasSound ? !!sound.hasNoResults : false;
-
-    const TopSection = (
-      <>
-        <div className="flex gap-2 justify-between m-2">
-          <span className="font-bold truncate">{keyword}</span>
-          {!isLoading && !isError && <ShuffleButton />}
-          <Button size="small" onClick={() => deleteKeyword(keyword)}>
-            Delete
-          </Button>
-        </div>
-        <Seperator />
-      </>
-    );
-
-    const SoundSection = (
-      <SoundContainer>
-        <div className="flex items-center p-2">
-          <PlayButton />
-          <AudioName />
-        </div>
-        <div className="grid grid-cols-2 gap-2 text-sm">
-          <VolumeSlider />
-          <PanSlider />
-        </div>
-      </SoundContainer>
-    );
-
-    const AudioSectionWrap = ({ children }) => (
-      <SoundContainer style={{ height: "100%" }}>
-        <InnerRow
-          justifyContent="center"
-          alignItems="center"
-          style={{ height: "50%" }}
-        >
-          {children}
-        </InnerRow>
-      </SoundContainer>
-    );
-
-    if (isLoading) {
-      return (
-        <div className="box-shadow-border">
-          {TopSection}
-          <AudioSectionWrap>
-            {/* loading icon */}
-            Loading
-          </AudioSectionWrap>
-        </div>
-      );
-    }
-
-    if (isError) {
-      return (
-        <div className="box-shadow-border">
-          {TopSection}
-          <AudioSectionWrap>
-            <b>No Sounds Found</b>
-          </AudioSectionWrap>
-        </div>
-      );
-    }
-
-    if (!hasSound) {
-      return "";
-    }
-
+  if (isLoading) {
     return (
       <div className="box-shadow-border">
-        <AudioPlayerProvider keyword={keyword} sound={sound}>
-          {TopSection}
-          {SoundSection}
-        </AudioPlayerProvider>
+        {TopSection}
+        <div className="p-2">
+          {/* loading icon */}
+          Loading
+        </div>
       </div>
     );
   }
-}
 
-const mapStateToProps = (state) => ({
-  sounds: state.sounds,
-});
+  if (isError || !hasSound) {
+    return (
+      <div className="box-shadow-border">
+        {TopSection}
+        <span className="py-1 px-2 m-2 rounded inline-block text-xs text-red-800 bg-red-200 font-bold">
+          No Sounds Found
+        </span>
+      </div>
+    );
+  }
 
-export default connect(mapStateToProps, generalActions)(Result);
+  return (
+    <div className="box-shadow-border">
+      <AudioPlayerProvider keyword={keyword} sound={sound}>
+        {TopSection}
+        <div className="pb-1">
+          <div className="flex items-center p-2">
+            <PlayButton />
+            <AudioName />
+          </div>
+          <div className="grid grid-cols-2 gap-2 text-sm">
+            <VolumeSlider />
+            <PanSlider />
+          </div>
+        </div>
+      </AudioPlayerProvider>
+    </div>
+  );
+};
+
+Result.propTypes = {
+  keyword: PropTypes.string.isRequired,
+};
+
+export default Result;
