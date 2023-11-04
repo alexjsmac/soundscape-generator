@@ -4,7 +4,7 @@ import boto3
 import json
 
 from flask import Flask, make_response, render_template, send_from_directory
-from flaskrun import flaskrun
+from src.flaskrun import flaskrun
 from flask_restful import Resource, Api, reqparse, abort
 from flask_cors import CORS
 from io import StringIO
