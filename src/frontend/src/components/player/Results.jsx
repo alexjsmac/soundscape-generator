@@ -1,69 +1,36 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-
-import { connect } from "react-redux";
-
-import { Row } from "../lib";
+import React from "react";
+import { useSelector } from "react-redux";
 import Result from "./Result";
-import styled from "styled-components";
 
-const MessageContainer = styled.div`
-  position: relative;
-  height: 100%;
-`;
+const Results = () => {
+  const keywords = useSelector((state) => state.general.keywords);
+  const isScanning = useSelector((state) => state.media.isScanning);
+  const hasError = useSelector((state) => state.media.hasError);
 
-class Results extends Component {
-  static propTypes = {
-    keywords: PropTypes.array.isRequired,
-    isScanning: PropTypes.bool.isRequired,
-    hasError: PropTypes.bool.isRequired,
-  };
-
-  render() {
-    const { keywords, isScanning, hasError } = this.props;
-    const renderLoader = (message) => (
-      <div>
-        <Row justifyContent="center">
-          {/* <Icon type="loading" style={{fontSize: "28px", padding: "3rem 0 1rem"}}/> */}
-        </Row>
-        <b>{message}</b>
+  if (hasError) {
+    return (
+      <div className="w-full text-red-700 p-2 mt-2">
+        <b>Error loading media</b>
       </div>
     );
+  }
 
-    if (hasError) {
-      return (
-        <MessageContainer justifyContent="center">
-          <b style={{ fontSize: "18px", padding: "3rem 0 1rem" }}>
-            Error loading media
-          </b>
-        </MessageContainer>
-      );
-    }
-
-    if (isScanning) {
-      return (
-        <MessageContainer justifyContent="center">
-          {isScanning ? renderLoader("Scanning Media For Labels") : ""}
-        </MessageContainer>
-      );
-    }
-
+  if (isScanning) {
     return (
-      <>
-        {keywords.map((keyword) => (
-          <Result keyword={keyword} key={keyword} />
-        ))}
-      </>
+      <div>
+        {/* <Icon type="loading" style={{fontSize: "28px", padding: "3rem 0 1rem"}}/> */}
+        <b>Scanning Media For Labels</b>
+      </div>
     );
   }
-}
 
-function mapStateToProps(state) {
-  return {
-    keywords: state.general.keywords,
-    isScanning: state.media.isScanning,
-    hasError: state.media.hasError,
-  };
-}
+  return (
+    <>
+      {keywords.map((keyword) => (
+        <Result keyword={keyword} key={keyword} />
+      ))}
+    </>
+  );
+};
 
-export default connect(mapStateToProps, null)(Results);
+export default Results;

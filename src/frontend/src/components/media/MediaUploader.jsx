@@ -12,14 +12,6 @@ const MediaUploadContainer = styled(Card)`
   margin: 1rem 0;
 `;
 
-const IconSection = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
 class MediaUploader extends Component {
   // When a user chooses a new media source
   handleImageChange(file) {

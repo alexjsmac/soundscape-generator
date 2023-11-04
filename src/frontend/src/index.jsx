@@ -1,7 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import App from "./components/App";
 import "./index.css";
 
-const rootEl = document.getElementById("root");
-ReactDOM.render(<App />, rootEl);
+const container = document.getElementById("root");
+const root = createRoot(container);
+root.render(<App tab="home" />);

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { CardAction } from "../lib";
+import { Card } from "../lib";
+import { Camera, VideoIcon } from "lucide-react";
 
 const Image = styled.div`
   width: 100%;
@@ -19,15 +20,15 @@ const Video = styled.video`
 `;
 
 export default ({ name, src, isVideo, onClick }) => (
-  <CardAction onClick={onClick}>
+  <Card onClick={onClick}>
     {isVideo ? <Video src={src}></Video> : <Image data-source={src}></Image>}
     <div className="flex justify-between p-2">
       <h3 className="font-semibold text-xs">{name}</h3>
-      {/* {(isVideo) ? (
-          <Videocam size={12}/>
+      {isVideo ? (
+        <VideoIcon size={16} strokeWidth={1} />
       ) : (
-          <PhotoCamera size={12}/>
-      )} */}
+        <Camera size={16} strokeWidth={1} />
+      )}
     </div>
-  </CardAction>
+  </Card>
 );

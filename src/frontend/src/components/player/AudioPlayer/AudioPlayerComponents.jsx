@@ -1,8 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { Slider } from "antd";
+import classNames from "classnames";
 
 import { withAudioPlayerContext } from "./AudioPlayerContext";
-import { Button, Slider } from "antd";
+import { Pause, Play, Shuffle } from "lucide-react";
+import { audioContext } from "../../../audio/webAudioUtil";
 
 const Label = styled.label`
   display: block;
@@ -26,20 +29,39 @@ export const AudioName = withAudioPlayerContext(({ context }) => (
   <span className="text-sm truncate">{context.name}</span>
 ));
 
-export const PlayButton = withAudioPlayerContext(({ context }) => (
-  <Button
-    shape="circle"
-    // icon={context.isPlaying ? "pause" : "caret-right"}
-    onClick={context.togglePlay}
-    style={{
-      marginRight: "0.5rem",
-    }}
-  />
-));
+export const PlayButton = withAudioPlayerContext(({ context }) => {
+  const onClick = async () => {
+    await audioContext.resume();
+    context.togglePlay();
+  };
+
+  return (
+    <button
+      shape="circle"
+      onClick={onClick}
+      className={classNames(
+        "p-2 rounded-full flex justify-center mr-2 hover:text-blue-600",
+        {
+          "text-gray-500 bg-gray-100 hover:bg-blue-200": !context.isPlaying,
+          "text-blue-700 bg-blue-100": context.isPlaying,
+        }
+      )}
+    >
+      {context.isPlaying ? (
+        <Pause size={16} strokeWidth={2} />
+      ) : (
+        <Play size={16} strokeWidth={2} absoluteStrokeWidth />
+      )}
+    </button>
+  );
+});
 
 export const ShuffleButton = withAudioPlayerContext(({ context }) => (
-  <ShuffleLink onClick={context.shuffle} className="text-sm">
-    {/* <Icon type="swap" /> */}
+  <ShuffleLink
+    onClick={context.shuffle}
+    className="text-xs flex gap-2 items-center justify-self-end"
+  >
+    <Shuffle size={14} />
     Shuffle
   </ShuffleLink>
 ));
