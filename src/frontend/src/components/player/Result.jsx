@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
+import { Loader2 } from "lucide-react";
 import { generalActions } from "../../core/general";
 import { Button } from "antd";
 import AudioPlayerProvider from "./AudioPlayer/AudioPlayerProvider";
@@ -48,8 +49,8 @@ const Result = ({ keyword }) => {
     return (
       <div className="box-shadow-border">
         {TopSection}
-        <div className="p-2">
-          {/* loading icon */}
+        <div className="p-2 flex gap-2 text-gray-600">
+          <Loader2 className="animate-spin" size={22} />
           Loading
         </div>
       </div>
