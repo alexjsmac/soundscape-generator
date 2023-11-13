@@ -1,5 +1,4 @@
 import os
-from urllib import request
 
 import boto3
 import json
@@ -74,16 +73,10 @@ class Upload(Resource):
         if '.' in image.filename and extension not in ALLOWED_EXTENSIONS:
             abort(400, message="File extension is not supported.")
 
-        # image_file = BytesIO()
-        # image.save(image_file, image.format)
-        # obj = s3.Object(BUCKET, image.filename)
-        # result = obj.put(Body=image_file.getvalue())
-        # image.close()
-
         result = s3.put_object(Body=image,
                                Bucket=BUCKET,
                                Key=image.filename,
-                               ContentType={"ContentType": "image/png"})
+                               ContentType=json.dumps({"ContentType": "image/png"}))
         return {
             "HTTPStatusCode": str(result['ResponseMetadata']['HTTPStatusCode']),
             "fileName": image.filename

@@ -16,7 +16,6 @@ import { appActions } from "../app";
 import { generalActions } from "../general";
 import { soundActions } from "../sounds";
 
-// const BASE_URL = "http://localhost:8000"
 const BASE_URL = window.location.origin;
 
 const ENDPOINTS = {
