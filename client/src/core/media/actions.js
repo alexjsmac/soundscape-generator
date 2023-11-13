@@ -17,7 +17,7 @@ import { generalActions } from "../general";
 import { soundActions } from "../sounds";
 
 // const BASE_URL = "http://localhost:8000"
-const BASE_URL = "https://soundscape-generator.herokuapp.com";
+const BASE_URL = window.location.origin;
 
 const ENDPOINTS = {
   UPLOAD: "/api/v1/upload",
