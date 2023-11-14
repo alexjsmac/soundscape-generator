@@ -1,11 +1,11 @@
 import os
+
 import boto3
 import json
 
 from flask import Flask, render_template, send_from_directory
 from flask_restful import Resource, Api, reqparse, abort
 from flask_cors import CORS
-from io import StringIO
 from werkzeug.datastructures import FileStorage
 from dotenv import load_dotenv
 
@@ -22,7 +22,7 @@ QUEUE_URL = 'https://sqs.us-east-1.amazonaws.com/667582492015/AmazonRekogntionVi
 SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:667582492015:AmazonRekognitionVideoAnalysis'
 ROLE_ARN = 'arn:aws:iam::667582492015:role/RekognitionRole'
 
-s3 = boto3.resource('s3')
+s3 = boto3.client('s3')
 
 
 def get_room_material(labels):
@@ -59,18 +59,11 @@ def get_room_size(room_material):
 
 
 class Upload(Resource):
-
     parser = reqparse.RequestParser()
     parser.add_argument('image',
                         required=True,
                         type=FileStorage,
                         location='files')
-
-    def upload_s3(self, file_obj, key_name, bucket_name):
-        obj = s3.Object(bucket_name, key_name)
-        result = obj.put(Body=file_obj.getvalue())
-        file_obj.close()
-        return result
 
     def post(self):
         args = self.parser.parse_args()
@@ -80,10 +73,10 @@ class Upload(Resource):
         if '.' in image.filename and extension not in ALLOWED_EXTENSIONS:
             abort(400, message="File extension is not supported.")
 
-        image_file = StringIO()
-        image.save(image_file)
-        result = self.upload_s3(image_file, image.filename, BUCKET)
-
+        result = s3.put_object(Body=image,
+                               Bucket=BUCKET,
+                               Key=image.filename,
+                               ContentType=json.dumps({"ContentType": "image/png"}))
         return {
             "HTTPStatusCode": str(result['ResponseMetadata']['HTTPStatusCode']),
             "fileName": image.filename
@@ -191,7 +184,7 @@ class VideoScanResults(Resource):
             JobId=job_id,
             MaxResults=10,
             SortBy="TIMESTAMP"
-            )
+        )
         labels = []
         for label in response['Labels']:
             labels.append(label['Label']['Name'])
@@ -203,9 +196,11 @@ class VideoScanResults(Resource):
 def hello():
     return render_template('layout.html')
 
+
 @app.route('/<path:path>')
 def serve_static(path):
     return send_from_directory(app.static_folder, path)
+
 
 @app.route('/soundscapes')
 def serve_soundscapes():
