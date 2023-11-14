@@ -8,8 +8,6 @@ import MediaSelection from "./media/MediaSelection";
 import PlayerPage from "./player/PlayerPage";
 import Topbar from "./TopBar";
 
-import "./main-page-styles.css";
-
 const MainPage = ({ screen }) => {
   const { isMobile } = useScreen();
 
