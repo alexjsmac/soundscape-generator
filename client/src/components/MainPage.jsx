@@ -8,8 +8,6 @@ import MediaSelection from "./media/MediaSelection";
 import PlayerPage from "./player/PlayerPage";
 import Topbar from "./TopBar";
 
-import "./main-page-styles.css";
-
 const MainPage = ({ screen }) => {
   const { isMobile } = useScreen();
 
@@ -25,7 +23,7 @@ const MainPage = ({ screen }) => {
   );
 
   return (
-    <div className="bg-gray-50">
+    <div className="h-full">
       <Topbar />
       {isMobile ? (
         <div className="h-full max-w-[600px] m-auto flex-col p-2">
@@ -38,8 +36,8 @@ const MainPage = ({ screen }) => {
           {screen === MEDIA_PLAYER && <PlayerPage />}
         </div>
       ) : (
-        <div className="h-full max-w-[1200px] m-auto">
-          <div className="h-full grid grid-cols-2">
+        <div className="max-w-[1200px] mx-auto">
+          <div className="grid grid-cols-2">
             <div className="px-4">
               <Welcome />
               <MediaSelection />
