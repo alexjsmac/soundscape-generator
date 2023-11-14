@@ -17,7 +17,10 @@ CORS(app)
 
 DIR = os.path.dirname(os.path.abspath(__file__))
 BUCKET = 'soundscape-generator-photos'
-ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'mp4']
+UPLOAD_DIR = 'uploaded'
+EXAMPLES_DIR = 'examples'
+EXAMPLE_FILES = ["big_buck_bunny.mp4", "concert.jpg", "hockey.jpg", "party.jpg", "ship.jpg"]
+ALLOWED_EXTENSIONS = ['jpg', 'JPG', 'jpeg', 'png', 'mp4']
 QUEUE_URL = 'https://sqs.us-east-1.amazonaws.com/667582492015/AmazonRekogntionVideoAnalysis'
 SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:667582492015:AmazonRekognitionVideoAnalysis'
 ROLE_ARN = 'arn:aws:iam::667582492015:role/RekognitionRole'
@@ -75,7 +78,7 @@ class Upload(Resource):
 
         result = s3.put_object(Body=image,
                                Bucket=BUCKET,
-                               Key=image.filename,
+                               Key=f"{UPLOAD_DIR}/{image.filename}",
                                ContentType=json.dumps({"ContentType": "image/png"}))
         return {
             "HTTPStatusCode": str(result['ResponseMetadata']['HTTPStatusCode']),
@@ -98,11 +101,15 @@ class ImageScan(Resource):
     def detect_labels(self, key, bucket=BUCKET, max_labels=10,
                       min_confidence=80, region="us-east-1"):
         rekognition = boto3.client("rekognition", region)
+        if key in EXAMPLE_FILES:
+            parent_folder = EXAMPLES_DIR
+        else:
+            parent_folder = UPLOAD_DIR
         rek_results = rekognition.detect_labels(
             Image={
                 "S3Object": {
                     "Bucket": bucket,
-                    "Name": key,
+                    "Name": f"{parent_folder}/{key}",
                 }
             },
             MaxLabels=max_labels,
