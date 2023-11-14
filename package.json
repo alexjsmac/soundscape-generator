@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "gunicorn server.app:app",
-    "build": "npm run build --workspaces --if-present"
+    "build": "npm run build -w client",
+    "dev:fe": "npm run dev -w client"
   },
   "workspaces": [
     "client"
