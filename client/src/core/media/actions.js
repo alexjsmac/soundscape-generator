@@ -58,13 +58,15 @@ function videoScanError() {
   return { type: VIDEO_SCAN_ERROR };
 }
 
-function startScan(dispatch, fileName) {
-  const mediaType = getMediaType(fileName);
-  if (mediaType === mediaTypes.IMAGE) {
-    dispatch(scanImage(fileName));
-  } else if (mediaType === mediaTypes.VIDEO) {
-    dispatch(scanVideoStart(fileName));
-  }
+export function startScan(fileName) {
+  return function (dispatch) {
+    const mediaType = getMediaType(fileName);
+    if (mediaType === mediaTypes.IMAGE) {
+      dispatch(scanImage(fileName));
+    } else if (mediaType === mediaTypes.VIDEO) {
+      dispatch(scanVideoStart(fileName));
+    }
+  };
 }
 
 export function setMedia(data) {
@@ -75,7 +77,6 @@ export function setMedia(data) {
       source: data.source,
       mediaType,
     });
-    startScan(dispatch, data.fileName);
   };
 }
 
@@ -89,7 +90,7 @@ export function uploadMedia(file) {
       .then((json) => {
         console.log("IMAGE SUCCESS", json);
         dispatch(mediaUploadComplete());
-        startScan(dispatch, json.fileName);
+        dispatch(startScan(json.fileName));
       })
       .catch((err) => {
         console.error("IMAGE ERROR", err);

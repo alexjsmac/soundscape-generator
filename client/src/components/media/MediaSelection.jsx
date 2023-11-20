@@ -14,6 +14,7 @@ const MediaSelection = () => {
         fileName: fileName,
       })
     );
+    dispatch(mediaActions.startScan(fileName));
   };
 
   return (

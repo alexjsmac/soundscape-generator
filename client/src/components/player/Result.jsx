@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { Loader2 } from "lucide-react";
 import { generalActions } from "../../core/general";
@@ -13,13 +12,6 @@ import {
   VolumeSlider,
   PanSlider,
 } from "./AudioPlayer/AudioPlayerComponents";
-
-const Seperator = styled.div`
-  height: 1px;
-  width: 100%;
-  margin: 0.05rem 0.5rem 0;
-  border-bottom: ${(props) => `1px solid #bbb `};
-`;
 
 const Result = ({ keyword }) => {
   const dispatch = useDispatch();
@@ -41,7 +33,7 @@ const Result = ({ keyword }) => {
           Delete
         </Button>
       </div>
-      <Seperator />
+      <div className="w-full h-[1px] border-b border-gray-300" />
     </>
   );
 
