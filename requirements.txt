@@ -22,6 +22,6 @@ requests==2.31.0
 s3transfer==0.7.0
 six==1.16.0
 urllib3==1.26.18
-Werkzeug==3.0.1
+Werkzeug==3.0.3
 zipp==3.17.0
 python-dotenv==0.14.0
