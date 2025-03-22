@@ -9,7 +9,7 @@ Flask==2.3.2
 Flask-Cors==5.0.0
 Flask-Login==0.6.3
 Flask-RESTful==0.3.10
-gunicorn==22.0.0
+gunicorn==23.0.0
 idna==3.7
 importlib-metadata==6.8.0
 itsdangerous==2.1.2
