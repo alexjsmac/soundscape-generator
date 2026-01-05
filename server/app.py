@@ -16,13 +16,17 @@ api = Api(app)
 CORS(app)
 
 DIR = os.path.dirname(os.path.abspath(__file__))
-BUCKET = 'soundscape-generator-photos'
+BUCKET = os.getenv('S3_BUCKET', 'soundscape-generator-photos')
 ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'mp4']
-QUEUE_URL = 'https://sqs.us-east-1.amazonaws.com/667582492015/AmazonRekogntionVideoAnalysis'
-SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:667582492015:AmazonRekognitionVideoAnalysis'
-ROLE_ARN = 'arn:aws:iam::667582492015:role/RekognitionRole'
+QUEUE_URL = os.getenv('SQS_QUEUE_URL')
+SNS_TOPIC_ARN = os.getenv('SNS_TOPIC_ARN')
+ROLE_ARN = os.getenv('IAM_ROLE_ARN')
+AWS_PROFILE = os.getenv('AWS_PROFILE', 'personal')
+AWS_REGION = os.getenv('AWS_REGION', 'us-east-1')
 
-s3 = boto3.client('s3')
+# Initialize boto3 session with profile
+session = boto3.Session(profile_name=AWS_PROFILE)
+s3 = session.client('s3')
 
 
 def get_room_material(labels):
@@ -96,18 +100,40 @@ class ImageScan(Resource):
         }
 
     def detect_labels(self, key, bucket=BUCKET, max_labels=10,
-                      min_confidence=80, region="us-east-1"):
-        rekognition = boto3.client("rekognition", region)
-        rek_results = rekognition.detect_labels(
-            Image={
-                "S3Object": {
-                    "Bucket": bucket,
-                    "Name": key,
-                }
-            },
-            MaxLabels=max_labels,
-            MinConfidence=min_confidence,
-        )
+                      min_confidence=80, region=None):
+        if region is None:
+            region = AWS_REGION
+        rekognition = session.client("rekognition", region_name=region)
+        
+        # Try to detect labels with the provided key first
+        try:
+            rek_results = rekognition.detect_labels(
+                Image={
+                    "S3Object": {
+                        "Bucket": bucket,
+                        "Name": key,
+                    }
+                },
+                MaxLabels=max_labels,
+                MinConfidence=min_confidence,
+            )
+        except rekognition.exceptions.InvalidS3ObjectException:
+            # If the object is not found, try looking in the examples folder
+            examples_key = f"examples/{key}"
+            try:
+                rek_results = rekognition.detect_labels(
+                    Image={
+                        "S3Object": {
+                            "Bucket": bucket,
+                            "Name": examples_key,
+                        }
+                    },
+                    MaxLabels=max_labels,
+                    MinConfidence=min_confidence,
+                )
+            except rekognition.exceptions.InvalidS3ObjectException:
+                # If still not found, raise the original error with helpful message
+                raise Exception(f"S3 object not found: tried both '{key}' and '{examples_key}' in bucket '{bucket}'")
         labels = []
         for label in rek_results['Labels']:
             labels.append(label['Name'])
@@ -124,22 +150,48 @@ class VideoScanStart(Resource):
         }
 
     def begin_video_analysis(self, key, bucket=BUCKET,
-                             min_confidence=80, region="us-east-1"):
-        rekognition = boto3.client("rekognition", region)
-        response = rekognition.start_label_detection(
-            Video={
-                'S3Object': {
-                    'Bucket': bucket,
-                    'Name': key
-                }
-            },
-            MinConfidence=min_confidence,
-            NotificationChannel={
-                'SNSTopicArn': SNS_TOPIC_ARN,
-                'RoleArn': ROLE_ARN
-            },
-            JobTag=key
-        )
+                             min_confidence=80, region=None):
+        if region is None:
+            region = AWS_REGION
+        rekognition = session.client("rekognition", region_name=region)
+        
+        # Try to start video analysis with the provided key first
+        try:
+            response = rekognition.start_label_detection(
+                Video={
+                    'S3Object': {
+                        'Bucket': bucket,
+                        'Name': key
+                    }
+                },
+                MinConfidence=min_confidence,
+                NotificationChannel={
+                    'SNSTopicArn': SNS_TOPIC_ARN,
+                    'RoleArn': ROLE_ARN
+                },
+                JobTag=key
+            )
+        except rekognition.exceptions.InvalidS3ObjectException:
+            # If the object is not found, try looking in the examples folder
+            examples_key = f"examples/{key}"
+            try:
+                response = rekognition.start_label_detection(
+                    Video={
+                        'S3Object': {
+                            'Bucket': bucket,
+                            'Name': examples_key
+                        }
+                    },
+                    MinConfidence=min_confidence,
+                    NotificationChannel={
+                        'SNSTopicArn': SNS_TOPIC_ARN,
+                        'RoleArn': ROLE_ARN
+                    },
+                    JobTag=examples_key
+                )
+            except rekognition.exceptions.InvalidS3ObjectException:
+                # If still not found, raise the original error with helpful message
+                raise Exception(f"S3 object not found: tried both '{key}' and '{examples_key}' in bucket '{bucket}'")
         job_id = response['JobId']
         return job_id
 
@@ -161,8 +213,10 @@ class VideoScanResults(Resource):
                 "labels": labels
             }
 
-    def poll_queue(self, region="us-east-1"):
-        sqs = boto3.client('sqs', region)
+    def poll_queue(self, region=None):
+        if region is None:
+            region = AWS_REGION
+        sqs = session.client('sqs', region_name=region)
         response = sqs.receive_message(
             QueueUrl=QUEUE_URL,
             AttributeNames=[
@@ -178,8 +232,10 @@ class VideoScanResults(Resource):
         message = json.loads(body['Message'])
         return message
 
-    def get_video_labels(self, job_id, region="us-east-1"):
-        rekognition = boto3.client("rekognition", region)
+    def get_video_labels(self, job_id, region=None):
+        if region is None:
+            region = AWS_REGION
+        rekognition = session.client("rekognition", region_name=region)
         response = rekognition.get_label_detection(
             JobId=job_id,
             MaxResults=10,
