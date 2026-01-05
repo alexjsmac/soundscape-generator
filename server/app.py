@@ -18,15 +18,21 @@ CORS(app)
 DIR = os.path.dirname(os.path.abspath(__file__))
 BUCKET = os.getenv('S3_BUCKET', 'soundscape-generator-photos')
 ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'mp4']
-QUEUE_URL = os.getenv('SQS_QUEUE_URL')
-SNS_TOPIC_ARN = os.getenv('SNS_TOPIC_ARN')
-ROLE_ARN = os.getenv('IAM_ROLE_ARN')
-AWS_PROFILE = os.getenv('AWS_PROFILE', 'personal')
-AWS_REGION = os.getenv('AWS_REGION', 'us-east-1')
+QUEUE_URL = os.getenv('SQS_QUEUE_URL', 'https://sqs.us-east-1.amazonaws.com/667582492015/AmazonRekogntionVideoAnalysis')
+SNS_TOPIC_ARN = os.getenv('SNS_TOPIC_ARN', 'arn:aws:sns:us-east-1:667582492015:AmazonRekognitionVideoAnalysis')
+ROLE_ARN = os.getenv('IAM_ROLE_ARN', 'arn:aws:iam::667582492015:role/RekognitionRole')
+AWS_REGION = os.getenv('AWS_DEFAULT_REGION', 'us-east-1')
 
-# Initialize boto3 session with profile
-session = boto3.Session(profile_name=AWS_PROFILE)
-s3 = session.client('s3')
+# Initialize boto3 session - use profile if specified, otherwise use environment variables
+AWS_PROFILE = os.getenv('AWS_PROFILE')
+if AWS_PROFILE:
+    # Local development with AWS profile
+    session = boto3.Session(profile_name=AWS_PROFILE)
+else:
+    # Production (Heroku) or local with env vars - boto3 automatically uses AWS_ACCESS_KEY_ID, etc.
+    session = boto3.Session()
+
+s3 = session.client('s3', region_name=AWS_REGION)
 
 
 def get_room_material(labels):
