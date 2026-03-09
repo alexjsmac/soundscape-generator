@@ -35,9 +35,10 @@ class AudioPlayerProvider extends Component {
       this.audioElement = document.createElement("audio");
       this.audioElement.crossOrigin = "anonymous";
       this.audioElement.src = newSource;
-      this.audioElement.addEventListener("ended", () => {
+      this.handleEnded = () => {
         stopSound(keyword);
-      });
+      };
+      this.audioElement.addEventListener("ended", this.handleEnded);
 
       this.source = webAudioUtil.createAudioSource(this.audioElement);
     }
@@ -52,11 +53,21 @@ class AudioPlayerProvider extends Component {
     }
   }
 
-  componentWillUnMount() {
-    console.log("component will unmount");
-    //TODO: dispose audio element + resonance audio source
-    this.audioElement.pause();
-    this.audioElement.currentTime = 0;
+  componentWillUnmount() {
+    // Dispose audio element and resonance audio source
+    if (this.audioElement) {
+      this.audioElement.pause();
+      this.audioElement.currentTime = 0;
+      if (this.handleEnded) {
+        this.audioElement.removeEventListener("ended", this.handleEnded);
+      }
+      this.audioElement.src = "";
+      this.audioElement = null;
+    }
+    if (this.source) {
+      this.source.setGain(0);
+      this.source = null;
+    }
   }
 
   componentDidUpdate = () => {
