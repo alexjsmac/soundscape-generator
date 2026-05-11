@@ -21,7 +21,7 @@ pytz==2025.2
 requests==2.33.0
 s3transfer==0.13.1
 six==1.17.0
-urllib3==2.6.3
+urllib3==2.7.0
 Werkzeug==3.1.6
 zipp==3.23.0
 python-dotenv==1.2.2
